@@ -1,0 +1,635 @@
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+// ==================== INTERFACES ====================
+interface DialogoTranscricao {
+  id: string;
+  timestamp: string;
+  timestampSegundos: number;
+  duracaoSegundos: number;
+  participante: string;
+  tipo: string;
+  texto: string;
+  confianca: 'alta' | 'media' | 'baixa';
+  confiancaValor: number;
+  revisado: boolean;
+  marcado: boolean;
+  nota?: string;
+  alteracoes: AlteracaoHistorico[];
+}
+
+interface AlteracaoHistorico {
+  id: string;
+  data: Date;
+  usuario: string;
+  tipo: 'texto' | 'participante' | 'timestamp' | 'nota';
+  valorAnterior: string;
+  valorNovo: string;
+  observacao?: string;
+}
+
+interface Participante {
+  nome: string;
+  tipo: string;
+  cor: string;
+  avatar: string;
+  totalDialogos: number;
+}
+
+interface ProcessoInfo {
+  numero: string;
+  requerente: string;
+  requerido: string;
+  vara: string;
+  dataAudiencia: Date;
+  tipoAudiencia: string;
+  duracao: string;
+}
+
+interface ResultadoBusca {
+  dialogoIndex: number;
+  posicao: number;
+  contexto: string;
+}
+
+@Component({
+  selector: 'app-modal-transcricao',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './modal-transcricao.component.html',
+  styleUrl: './modal-transcricao.component.scss'
+})
+export class ModalTranscricaoComponent {
+  @Input() processo: any;
+  @Output() fecharModal = new EventEmitter<void>();
+
+  // ==================== PROPRIEDADES DE ESTADO ====================
+  dialogos: DialogoTranscricao[] = [];
+  dialogoEditando: number | null = null;
+  textoEditando: string = '';
+  
+  // Áudio e reprodução
+  audioTocando: boolean = false;
+  tempoAtualSegundos: number = 0;
+  tempoTotalSegundos: number = 3600; // 1 hora exemplo
+  volume: number = 75;
+  dialogoTocando: string | null = null;
+
+  // Busca e filtros
+  termoBusca: string = '';
+  resultadosBusca: ResultadoBusca[] = [];
+  resultadoAtual: number = 0;
+  filtroParticipante: string = '';
+
+  // Participantes
+  editandoParticipante: { [key: number]: boolean } = {};
+  participanteEditando: string = '';
+  participantesDisponiveis: Participante[] = [];
+
+  // Histórico e alterações
+  mostrarHistorico: { [key: number]: boolean } = {};
+  alteracoesPendentes: number = 0;
+
+  // Estados auxiliares
+  processoInfo: ProcessoInfo;
+
+  constructor() {
+    this.inicializarDados();
+  }
+
+  // ==================== INICIALIZAÇÃO ====================
+  private inicializarDados(): void {
+    this.processoInfo = {
+      numero: '5001234-89.2023.5.02.0011',
+      requerente: 'João Silva Santos',
+      requerido: 'Empresa ABC Ltda',
+      vara: '1ª Vara do Trabalho de Salvador',
+      dataAudiencia: new Date('2024-01-15T14:00:00'),
+      tipoAudiencia: 'Audiência de Instrução e Julgamento',
+      duracao: '01:23:45'
+    };
+
+    this.participantesDisponiveis = [
+      { nome: 'Dr. Carlos Mendes', tipo: 'Juiz', cor: '#2c3e50', avatar: 'CM', totalDialogos: 8 },
+      { nome: 'João Silva Santos', tipo: 'Requerente', cor: '#3498db', avatar: 'JS', totalDialogos: 12 },
+      { nome: 'Dr. Ana Costa', tipo: 'Advogado Requerente', cor: '#27ae60', avatar: 'AC', totalDialogos: 10 },
+      { nome: 'Maria Oliveira', tipo: 'Requerido', cor: '#e74c3c', avatar: 'MO', totalDialogos: 6 },
+      { nome: 'Dr. Roberto Lima', tipo: 'Advogado Requerido', cor: '#f39c12', avatar: 'RL', totalDialogos: 9 },
+      { nome: 'Sandra Ferreira', tipo: 'Testemunha', cor: '#9b59b6', avatar: 'SF', totalDialogos: 4 },
+      { nome: 'Dra. Lucia Pereira', tipo: 'Perita', cor: '#1abc9c', avatar: 'LP', totalDialogos: 3 }
+    ];
+
+    this.dialogos = this.gerarDialogosSimulados();
+  }
+
+  private gerarDialogosSimulados(): DialogoTranscricao[] {
+    const dialogosBase = [
+      { participante: 'Dr. Carlos Mendes', texto: 'Declaro aberta a presente audiência. Solicito que todos se identifiquem para os registros.' },
+      { participante: 'João Silva Santos', texto: 'João Silva Santos, requerente nos autos, brasileiro, casado, operário, portador da identidade número 1234567.' },
+      { participante: 'Dr. Ana Costa', texto: 'Dra. Ana Costa, OAB/BA 12345, advogada do requerente.' },
+      { participante: 'Maria Oliveira', texto: 'Maria Oliveira, representante da empresa requerida, brasileira, administradora, identidade 9876543.' },
+      { participante: 'Dr. Roberto Lima', texto: 'Dr. Roberto Lima, OAB/BA 67890, advogado da empresa requerida.' },
+      { participante: 'Dr. Carlos Mendes', texto: 'Verifico que as partes estão devidamente representadas. Passo a palavra ao advogado do requerente para exposição inicial.' },
+      { participante: 'Dr. Ana Costa', texto: 'Meritíssimo, o requerente trabalhou na empresa ré por cinco anos sem registro em carteira, fazendo jus ao reconhecimento do vínculo empregatício.' },
+      { participante: 'Dr. Roberto Lima', texto: 'Contesto, Excelência. O requerente prestava serviços como autônomo, conforme documentação apresentada nos autos.' },
+      { participante: 'Dr. Carlos Mendes', texto: 'Passo a ouvir o depoimento pessoal do requerente. Senhor João, o senhor pode relatar como era sua rotina de trabalho?' },
+      { participante: 'João Silva Santos', texto: 'Trabalhava de segunda a sexta, das 8h às 17h, com uma hora de almoço. Tinha que bater ponto todos os dias.' },
+      { participante: 'Dr. Ana Costa', texto: 'Como pode observar, Excelência, havia subordinação e horário fixo, características típicas do vínculo empregatício.' },
+      { participante: 'Dr. Roberto Lima', texto: 'O simples cumprimento de horário não caracteriza vínculo, principalmente quando há prestação de serviços especializados.' },
+      { participante: 'Dr. Carlos Mendes', texto: 'Chamo a representante da empresa para prestar depoimento. Senhora Maria, como funcionava a relação com o requerente?' },
+      { participante: 'Maria Oliveira', texto: 'Ele prestava serviços específicos de manutenção. Emitia notas fiscais mensalmente e tinha liberdade para organizar seu trabalho.' },
+      { participante: 'Dr. Ana Costa', texto: 'Mas havia subordinação, Excelência. O requerente recebia ordens diretas da supervisão da empresa.' },
+      { participante: 'Sandra Ferreira', texto: 'Trabalhei na mesma empresa e posso confirmar que o João seguia as mesmas regras que os empregados registrados.' },
+      { participante: 'Dr. Roberto Lima', texto: 'A testemunha não pode afirmar isso, pois trabalhava em setor diferente e não acompanhava a rotina do requerente.' },
+      { participante: 'Dra. Lucia Pereira', texto: 'Segundo minha análise pericial dos documentos, há evidências de controle de jornada e subordinação hierárquica.' },
+      { participante: 'Dr. Carlos Mendes', texto: 'Analisando as provas produzidas, verifico elementos suficientes para reconhecer o vínculo empregatício.' },
+      { participante: 'Dr. Ana Costa', texto: 'Requeiro a condenação ao pagamento de FGTS, 13º salário e férias proporcionais do período trabalhado.' }
+    ];
+
+    return dialogosBase.map((item, index) => {
+      const timestampSegundos = 120 + (index * 180); // Início aos 2min, cada diálogo dura ~3min
+      const participanteInfo = this.participantesDisponiveis.find(p => p.nome === item.participante);
+      
+      return {
+        id: `dialogo_${index + 1}`,
+        timestamp: this.formatarTempo(timestampSegundos),
+        timestampSegundos,
+        duracaoSegundos: 45 + Math.floor(Math.random() * 60), // 45-105 segundos
+        participante: item.participante,
+        tipo: participanteInfo?.tipo || 'Participante',
+        texto: item.texto,
+        confianca: this.gerarNivelConfianca() as 'alta' | 'media' | 'baixa',
+        confiancaValor: 0.7 + Math.random() * 0.3, // 70-100%
+        revisado: Math.random() > 0.6,
+        marcado: Math.random() > 0.8,
+        alteracoes: this.gerarHistoricoAlteracoes()
+      };
+    });
+  }
+
+  private gerarNivelConfianca(): string {
+    const rand = Math.random();
+    if (rand > 0.7) return 'alta';
+    if (rand > 0.4) return 'media';
+    return 'baixa';
+  }
+
+  private gerarHistoricoAlteracoes(): AlteracaoHistorico[] {
+    const alteracoes: AlteracaoHistorico[] = [];
+    const shouldHaveHistory = Math.random() > 0.7;
+    
+    if (shouldHaveHistory) {
+      alteracoes.push({
+        id: `alt_${Date.now()}`,
+        data: new Date(Date.now() - Math.floor(Math.random() * 86400000)),
+        usuario: 'Sistema Automático',
+        tipo: 'texto',
+        valorAnterior: 'Texto transcrito automaticamente...',
+        valorNovo: 'Texto corrigido manualmente...',
+        observacao: 'Correção de transcrição automática'
+      });
+    }
+    
+    return alteracoes;
+  }
+
+  // ==================== MÉTODOS DE ÁUDIO ====================
+  reproduzirAudio(): void {
+    this.audioTocando = !this.audioTocando;
+    if (this.audioTocando) {
+      this.simularReproducao();
+    }
+  }
+
+  pausarAudio(): void {
+    this.audioTocando = false;
+    this.dialogoTocando = null;
+  }
+
+  pararAudio(): void {
+    this.audioTocando = false;
+    this.dialogoTocando = null;
+    this.tempoAtualSegundos = 0;
+  }
+
+  reproduzirDialogo(dialogo: DialogoTranscricao): void {
+    this.dialogoTocando = this.dialogoTocando === dialogo.id ? null : dialogo.id;
+    if (this.dialogoTocando) {
+      this.tempoAtualSegundos = dialogo.timestampSegundos;
+      this.audioTocando = true;
+      setTimeout(() => {
+        this.dialogoTocando = null;
+      }, dialogo.duracaoSegundos * 1000);
+    }
+  }
+
+  irParaTempo(event: MouseEvent): void {
+    const progressBar = event.currentTarget as HTMLElement;
+    const rect = progressBar.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const percentage = clickX / rect.width;
+    this.tempoAtualSegundos = Math.floor(percentage * this.tempoTotalSegundos);
+  }
+
+  private simularReproducao(): void {
+    if (this.audioTocando && this.tempoAtualSegundos < this.tempoTotalSegundos) {
+      setTimeout(() => {
+        this.tempoAtualSegundos += 1;
+        this.simularReproducao();
+      }, 1000);
+    } else {
+      this.audioTocando = false;
+    }
+  }
+
+  getProgressoAudio(): number {
+    return (this.tempoAtualSegundos / this.tempoTotalSegundos) * 100;
+  }
+
+  getPositionMarker(timestampSegundos: number): number {
+    return (timestampSegundos / this.tempoTotalSegundos) * 100;
+  }
+
+  // ==================== MÉTODOS DE FORMATAÇÃO ====================
+  formatarTempo(segundos: number): string {
+    const horas = Math.floor(segundos / 3600);
+    const minutos = Math.floor((segundos % 3600) / 60);
+    const segs = Math.floor(segundos % 60);
+    
+    if (horas > 0) {
+      return `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segs.toString().padStart(2, '0')}`;
+    }
+    return `${minutos.toString().padStart(2, '0')}:${segs.toString().padStart(2, '0')}`;
+  }
+
+  // ==================== MÉTODOS DE BUSCA ====================
+  buscarNaTranscricao(): void {
+    this.resultadosBusca = [];
+    this.resultadoAtual = 0;
+    
+    if (!this.termoBusca.trim()) {
+      return;
+    }
+
+    const termo = this.termoBusca.toLowerCase();
+    this.dialogos.forEach((dialogo, index) => {
+      const texto = dialogo.texto.toLowerCase();
+      let pos = texto.indexOf(termo);
+      
+      while (pos !== -1) {
+        this.resultadosBusca.push({
+          dialogoIndex: index,
+          posicao: pos,
+          contexto: this.extrairContexto(dialogo.texto, pos, termo.length)
+        });
+        pos = texto.indexOf(termo, pos + 1);
+      }
+    });
+  }
+
+  private extrairContexto(texto: string, posicao: number, tamanhoTermo: number): string {
+    const inicio = Math.max(0, posicao - 20);
+    const fim = Math.min(texto.length, posicao + tamanhoTermo + 20);
+    return texto.substring(inicio, fim);
+  }
+
+  limparBusca(): void {
+    this.termoBusca = '';
+    this.resultadosBusca = [];
+    this.resultadoAtual = 0;
+  }
+
+  irParaResultado(direcao: 'anterior' | 'proximo'): void {
+    if (this.resultadosBusca.length === 0) return;
+    
+    if (direcao === 'anterior' && this.resultadoAtual > 0) {
+      this.resultadoAtual--;
+    } else if (direcao === 'proximo' && this.resultadoAtual < this.resultadosBusca.length - 1) {
+      this.resultadoAtual++;
+    }
+    
+    const resultado = this.resultadosBusca[this.resultadoAtual];
+    this.destacarDialogo(resultado.dialogoIndex);
+  }
+
+  destacarTermoBusca(texto: string): string {
+    if (!this.termoBusca.trim()) {
+      return texto;
+    }
+    
+    const regex = new RegExp(`(${this.termoBusca})`, 'gi');
+    return texto.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  // ==================== MÉTODOS DE PARTICIPANTES ====================
+  get participantesUnicos(): Participante[] {
+    return this.participantesDisponiveis.map(p => ({
+      ...p,
+      totalDialogos: this.dialogos.filter(d => d.participante === p.nome).length
+    })).filter(p => p.totalDialogos > 0);
+  }
+
+  getCorParticipante(nome: string): string {
+    const participante = this.participantesDisponiveis.find(p => p.nome === nome);
+    return participante?.cor || '#95a5a6';
+  }
+
+  filtrarPorParticipante(nome: string): void {
+    this.filtroParticipante = this.filtroParticipante === nome ? '' : nome;
+  }
+
+  editarParticipante(participante: Participante): void {
+    // Implementar edição de participante
+    console.log('Editando participante:', participante);
+  }
+
+  adicionarParticipante(): void {
+    // Implementar adição de novo participante
+    console.log('Adicionando novo participante');
+  }
+
+  editarParticipanteDialogo(index: number): void {
+    this.editandoParticipante[index] = true;
+    this.participanteEditando = this.dialogos[index].participante;
+  }
+
+  salvarParticipante(index: number): void {
+    const dialogo = this.dialogos[index];
+    const valorAnterior = dialogo.participante;
+    
+    dialogo.participante = this.participanteEditando;
+    dialogo.alteracoes.push({
+      id: `alt_${Date.now()}`,
+      data: new Date(),
+      usuario: 'Usuário Atual',
+      tipo: 'participante',
+      valorAnterior,
+      valorNovo: this.participanteEditando,
+      observacao: 'Correção de identificação do participante'
+    });
+    
+    this.editandoParticipante[index] = false;
+    this.alteracoesPendentes++;
+  }
+
+  cancelarEdicaoParticipante(index: number): void {
+    this.editandoParticipante[index] = false;
+    this.participanteEditando = '';
+  }
+
+  // ==================== MÉTODOS DE DIÁLOGOS ====================
+  get dialogosFiltrados(): DialogoTranscricao[] {
+    let dialogos = this.dialogos;
+    
+    if (this.filtroParticipante) {
+      dialogos = dialogos.filter(d => d.participante === this.filtroParticipante);
+    }
+    
+    return dialogos;
+  }
+
+  editarDialogo(index: number): void {
+    if (this.dialogoEditando === index) {
+      this.dialogoEditando = null;
+      this.textoEditando = '';
+    } else {
+      this.dialogoEditando = index;
+      this.textoEditando = this.dialogos[index].texto;
+    }
+  }
+
+  salvarEdicao(): void {
+    if (this.dialogoEditando === null) return;
+    
+    const dialogo = this.dialogos[this.dialogoEditando];
+    const valorAnterior = dialogo.texto;
+    
+    dialogo.texto = this.textoEditando;
+    dialogo.alteracoes.push({
+      id: `alt_${Date.now()}`,
+      data: new Date(),
+      usuario: 'Usuário Atual',
+      tipo: 'texto',
+      valorAnterior,
+      valorNovo: this.textoEditando,
+      observacao: 'Correção manual do texto'
+    });
+    
+    this.dialogoEditando = null;
+    this.textoEditando = '';
+    this.alteracoesPendentes++;
+  }
+
+  cancelarEdicao(): void {
+    this.dialogoEditando = null;
+    this.textoEditando = '';
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' && event.ctrlKey) {
+      this.salvarEdicao();
+    }
+    if (event.key === 'Escape') {
+      this.cancelarEdicao();
+    }
+  }
+
+  duplicarDialogo(index: number): void {
+    const dialogoOriginal = this.dialogos[index];
+    const novoDialogo: DialogoTranscricao = {
+      ...dialogoOriginal,
+      id: `dialogo_${Date.now()}`,
+      timestamp: this.formatarTempo(dialogoOriginal.timestampSegundos + 60),
+      timestampSegundos: dialogoOriginal.timestampSegundos + 60,
+      alteracoes: []
+    };
+    
+    this.dialogos.splice(index + 1, 0, novoDialogo);
+    this.alteracoesPendentes++;
+  }
+
+  excluirDialogo(index: number): void {
+    if (confirm('Tem certeza que deseja excluir este diálogo?')) {
+      this.dialogos.splice(index, 1);
+      this.alteracoesPendentes++;
+    }
+  }
+
+  adicionarNovoDialogo(): void {
+    const ultimoDialogo = this.dialogos[this.dialogos.length - 1];
+    const novoTimestamp = ultimoDialogo ? ultimoDialogo.timestampSegundos + 120 : 0;
+    
+    const novoDialogo: DialogoTranscricao = {
+      id: `dialogo_${Date.now()}`,
+      timestamp: this.formatarTempo(novoTimestamp),
+      timestampSegundos: novoTimestamp,
+      duracaoSegundos: 60,
+      participante: this.participantesDisponiveis[0].nome,
+      tipo: this.participantesDisponiveis[0].tipo,
+      texto: 'Novo diálogo...',
+      confianca: 'baixa',
+      confiancaValor: 0.5,
+      revisado: false,
+      marcado: false,
+      alteracoes: []
+    };
+    
+    this.dialogos.push(novoDialogo);
+    this.editarDialogo(this.dialogos.length - 1);
+  }
+
+  destacarDialogo(index: number): void {
+    // Remover destaque de todos os diálogos
+    const elementos = document.querySelectorAll('.dialogo-item');
+    elementos.forEach(el => el.classList.remove('destacado'));
+    
+    // Adicionar destaque ao diálogo específico
+    setTimeout(() => {
+      const elemento = document.querySelector(`#dialogo-${index}`);
+      if (elemento) {
+        elemento.classList.add('destacado');
+        elemento.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        setTimeout(() => {
+          elemento.classList.remove('destacado');
+        }, 3000);
+      }
+    }, 100);
+  }
+
+  // ==================== MÉTODOS DE FERRAMENTAS ====================
+  aplicarFormatacao(tipo: 'negrito' | 'italico' | 'sublinhado'): void {
+    if (this.dialogoEditando === null) return;
+    
+    const textarea = document.querySelector('.texto-editor') as HTMLTextAreaElement;
+    if (!textarea) return;
+    
+    const inicio = textarea.selectionStart;
+    const fim = textarea.selectionEnd;
+    const textoSelecionado = this.textoEditando.substring(inicio, fim);
+    
+    if (textoSelecionado) {
+      let textoFormatado = '';
+      
+      switch (tipo) {
+        case 'negrito':
+          textoFormatado = `**${textoSelecionado}**`;
+          break;
+        case 'italico':
+          textoFormatado = `*${textoSelecionado}*`;
+          break;
+        case 'sublinhado':
+          textoFormatado = `_${textoSelecionado}_`;
+          break;
+      }
+      
+      this.textoEditando = this.textoEditando.substring(0, inicio) + 
+                          textoFormatado + 
+                          this.textoEditando.substring(fim);
+    }
+  }
+
+  inserirTimestamp(): void {
+    if (this.dialogoEditando === null) return;
+    
+    const timestamp = `[${this.formatarTempo(this.tempoAtualSegundos)}]`;
+    this.textoEditando += ` ${timestamp}`;
+  }
+
+  corrigirTexto(): void {
+    if (this.dialogoEditando === null) return;
+    
+    // Simular correção automática
+    this.textoEditando = this.textoEditando
+      .replace(/\s+/g, ' ')
+      .replace(/([.!?])\s*([a-z])/g, '$1 $2')
+      .trim();
+  }
+
+  // ==================== MÉTODOS DE HISTÓRICO ====================
+  toggleHistorico(index: number): void {
+    this.mostrarHistorico[index] = !this.mostrarHistorico[index];
+  }
+
+  // ==================== MÉTODOS DE ESTATÍSTICAS ====================
+  getDialogosRevisados(): number {
+    return this.dialogos.filter(d => d.revisado).length;
+  }
+
+  getDialogosMarcados(): number {
+    return this.dialogos.filter(d => d.marcado).length;
+  }
+
+  getQualidadeGeral(): number {
+    if (this.dialogos.length === 0) return 0;
+    
+    const soma = this.dialogos.reduce((acc, d) => acc + (d.confiancaValor * 100), 0);
+    return soma / this.dialogos.length;
+  }
+
+  // ==================== MÉTODOS DE AÇÕES ====================
+  expandirTodos(): void {
+    this.dialogos.forEach((_, index) => {
+      this.mostrarHistorico[index] = true;
+    });
+  }
+
+  marcarTodosRevisados(): void {
+    this.dialogos.forEach(dialogo => {
+      dialogo.revisado = true;
+    });
+    this.alteracoesPendentes++;
+  }
+
+  exportarRelatorio(): void {
+    const dadosExport = {
+      processo: this.processoInfo,
+      dialogos: this.dialogos,
+      estatisticas: {
+        totalDialogos: this.dialogos.length,
+        dialogosRevisados: this.getDialogosRevisados(),
+        qualidadeGeral: this.getQualidadeGeral(),
+        participantes: this.participantesUnicos
+      },
+      dataExport: new Date()
+    };
+    
+    const blob = new Blob([JSON.stringify(dadosExport, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `transcricao_${this.processoInfo.numero.replace(/[^\w]/g, '_')}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  finalizarRevisao(): void {
+    if (this.podeFinalizarRevisao()) {
+      alert('Revisão finalizada com sucesso!');
+      this.fecharModal.emit();
+    }
+  }
+
+  podeFinalizarRevisao(): boolean {
+    return this.dialogos.every(d => d.revisado) && this.alteracoesPendentes === 0;
+  }
+
+  salvarAlteracoes(): void {
+    // Simular salvamento
+    console.log('Salvando alterações...', this.alteracoesPendentes);
+    this.alteracoesPendentes = 0;
+    alert('Alterações salvas com sucesso!');
+  }
+
+  // ==================== MÉTODOS DE MODAL ====================
+  fechar(): void {
+    if (this.alteracoesPendentes > 0) {
+      if (confirm(`Você tem ${this.alteracoesPendentes} alterações não salvas. Deseja sair mesmo assim?`)) {
+        this.fecharModal.emit();
+      }
+    } else {
+      this.fecharModal.emit();
+    }
+  }
+}

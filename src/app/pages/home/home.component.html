@@ -1,0 +1,84 @@
+<div class="home-container">
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>Bem-vindo ao Sistema Anchieta</h1>
+      <p>Uma solução completa para gestão empresarial desenvolvida com Angular e as melhores práticas de desenvolvimento frontend.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" (click)="navigateToAbout()">
+          <i class="fas fa-info-circle"></i>
+          Saiba Mais
+        </button>
+        <button class="btn-secondary" *ngIf="!authService.isLoggedIn()" (click)="openLogin()">
+          <i class="fas fa-sign-in-alt"></i>
+          Fazer Login
+        </button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <i class="fas fa-laptop-code"></i>
+    </div>
+  </section>
+
+  <section class="features-section">
+    <div class="container">
+      <h2>Principais Funcionalidades</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Dashboard Analítico</h3>
+          <p>Visualize dados importantes e métricas de desempenho em tempo real com gráficos interativos.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3>Gestão de Usuários</h3>
+          <p>Sistema completo de controle de acesso e gerenciamento de perfis de usuários.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h3>Design Responsivo</h3>
+          <p>Interface adaptável que funciona perfeitamente em desktop, tablet e dispositivos móveis.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Segurança Avançada</h3>
+          <p>Autenticação robusta e controle de permissões para proteger seus dados.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="container">
+      <h2>Estatísticas do Sistema</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">1,234</div>
+          <div class="stat-label">Usuários Ativos</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">5,678</div>
+          <div class="stat-label">Transações</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">99.9%</div>
+          <div class="stat-label">Uptime</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Suporte</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

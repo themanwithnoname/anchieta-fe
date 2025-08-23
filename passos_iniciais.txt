@@ -1,0 +1,29 @@
+1.
+sudo npm install -g @angular/cli@17
+
+
+2.
+ng new anchieta-frontend --routing=true --style=scss --skip-git=true --directory=.
+
+
+3.
+ng generate component components/header --skip-tests
+
+ng generate component components/sidebar --skip-tests
+
+ng generate component components/footer --skip-tests
+
+ng generate component pages/home --skip-tests
+
+ng generate component pages/about --skip-tests
+
+ng generate service services/api --skip-tests
+
+ng generate service services/auth --skip-tests
+
+4.
+ng build --configuration development
+
+5.
+ng generate component pages/processos --skip-tests
+

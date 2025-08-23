@@ -1,0 +1,33 @@
+<header class="header">
+  <div class="header-container">
+    <div class="logo-section">
+      <button class="menu-toggle" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <h1 class="logo">Anchieta</h1>
+    </div>
+    
+    <nav class="nav-menu">
+      <ul class="nav-links">
+        <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+        <li><a routerLink="/about" routerLinkActive="active">Sobre</a></li>
+      </ul>
+    </nav>
+    
+    <div class="user-menu">
+      <div class="user-info" *ngIf="authService.isLoggedIn(); else loginButton">
+        <span class="username">{{ authService.getCurrentUser()?.name }}</span>
+        <button class="logout-btn" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+      
+      <ng-template #loginButton>
+        <button class="login-btn" (click)="login()">
+          <i class="fas fa-user"></i>
+          Login
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</header>

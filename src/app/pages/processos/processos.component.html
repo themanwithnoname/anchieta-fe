@@ -1,0 +1,280 @@
+<div class="processos-container">
+  <!-- Header da página -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>
+        <i class="fas fa-gavel"></i>
+        Processos Trabalhistas
+      </h1>
+      <p class="subtitle">Gerenciamento de transcrições de audiências</p>
+    </div>
+    
+    <div class="header-actions">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input 
+          type="text" 
+          placeholder="Buscar processos..."
+          [(ngModel)]="filtroTexto"
+          (input)="aplicarFiltros()"
+        >
+      </div>
+      <button class="btn btn-primary" (click)="atualizarProcessos()">
+        <i class="fas fa-sync-alt"></i>
+        Atualizar
+      </button>
+      <button class="btn btn-success" (click)="importarProcessos()">
+        <i class="fas fa-download"></i>
+        Importar do PJe
+      </button>
+    </div>
+  </div>
+
+  <!-- Estatísticas -->
+  <div class="stats-cards">
+    <div class="stat-card">
+      <div class="stat-icon pendente">
+        <i class="fas fa-clock"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getProcessosPorStatus('pendente') }}</h3>
+        <p>Aguardando Transcrição</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon transcrevendo">
+        <i class="fas fa-microphone"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getProcessosPorStatus('transcrevendo') }}</h3>
+        <p>Em Transcrição</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon concluido">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getProcessosPorStatus('concluido') }}</h3>
+        <p>Concluídos</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon erro">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getProcessosPorStatus('erro') }}</h3>
+        <p>Com Erro</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de Processos -->
+  <div class="processos-list">
+    <div class="list-header">
+      <h2>
+        <i class="fas fa-list"></i>
+        Lista de Processos
+      </h2>
+      <div class="list-controls">
+        <select [(ngModel)]="itensPorPagina" (change)="aplicarFiltros()" class="items-per-page">
+          <option value="10">10 por página</option>
+          <option value="25">25 por página</option>
+          <option value="50">50 por página</option>
+        </select>
+        
+        <div class="view-toggle">
+          <button 
+            class="view-btn" 
+            [class.active]="visualizacao === 'cards'"
+            (click)="alterarVisualizacao('cards')"
+          >
+            <i class="fas fa-th"></i>
+          </button>
+          <button 
+            class="view-btn" 
+            [class.active]="visualizacao === 'lista'"
+            (click)="alterarVisualizacao('lista')"
+          >
+            <i class="fas fa-list"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="carregando" class="loading">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Carregando processos...</p>
+    </div>
+
+    <!-- Visualização em Cards -->
+    <div *ngIf="!carregando && visualizacao === 'cards'" class="cards-grid">
+      <div 
+        *ngFor="let processo of processosFiltrados" 
+        class="processo-card"
+        [class]="'status-' + processo.statusTranscricao"
+      >
+        <div class="card-header">
+          <div class="processo-numero">
+            <i class="fas fa-file-alt"></i>
+            <span>{{ processo.numeroProcesso }}</span>
+          </div>
+          <div class="status-badge" [class]="'status-' + processo.statusTranscricao">
+            <i [class]="getStatusIcon(processo.statusTranscricao)"></i>
+            {{ getStatusLabel(processo.statusTranscricao) }}
+          </div>
+        </div>
+
+        <div class="card-content">
+          <h3 class="processo-titulo">{{ processo.assunto }}</h3>
+          
+          <div class="partes-info">
+            <div class="parte">
+              <strong>Requerente:</strong>
+              <span>{{ processo.requerente }}</span>
+            </div>
+            <div class="parte">
+              <strong>Requerido:</strong>
+              <span>{{ processo.requerido }}</span>
+            </div>
+          </div>
+
+          <div class="audiencia-info">
+            <div class="info-item">
+              <i class="fas fa-calendar"></i>
+              <span>{{ processo.dataAudiencia | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-video"></i>
+              <span>{{ processo.duracaoVideo }}</span>
+            </div>
+            <div class="info-item" *ngIf="processo.percentualTranscricao > 0">
+              <i class="fas fa-percentage"></i>
+              <span>{{ processo.percentualTranscricao }}% transcrito</span>
+            </div>
+          </div>
+
+          <div *ngIf="processo.statusTranscricao === 'transcrevendo'" class="progress-bar">
+            <div class="progress-fill" [style.width.%]="processo.percentualTranscricao"></div>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn btn-sm btn-outline" (click)="visualizarProcesso(processo)">
+            <i class="fas fa-eye"></i>
+            Visualizar
+          </button>
+          <button 
+            class="btn btn-sm btn-primary" 
+            (click)="gerenciarTranscricao(processo)"
+            [disabled]="processo.statusTranscricao === 'transcrevendo'"
+          >
+            <i [class]="processo.statusTranscricao === 'concluido' ? 'fas fa-file-download' : 'fas fa-play'"></i>
+            {{ processo.statusTranscricao === 'concluido' ? 'Download' : 'Iniciar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visualização em Lista -->
+    <div *ngIf="!carregando && visualizacao === 'lista'" class="table-container">
+      <table class="processos-table">
+        <thead>
+          <tr>
+            <th>Processo</th>
+            <th>Assunto</th>
+            <th>Partes</th>
+            <th>Data Audiência</th>
+            <th>Status</th>
+            <th>Progresso</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let processo of processosFiltrados" [class]="'status-' + processo.statusTranscricao">
+            <td class="processo-numero">
+              <i class="fas fa-file-alt"></i>
+              {{ processo.numeroProcesso }}
+            </td>
+            <td class="assunto">{{ processo.assunto }}</td>
+            <td class="partes">
+              <div><strong>Req:</strong> {{ processo.requerente }}</div>
+              <div><strong>Reu:</strong> {{ processo.requerido }}</div>
+            </td>
+            <td class="data">{{ processo.dataAudiencia | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td class="status">
+              <span class="status-badge" [class]="'status-' + processo.statusTranscricao">
+                <i [class]="getStatusIcon(processo.statusTranscricao)"></i>
+                {{ getStatusLabel(processo.statusTranscricao) }}
+              </span>
+            </td>
+            <td class="progresso">
+              <div *ngIf="processo.statusTranscricao === 'transcrevendo'" class="progress-bar">
+                <div class="progress-fill" [style.width.%]="processo.percentualTranscricao"></div>
+                <span class="progress-text">{{ processo.percentualTranscricao }}%</span>
+              </div>
+              <span *ngIf="processo.statusTranscricao !== 'transcrevendo'">-</span>
+            </td>
+            <td class="acoes">
+              <button class="btn btn-sm btn-outline" (click)="visualizarProcesso(processo)">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button 
+                class="btn btn-sm btn-primary" 
+                (click)="gerenciarTranscricao(processo)"
+                [disabled]="processo.statusTranscricao === 'transcrevendo'"
+              >
+                <i [class]="processo.statusTranscricao === 'concluido' ? 'fas fa-download' : 'fas fa-play'"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginação -->
+    <div *ngIf="!carregando && processosFiltrados.length > 0" class="pagination">
+      <button 
+        class="btn btn-outline" 
+        [disabled]="paginaAtual === 1"
+        (click)="irParaPagina(paginaAtual - 1)"
+      >
+        <i class="fas fa-chevron-left"></i>
+        Anterior
+      </button>
+      
+      <span class="page-info">
+        Página {{ paginaAtual }} de {{ getTotalPaginas() }}
+      </span>
+      
+      <button 
+        class="btn btn-outline" 
+        [disabled]="paginaAtual === getTotalPaginas()"
+        (click)="irParaPagina(paginaAtual + 1)"
+      >
+        Próxima
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- Estado vazio -->
+    <div *ngIf="!carregando && processosFiltrados.length === 0" class="empty-state">
+      <i class="fas fa-search"></i>
+      <h3>Nenhum processo encontrado</h3>
+      <p>Tente ajustar os filtros ou importar novos processos do PJe.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Transcrição -->
+<app-modal-transcricao 
+  [isVisible]="modalVisivel"
+  [processo]="processoSelecionado"
+  (fechar)="fecharModal()"
+  (salvar)="salvarTranscricao($event)"
+></app-modal-transcricao>
