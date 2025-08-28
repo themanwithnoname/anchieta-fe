@@ -1,0 +1,108 @@
+<div class="audio-timeline" 
+     [class.compacto]="compacto" 
+     [class.indisponivel]="!estaDisponivel"
+     (keydown)="onKeydown($event)" 
+     tabindex="0">
+
+  <!-- Controles de Áudio -->
+  <div *ngIf="showControls" class="controles-audio">
+    <div class="controles-principais">
+      <button class="btn-controle" (click)="retrocederTempo()" [disabled]="!estaDisponivel" title="Retroceder 10s">
+        <i class="fas fa-backward"></i>
+      </button>
+      
+      <button class="btn-play-pause" (click)="alternarReproducao()" [disabled]="!estaDisponivel">
+        <i class="fas" [class.fa-play]="!audioState.tocando" [class.fa-pause]="audioState.tocando"></i>
+      </button>
+      
+      <button class="btn-controle" (click)="avancarTempo()" [disabled]="!estaDisponivel" title="Avançar 10s">
+        <i class="fas fa-forward"></i>
+      </button>
+      
+      <button class="btn-controle" (click)="pararAudio()" [disabled]="!estaDisponivel" title="Parar">
+        <i class="fas fa-stop"></i>
+      </button>
+    </div>
+
+    <!-- Volume -->
+    <div class="controle-volume" *ngIf="!compacto">
+      <i class="fas" [class]="volumeIcon"></i>
+      <input type="range" 
+             min="0" 
+             max="100" 
+             [value]="audioState.volume"
+             (input)="ajustarVolume($event)"
+             class="slider-volume"
+             [disabled]="!estaDisponivel">
+      <span class="volume-texto">{{ audioState.volume }}%</span>
+    </div>
+  </div>
+
+  <!-- Timeline Principal -->
+  <div class="timeline-container">
+    <!-- Informações de Tempo -->
+    <div class="info-tempo">
+      <span class="tempo-atual">{{ tempoFormatado.atual }}</span>
+      <span class="tempo-total">{{ tempoFormatado.total }}</span>
+    </div>
+
+    <!-- Barra de Progresso -->
+    <div class="progress-container" (click)="onProgressClick($event)">
+      <div class="progress-track" #progressBar>
+        <div class="progress-fill" [style.width.%]="progressoPercentual"></div>
+        
+        <!-- Marcadores de Diálogos -->
+        <div class="marcadores-dialogos">
+          <div *ngFor="let dialogo of dialogos; let i = index" 
+               class="marcador-dialogo"
+               [class.ativo]="dialogoEstaReproduziindo(dialogo)"
+               [style.left.%]="obterPosicaoMarker(dialogo)"
+               [title]="dialogo.participante + ' - ' + formatarTempo(dialogo.timestampSegundos)"
+               (click)="reproduzirDialogo(dialogo); $event.stopPropagation()">
+            <div class="marcador-ponto"></div>
+            <div class="marcador-info" *ngIf="!compacto">
+              <span class="marcador-participante">{{ dialogo.participante }}</span>
+              <span class="marcador-tempo">{{ formatarTempo(dialogo.timestampSegundos) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Posição Atual -->
+        <div class="cursor-tempo" [style.left.%]="progressoPercentual">
+          <div class="cursor-ponto"></div>
+          <div class="cursor-tooltip" *ngIf="!compacto">
+            {{ tempoFormatado.atual }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Atalhos de Teclado (apenas no modo não compacto) -->
+    <div *ngIf="!compacto" class="atalhos-teclado">
+      <div class="atalho-item">
+        <kbd>Espaço</kbd>
+        <span>Play/Pause</span>
+      </div>
+      <div class="atalho-item">
+        <kbd>←</kbd><kbd>→</kbd>
+        <span>±10s</span>
+      </div>
+      <div class="atalho-item">
+        <kbd>↑</kbd><kbd>↓</kbd>
+        <span>Volume</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado Indisponível -->
+  <div *ngIf="!estaDisponivel" class="estado-indisponivel">
+    <i class="fas fa-volume-mute"></i>
+    <span>Áudio indisponível</span>
+  </div>
+
+  <!-- Indicador de Loading (quando está carregando) -->
+  <div *ngIf="audioState.tocando && audioState.tempoAtual === 0" class="loading-audio">
+    <div class="spinner"></div>
+    <span>Carregando áudio...</span>
+  </div>
+</div>

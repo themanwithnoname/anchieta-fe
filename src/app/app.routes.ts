@@ -21,6 +21,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/processos/processos.component').then(m => m.ProcessosComponent),
     title: 'Processos - Anchieta'
   },
+  { 
+    path: 'detalhe-processo/:numero', 
+    loadComponent: () => import('./pages/detalhe-processo/detalhe-processo.component').then(m => m.DetalheProcessoComponent),
+    title: 'Detalhe do Processo - Anchieta'
+  },
   {
     path: '**',
     redirectTo: '/home'

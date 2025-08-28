@@ -1,0 +1,180 @@
+<div class="dialogo-item" 
+     [class.ativo]="dialogoEstaAtivo"
+     [class.marcado]="dialogo.marcado"
+     [class.editando]="estaEditandoTexto"
+     [class.reproduzindo]="estaReproduzinoAudio"
+     [class.modo-compacto]="modoCompacto"
+     [class]="nivelConfiancaClasse">
+
+  <!-- Modo Compacto -->
+  <div *ngIf="modoCompacto" class="dialogo-compacto">
+    <div class="participante-avatar" 
+         [style.background-color]="corParticipante"
+         [title]="participanteInfo?.tipo">
+      {{ avatarParticipante }}
+    </div>
+    <div class="dialogo-conteudo-compacto">
+      <span class="participante-nome">{{ dialogo.participante }}:</span>
+      <span class="texto" [innerHTML]="textoComDestaque"></span>
+    </div>
+    <div class="acoes-compacto">
+      <span class="tempo">{{ tempoFormatado }}</span>
+      <button class="btn-play" (click)="reproduzirDialogo()" [title]="'Reproduzir diálogo'">
+        <i class="fas" [class.fa-play]="!estaReproduzinoAudio" [class.fa-pause]="estaReproduzinoAudio"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modo Detalhado -->
+  <div *ngIf="!modoCompacto" class="dialogo-detalhado">
+    
+    <!-- Header do Diálogo -->
+    <div class="dialogo-header">
+      <div class="participante-info">
+        <div class="participante-avatar" 
+             [style.background-color]="corParticipante"
+             [title]="participanteInfo?.tipo">
+          {{ avatarParticipante }}
+        </div>
+        
+        <div class="participante-dados">
+          <div *ngIf="!editandoParticipante()" class="participante-display">
+            <span class="participante-nome" (click)="iniciarEdicaoParticipante()">
+              {{ dialogo.participante }}
+            </span>
+            <span class="participante-tipo">{{ participanteInfo?.tipo }}</span>
+          </div>
+          
+          <div *ngIf="editandoParticipante()" class="participante-edicao">
+            <select [(ngModel)]="participanteSelecionado" class="select-participante">
+              <option *ngFor="let p of participantes" [value]="p.nome">
+                {{ p.nome }} - {{ p.tipo }}
+              </option>
+            </select>
+            <div class="botoes-edicao">
+              <button class="btn-salvar" (click)="salvarParticipante()">
+                <i class="fas fa-check"></i>
+              </button>
+              <button class="btn-cancelar" (click)="cancelarEdicaoParticipante()">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dialogo-meta">
+        <span class="tempo" [title]="intervaloFormatado">{{ tempoFormatado }}</span>
+        <span class="dialogo-id">#{{ index + 1 }}</span>
+        <div class="indicadores">
+          <span *ngIf="dialogo.revisado" class="indicador revisado" title="Revisado">✓</span>
+          <span *ngIf="dialogo.nota" class="indicador nota" title="Tem nota">📋</span>
+          <span class="indicador confianca" [title]="'Confiança: ' + dialogo.confianca">
+            {{ dialogo.confiancaValor | percent:'1.0-0' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conteúdo do Diálogo -->
+    <div class="dialogo-conteudo">
+      <div *ngIf="!estaEditandoTexto" class="texto-display" (click)="iniciarEdicaoTexto()">
+        <p [innerHTML]="textoComDestaque"></p>
+        <div *ngIf="dialogo.nota" class="nota-dialogo">
+          <i class="fas fa-sticky-note"></i>
+          <span>{{ dialogo.nota }}</span>
+        </div>
+      </div>
+
+      <div *ngIf="estaEditandoTexto" class="texto-edicao">
+        <textarea 
+          [(ngModel)]="textoEdicao"
+          class="textarea-edicao"
+          rows="3"
+          (keydown)="onKeydown($event)"
+          #textareaRef></textarea>
+        
+        <div class="toolbar-edicao">
+          <div class="formatacao-botoes">
+            <button type="button" class="btn-formato" title="Negrito">
+              <i class="fas fa-bold"></i>
+            </button>
+            <button type="button" class="btn-formato" title="Itálico">
+              <i class="fas fa-italic"></i>
+            </button>
+          </div>
+          
+          <div class="acoes-edicao">
+            <button class="btn-salvar" (click)="salvarTexto()">
+              <i class="fas fa-check"></i> Salvar
+            </button>
+            <button class="btn-cancelar" (click)="cancelarEdicaoTexto()">
+              <i class="fas fa-times"></i> Cancelar
+            </button>
+          </div>
+        </div>
+        
+        <div class="dica-edicao">
+          <i class="fas fa-info-circle"></i>
+          <span>Ctrl + Enter para salvar, Esc para cancelar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ações do Diálogo -->
+    <div class="dialogo-acoes">
+      <button class="btn-acao" (click)="reproduzirDialogo()" 
+              [title]="estaReproduzinoAudio ? 'Pausar áudio' : 'Reproduzir áudio'">
+        <i class="fas" [class.fa-play]="!estaReproduzinoAudio" [class.fa-pause]="estaReproduzinoAudio"></i>
+      </button>
+      
+      <button class="btn-acao" (click)="abrirVideoDialogo()" title="Abrir vídeo">
+        <i class="fas fa-video"></i>
+      </button>
+      
+      <button class="btn-acao" (click)="marcarDialogo()" 
+              [class.ativo]="dialogo.marcado" title="Marcar/Desmarcar">
+        <i class="fas" [class.fa-bookmark]="dialogo.marcado" [class.fa-bookmark-o]="!dialogo.marcado"></i>
+      </button>
+      
+      <button class="btn-acao" (click)="adicionarNotaDialogo()" 
+              [class.ativo]="!!dialogo.nota" title="Adicionar nota">
+        <i class="fas fa-sticky-note"></i>
+      </button>
+      
+      <button class="btn-acao" (click)="alternarHistorico()" 
+              [class.ativo]="mostrandoHistorico()"
+              [disabled]="!dialogo.alteracoes.length"
+              title="Ver histórico">
+        <i class="fas fa-history"></i>
+        <span *ngIf="dialogo.alteracoes.length" class="contador">{{ dialogo.alteracoes.length }}</span>
+      </button>
+    </div>
+
+    <!-- Histórico de Alterações -->
+    <div *ngIf="mostrandoHistorico() && dialogo.alteracoes.length" class="historico-alteracoes">
+      <h4>Histórico de Alterações</h4>
+      <div class="alteracao-item" *ngFor="let alteracao of dialogo.alteracoes">
+        <div class="alteracao-header">
+          <span class="alteracao-icone">{{ obterIconeAlteracao(alteracao.tipo) }}</span>
+          <span class="alteracao-tipo">{{ alteracao.tipo | titlecase }}</span>
+          <span class="alteracao-data">{{ alteracao.data | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="alteracao-detalhes">
+          <div class="valor-anterior">
+            <label>Anterior:</label>
+            <span>{{ alteracao.valorAnterior }}</span>
+          </div>
+          <div class="valor-novo">
+            <label>Novo:</label>
+            <span>{{ alteracao.valorNovo }}</span>
+          </div>
+          <div *ngIf="alteracao.observacao" class="observacao">
+            <label>Obs:</label>
+            <span>{{ alteracao.observacao }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

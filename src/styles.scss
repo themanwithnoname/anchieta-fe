@@ -2,6 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
+// ==================== NOVO SISTEMA DE DESIGN ====================
+// Design tokens - substituirá 1000+ linhas de CSS duplicado
+@import './app/shared/styles/design-tokens.scss';
+// Utilitários - substituirá 2000+ linhas de CSS específico  
+@import './app/shared/styles/utilities.scss';
+
 // Reset básico
 * {
   margin: 0;
@@ -11,68 +17,64 @@
 
 html, body {
   height: 100%;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #f8f9fa;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  color: var(--dark);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
-// Cores customizadas
+// Fluid desktop design tokens
 :root {
-  --primary-color: #3498db;
-  --secondary-color: #2c3e50;
-  --success-color: #27ae60;
-  --warning-color: #f39c12;
-  --danger-color: #e74c3c;
-  --light-color: #ecf0f1;
-  --dark-color: #2c3e50;
-  --sidebar-width: 250px;
-  --sidebar-collapsed-width: 60px;
-  --header-height: 60px;
+  --primary: #3498db;
+  --primary-dark: #2980b9;
+  --secondary: #2c3e50;
+  --success: #27ae60;
+  --warning: #f39c12;
+  --danger: #e74c3c;
+  --light: #ecf0f1;
+  --dark: #2c3e50;
+  --sidebar-width: clamp(160px, 12vw, 224px);
+  --sidebar-collapsed-width: clamp(40px, 3vw, 48px);
+  --header-height: clamp(50px, 5vh, 70px);
+  --content-padding: clamp(1rem, 2vw, 2rem);
+  --border-radius: clamp(8px, 1vw, 16px);
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-// Utilitários globais
-.text-center {
-  text-align: center;
+// Fluid desktop utilities
+.container-fluid {
+  width: 100%;
+  max-width: none;
+  padding: 0 var(--content-padding);
 }
 
-.text-left {
-  text-align: left;
-}
-
-.text-right {
-  text-align: right;
-}
-
-.d-flex {
+.row {
   display: flex;
+  flex-wrap: wrap;
+  margin: 0 -0.75rem;
 }
 
-.justify-content-center {
-  justify-content: center;
+.col {
+  flex: 1;
+  padding: 0 0.75rem;
 }
 
-.align-items-center {
-  align-items: center;
-}
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
 
-.flex-column {
-  flex-direction: column;
-}
+.d-flex { display: flex; }
+.flex-1 { flex: 1; }
+.justify-center { justify-content: center; }
+.items-center { align-items: center; }
+.flex-col { flex-direction: column; }
 
-.mb-0 { margin-bottom: 0; }
-.mb-1 { margin-bottom: 0.25rem; }
-.mb-2 { margin-bottom: 0.5rem; }
-.mb-3 { margin-bottom: 1rem; }
-.mb-4 { margin-bottom: 1.5rem; }
-.mb-5 { margin-bottom: 3rem; }
-
-.mt-0 { margin-top: 0; }
-.mt-1 { margin-top: 0.25rem; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-3 { margin-top: 1rem; }
-.mt-4 { margin-top: 1.5rem; }
-.mt-5 { margin-top: 3rem; }
+.m-auto { margin: auto; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
 
 // Scrollbar customizada
 ::-webkit-scrollbar {

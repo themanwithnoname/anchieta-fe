@@ -1,0 +1,292 @@
+// ==================== BUSCA TOOLBAR REFATORADA ====================
+// Design moderno com layout flexível e responsivo
+
+.busca-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+// ==================== SEÇÃO DE BUSCA (ESQUERDA) ====================
+.busca-section {
+  flex: 1;
+  max-width: 32rem; // 512px
+  
+  .busca-input-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    
+    .input-wrapper {
+      position: relative;
+      flex: 1;
+      
+      .input-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+        font-size: 0.875rem;
+      }
+      
+      .busca-input {
+        width: 100%;
+        padding: 0.625rem 2.5rem 0.625rem 2.5rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        transition: all 0.2s;
+        
+        &:focus {
+          outline: none;
+          ring: 2px;
+          ring-color: #3b82f6;
+          border-color: transparent;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        &::placeholder {
+          color: #9ca3af;
+        }
+        
+        &:hover {
+          border-color: #9ca3af;
+        }
+      }
+      
+      .btn-clear-search {
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1.25rem;
+        height: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9ca3af;
+        background: none;
+        border: none;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.2s;
+        
+        &.visible {
+          opacity: 1;
+        }
+        
+        &:hover {
+          color: #6b7280;
+        }
+        
+        i {
+          font-size: 0.75rem;
+        }
+      }
+    }
+    
+    .busca-resultados {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #dbeafe;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.375rem;
+      border: 1px solid #93c5fd;
+      animation: slideIn 0.3s ease-out;
+      
+      .resultados-badge {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #1d4ed8;
+        background: #e0e7ff;
+        padding: 0.125rem 0.5rem;
+        border-radius: 0.25rem;
+      }
+      
+      .navegacao-buttons {
+        display: flex;
+        gap: 0.25rem;
+        
+        .btn-nav {
+          width: 1.5rem;
+          height: 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: white;
+          border: 1px solid #93c5fd;
+          border-radius: 0.25rem;
+          color: #2563eb;
+          cursor: pointer;
+          transition: all 0.15s;
+          
+          &:hover:not(:disabled) {
+            background: #dbeafe;
+            transform: translateY(-1px);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+          }
+          
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+          
+          i {
+            font-size: 0.75rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==================== CONTROLES DE VISUALIZAÇÃO (DIREITA) ====================
+.view-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+  .view-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #4b5563;
+    
+    i {
+      color: #3b82f6;
+    }
+    
+    .view-mode-label {
+      font-weight: 500;
+      color: #374151;
+    }
+  }
+  
+  .btn-toggle-view {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    
+    &:hover {
+      background: #e5e7eb;
+      border-color: #9ca3af;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      transform: translateY(-1px);
+    }
+    
+    &:focus {
+      outline: none;
+      ring: 2px;
+      ring-color: #3b82f6;
+      ring-offset: 1px;
+    }
+    
+    &:active {
+      background: #d1d5db;
+      transform: scale(0.95);
+    }
+    
+    i {
+      font-size: 0.875rem;
+      color: #2563eb;
+    }
+    
+    span {
+      display: none;
+      
+      @media (min-width: 640px) {
+        display: inline;
+      }
+    }
+  }
+}
+
+// ==================== RESPONSIVIDADE ====================
+@media (max-width: 768px) {
+  .busca-toolbar {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    
+    .busca-section {
+      width: 100%;
+      max-width: none;
+      
+      .busca-input-group {
+        flex-direction: column;
+        gap: 0.5rem;
+        
+        .input-wrapper {
+          width: 100%;
+        }
+        
+        .busca-resultados {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    }
+    
+    .view-controls {
+      width: 100%;
+      justify-content: space-between;
+      
+      .view-info {
+        flex: 1;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .view-info .view-mode-label {
+    display: none;
+  }
+  
+  .btn-toggle-view span {
+    display: none !important;
+  }
+}
+
+// ==================== ANIMAÇÕES ====================
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ==================== ESTADOS ESPECIAIS ====================
+.busca-input:focus {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-toggle-view:hover {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.navegacao-buttons .btn-nav:hover:not(:disabled) {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}

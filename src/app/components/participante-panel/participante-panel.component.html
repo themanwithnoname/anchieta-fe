@@ -1,0 +1,52 @@
+<!-- Header do Painel -->
+<div class="header-participantes">
+  <h3 *ngIf="painelVisivel">Participantes</h3>
+  <button class="btn-recolher-painel" 
+          (click)="onAlternarPainel()"
+          [title]="painelVisivel ? 'Recolher painel' : 'Expandir painel'">
+    <i class="fas" [class.fa-chevron-right]="painelVisivel" [class.fa-chevron-left]="!painelVisivel"></i>
+  </button>
+</div>
+
+<!-- Lista de Participantes -->
+<div class="lista-participantes" *ngIf="painelVisivel">
+  <div class="participante-item" 
+       *ngFor="let participante of participantes"
+       [style.border-left-color]="getCorParticipante(participante.nome)"
+       (click)="onEditarParticipante(participante)">
+    <span class="participante-nome">{{ participante.nome }}</span>
+    <span class="participante-tipo">{{ participante.tipo }}</span>
+    <div class="participante-stats">
+      <span class="participante-dialogos">{{ participante.totalDialogos }} diálogos</span>
+    </div>
+  </div>
+</div>
+
+<!-- Histórico de Alterações -->
+<div class="secao-historico" *ngIf="painelVisivel">
+  <h3>Histórico</h3>
+  <div class="lista-historico">
+    <div class="historico-item" 
+         *ngFor="let item of getHistoricoRecente()">
+      <div class="historico-data">{{ item.data | date:'dd/MM HH:mm' }}</div>
+      <div class="historico-usuario">{{ item.usuario }}</div>
+      <div class="historico-tipo">{{ item.tipo }}</div>
+    </div>
+    <div class="historico-empty" *ngIf="alteracoesHistorico.length === 0">
+      <p>Nenhuma alteração registrada</p>
+    </div>
+  </div>
+</div>
+
+<!-- Estatísticas -->
+<div class="secao-estatisticas" *ngIf="painelVisivel">
+  <h3>Estatísticas</h3>
+  <div class="estatistica-item">
+    <span class="estatistica-label">Total de diálogos:</span>
+    <span class="estatistica-valor">{{ totalDialogos }}</span>
+  </div>
+  <div class="estatistica-item">
+    <span class="estatistica-label">Participantes ativos:</span>
+    <span class="estatistica-valor">{{ participantes.length }}</span>
+  </div>
+</div>

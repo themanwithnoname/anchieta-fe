@@ -1,0 +1,550 @@
+{
+  "transcription": [
+    {
+      "start": "00:00:04",
+      "end": "00:00:05",
+      "speaker": "Interrogador",
+      "text": "Wagner, bom dia."
+    },
+    {
+      "start": "00:00:05",
+      "end": "00:00:05",
+      "speaker": "Depoente",
+      "text": "Bom dia."
+    },
+    {
+      "start": "00:00:06",
+      "end": "00:00:09",
+      "speaker": "Interrogador",
+      "text": "Fazer algumas perguntas pro senhor, eu preciso que o senhor me responda de forma bem objetiva, tá bom?"
+    },
+    {
+      "start": "00:00:09",
+      "end": "00:00:09",
+      "speaker": "Depoente",
+      "text": "Vai."
+    },
+    {
+      "start": "00:00:10",
+      "end": "00:00:15",
+      "speaker": "Interrogador",
+      "text": "Qual foi o período que o senhor trabalhou para as empresas reclamadas? Para qual empresa que o senhor foi contratado?"
+    },
+    {
+      "start": "00:00:15",
+      "end": "00:00:18",
+      "speaker": "Depoente",
+      "text": "GTEX. Por dois anos e cinco meses aproximadamente."
+    },
+    {
+      "start": "00:00:19",
+      "end": "00:00:20",
+      "speaker": "Interrogador",
+      "text": "GTEX?"
+    },
+    {
+      "start": "00:00:20",
+      "end": "00:00:20",
+      "speaker": "Depoente",
+      "text": "Isso."
+    },
+    {
+      "start": "00:00:27",
+      "end": "00:00:27",
+      "speaker": "Interrogador",
+      "text": "O que o senhor fazia lá?"
+    },
+    {
+      "start": "00:00:28",
+      "end": "00:00:34",
+      "speaker": "Depoente",
+      "text": "Eu entrei na empresa como assistente de PCP e saí da empresa como analista de PCP júnior."
+    },
+    {
+      "start": "00:00:41",
+      "end": "00:00:42",
+      "speaker": "Interrogador",
+      "text": "Analista de PCP?"
+    },
+    {
+      "start": "00:00:42",
+      "end": "00:00:43",
+      "speaker": "Depoente",
+      "text": "Isso."
+    },
+    {
+      "start": "00:00:43",
+      "end": "00:00:44",
+      "speaker": "Interrogador",
+      "text": "O que que o senhor fazia?"
+    },
+    {
+      "start": "00:00:44",
+      "end": "01:03",
+      "speaker": "Depoente",
+      "text": "Fazia toda a parte de controle de materiais, insumos, programações, relatórios, eh, cronogramas de, junto ao fornecedor de insumos, da compra, tanto a parte de processos e parte fabril."
+    },
+    {
+      "start": "01:09",
+      "end": "01:11",
+      "speaker": "Interrogador",
+      "text": "E depois de quanto tempo o senhor mudou de função?"
+    },
+    {
+      "start": "01:14",
+      "end": "01:34",
+      "speaker": "Depoente",
+      "text": "Demorou... eu mudei para analista de PCP no final de 2023. Porém, em janeiro de 2024 eu fui para outra função, que era a manufatura. Passei a trabalhar junto com a engenharia."
+    },
+    {
+      "start": "01:34",
+      "end": "02:08",
+      "speaker": "Depoente",
+      "text": "Ali fazendo toda a parte de programação também, que eu continuava fazendo PCP, porém, fazia toda a parte também de projetos da VIVO com a engenharia, acompanhamento e... Fazendo projeto de quê? De engenharia, junto com o departamento de engenharia e também tinha a parte do, de insumos de manutenção, da manutenção preventiva, corretiva."
+    },
+    {
+      "start": "02:08",
+      "end": "02:14",
+      "speaker": "Interrogador",
+      "text": "Isso como... Como? Então, como assistente... analista de PCP, porém já estava atuando como manufatura."
+    },
+    {
+      "start": "02:15",
+      "end": "02:22",
+      "speaker": "Interrogador",
+      "text": "Tá. Como analista de PCP, que atividades que o senhor fazia? Não, perdão. Como essa de manufatura, que que o senhor fazia?"
+    },
+    {
+      "start": "02:22",
+      "end": "02:29",
+      "speaker": "Depoente",
+      "text": "Fazendo toda a parte de, de manutenção preventiva e corretiva. Sim."
+    },
+    {
+      "start": "02:29",
+      "end": "02:39",
+      "speaker": "Depoente",
+      "text": "Acompanhava também toda a parte de de fiscalização das máquinas. Então, se tivesse algum problema das máquinas,"
+    },
+    {
+      "start": "02:39",
+      "end": "02:42",
+      "speaker": "Interrogador",
+      "text": "Fala devagar, que eu preciso digitar umas coisas para o senhor. Fala mais, mais pausado."
+    },
+    {
+      "start": "02:42",
+      "end": "02:42",
+      "speaker": "Depoente",
+      "text": "Tudo bem."
+    },
+    {
+      "start": "02:50",
+      "end": "02:51",
+      "speaker": "Interrogador",
+      "text": "Assistente e analista de PCP, o que que o senhor fazia?"
+    },
+    {
+      "start": "02:52",
+      "end": "03:15",
+      "speaker": "Depoente",
+      "text": "Assistente, assistente ajudava o analista de PCP... Assistente a ajudava o analista de PCP. Então, na realidade, eu ajudava o analista de materiais. Então, toda a parte de planilha eu realizava o preenchimento com de insumos, de nível de estoque, para auxiliar o analista de materiais."
+    },
+    {
+      "start": "03:38",
+      "end": "03:41",
+      "speaker": "Interrogador",
+      "text": "Certo. Como analista de manufatura, então o senhor me falou que trabalhava junto com a engenharia."
+    },
+    {
+      "start": "03:41",
+      "end": "03:41",
+      "speaker": "Depoente",
+      "text": "Exato."
+    },
+    {
+      "start": "03:41",
+      "end": "03:42",
+      "speaker": "Interrogador",
+      "text": "Fazendo o quê?"
+    },
+    {
+      "start": "03:42",
+      "end": "04:04",
+      "speaker": "Depoente",
+      "text": "Toda a parte de manutenção preventiva e corretiva. Fazia o acompanhamento das máquinas, aonde tinha mais defeito, e nisso, de descobrindo o defeito, a gente tomava uma ação em cima desse problema. Fora que, além de fazer essa atividade, ainda fazia uma parte de PCP também, normal."
+    },
+    {
+      "start": "04:05",
+      "end": "04:21",
+      "speaker": "Depoente",
+      "text": "Fora isso, eu tinha que auxiliar a gestão. Então, fazer relatórios para a gestão e participava de algumas reuniões gerenciais que eles chamam de N1, N2 e N3."
+    },
+    {
+      "start": "04:35",
+      "end": "04:40",
+      "speaker": "Interrogador",
+      "text": "Certo. E mudou alguma coisa no seu salário quando era assistente de PCP para analista de PCP e depois analista de manufatura?"
+    },
+    {
+      "start": "04:40",
+      "end": "04:46",
+      "speaker": "Depoente",
+      "text": "Então, foi combinado verbalmente junto à gerência, na época era a dona Neide."
+    },
+    {
+      "start": "04:46",
+      "end": "04:48",
+      "speaker": "Interrogador",
+      "text": "A pergunta é se mudou alguma coisa no salário do senhor."
+    },
+    {
+      "start": "04:48",
+      "end": "04:49",
+      "speaker": "Depoente",
+      "text": "Não."
+    },
+    {
+      "start": "04:49",
+      "end": "04:53",
+      "speaker": "Interrogador",
+      "text": "Não? Não, mudou depois de um bom tempo."
+    },
+    {
+      "start": "04:55",
+      "end": "04:56",
+      "speaker": "Interrogador",
+      "text": "Então mudou?"
+    },
+    {
+      "start": "04:56",
+      "end": "04:57",
+      "speaker": "Depoente",
+      "text": "Mudou."
+    },
+    {
+      "start": "04:57",
+      "end": "04:57",
+      "speaker": "Interrogador",
+      "text": "Quando mudou?"
+    },
+    {
+      "start": "04:58",
+      "end": "05:03",
+      "speaker": "Depoente",
+      "text": "Mudou em novembro de 2023."
+    },
+    {
+      "start": "05:06",
+      "end": "05:08",
+      "speaker": "Interrogador",
+      "text": "Subiu, diminuiu, ficou igual? O que que mudou?"
+    },
+    {
+      "start": "05:08",
+      "end": "05:09",
+      "speaker": "Depoente",
+      "text": "Subiu."
+    },
+    {
+      "start": "05:09",
+      "end": "05:10",
+      "speaker": "Interrogador",
+      "text": "Quanto, mais ou menos?"
+    },
+    {
+      "start": "05:12",
+      "end": "05:13",
+      "speaker": "Depoente",
+      "text": "R$ 500, mais ou menos."
+    },
+    {
+      "start": "05:15",
+      "end": "05:15",
+      "speaker": "Interrogador",
+      "text": "Certo."
+    },
+    {
+      "start": "05:17",
+      "end": "05:23",
+      "speaker": "Interrogador",
+      "text": "E essas atividades que o senhor me falou, o senhor foi fazendo elas ao longo do contrato ou já começou fazendo tudo isso desde o início?"
+    },
+    {
+      "start": "05:23",
+      "end": "05:36",
+      "speaker": "Depoente",
+      "text": "Não, já comecei fazendo a parte de programação, de controle de assistente de materiais, analista de materiais. Porém, o a parte de relatório gerencial não."
+    },
+    {
+      "start": "05:36",
+      "end": "05:41",
+      "speaker": "Interrogador",
+      "text": "Não, o senhor começou fazendo então, desde a contratação, as atividades de quê? De programação, controle?"
+    },
+    {
+      "start": "05:41",
+      "end": "05:42",
+      "speaker": "Depoente",
+      "text": "Controle de insumos."
+    },
+    {
+      "start": "05:42",
+      "end": "05:44",
+      "speaker": "Interrogador",
+      "text": "Que são características de qual cargo?"
+    },
+    {
+      "start": "05:44",
+      "end": "05:45",
+      "speaker": "Depoente",
+      "text": "Analista de materiais."
+    },
+    {
+      "start": "05:45",
+      "end": "05:49",
+      "speaker": "Interrogador",
+      "text": "Então as atividades de analista de materiais o senhor já fez desde o início da contratação?"
+    },
+    {
+      "start": "05:49",
+      "end": "05:51",
+      "speaker": "Depoente",
+      "text": "Isso, desde o momento da contratação."
+    },
+    {
+      "start": "05:51",
+      "end": "05:52",
+      "speaker": "Interrogador",
+      "text": "Exatamente."
+    },
+    {
+      "start": "05:58",
+      "end": "06:03",
+      "speaker": "Interrogador",
+      "text": "Quais atividades que o senhor passou a fazer depois que foi contratado? Da que você não fazia mais? E inerente a qual cargo?"
+    },
+    {
+      "start": "06:06",
+      "end": "06:14",
+      "speaker": "Depoente",
+      "text": "Analista de materiais era fazer contato com fornecedores, fazer o cronograma de compras."
+    },
+    {
+      "start": "06:14",
+      "end": "06:17",
+      "speaker": "Interrogador",
+      "text": "Não, as atividades de analista de manufatura o senhor fazia desde o início da contratação ou não?"
+    },
+    {
+      "start": "06:18",
+      "end": "06:19",
+      "speaker": "Depoente",
+      "text": "Fazia."
+    },
+    {
+      "start": "06:20",
+      "end": "06:23",
+      "speaker": "Depoente",
+      "text": "Não, desculpa, não, fiz depois, desculpa."
+    },
+    {
+      "start": "06:23",
+      "end": "06:25",
+      "speaker": "Depoente",
+      "text": "Manufatura foi depois."
+    },
+    {
+      "start": "06:25",
+      "end": "06:28",
+      "speaker": "Interrogador",
+      "text": "Foi em início de... Só de PCP que o senhor fazia desde o início?"
+    },
+    {
+      "start": "06:28",
+      "end": "06:29",
+      "speaker": "Depoente",
+      "text": "Isso, desde o início."
+    },
+    {
+      "start": "07:01",
+      "end": "07:01",
+      "speaker": "Interrogador",
+      "text": "Perguntas, doutora?"
+    },
+    {
+      "start": "07:11",
+      "end": "07:12",
+      "speaker": "Interrogador",
+      "text": "Alguma pergunta, doutora, quanto aos temas?"
+    },
+    {
+      "start": "07:12",
+      "end": "07:12",
+      "speaker": "Advogada",
+      "text": "Sim."
+    },
+    {
+      "start": "07:13",
+      "end": "07:18",
+      "speaker": "Advogada",
+      "text": "Exclusivamente quanto ao Claudemir. Com que função, qual a formação do Claudemir?"
+    },
+    {
+      "start": "07:19",
+      "end": "07:20",
+      "speaker": "Depoente",
+      "text": "Não sei dizer."
+    },
+    {
+      "start": "07:20",
+      "end": "07:24",
+      "speaker": "Interrogador",
+      "text": "Só responda depois que eu perguntar pro senhor, que eu defiro ou não as perguntas."
+    },
+    {
+      "start": "07:29",
+      "end": "07:31",
+      "speaker": "Interrogador",
+      "text": "Sabe dizer a formação dele?"
+    },
+    {
+      "start": "07:31",
+      "end": "07:32",
+      "speaker": "Depoente",
+      "text": "Não."
+    },
+    {
+      "start": "07:33",
+      "end": "07:34",
+      "speaker": "Interrogador",
+      "text": "Mais alguma, doutora?"
+    },
+    {
+      "start": "07:34",
+      "end": "07:36",
+      "speaker": "Advogada",
+      "text": "Qual a formação do reclamante?"
+    },
+    {
+      "start": "07:39",
+      "end": "07:40",
+      "speaker": "Depoente",
+      "text": "Engenharia de Produção."
+    },
+    {
+      "start": "07:44",
+      "end": "07:45",
+      "speaker": "Interrogador",
+      "text": "Mais alguma, doutora?"
+    },
+    {
+      "start": "07:45",
+      "end": "07:48",
+      "speaker": "Advogada",
+      "text": "Chegou a fazer algum processo seletivo pro cargo?"
+    },
+    {
+      "start": "07:49",
+      "end": "07:50",
+      "speaker": "Depoente",
+      "text": "Sim."
+    },
+    {
+      "start": "07:53",
+      "end": "07:54",
+      "speaker": "Interrogador",
+      "text": "Mais alguma, doutora?"
+    },
+    {
+      "start": "07:54",
+      "end": "07:59",
+      "speaker": "Advogada",
+      "text": "Quando ele substituiu, conforme ele informou esses meses, já tinha o processo seletivo ou não?"
+    },
+    {
+      "start": "08:01",
+      "end": "08:01",
+      "speaker": "Depoente",
+      "text": "Não."
+    },
+    {
+      "start": "08:05",
+      "end": "08:11",
+      "speaker": "Advogada",
+      "text": "O treinamento específico para a função, quando ele supostamente saiu, quem que forneceu?"
+    },
+    {
+      "start": "08:11",
+      "end": "08:12",
+      "speaker": "Depoente",
+      "text": "Ninguém."
+    },
+    {
+      "start": "08:14",
+      "end": "08:15",
+      "speaker": "Interrogador",
+      "text": "Gravou como só a substituição?"
+    },
+    {
+      "start": "08:15",
+      "end": "08:16",
+      "speaker": "Interrogador",
+      "text": "Mais alguma, doutora?"
+    },
+    {
+      "start": "08:16",
+      "end": "08:25",
+      "speaker": "Advogada",
+      "text": "Quem substituiu... Quem é... a quem se reportava na saída do Claudemir? A quem se reportou? Quem era o superior?"
+    },
+    {
+      "start": "08:25",
+      "end": "08:26",
+      "speaker": "Depoente",
+      "text": "A Dona Neide."
+    },
+    {
+      "start": "08:31",
+      "end": "08:33",
+      "speaker": "Interrogador",
+      "text": "Eu não me lembro se eu anotei, quanto tempo ele substituiu o Claudemir?"
+    },
+    {
+      "start": "08:34",
+      "end": "08:35",
+      "speaker": "Interrogador",
+      "text": "Já respondeu, quatro meses."
+    },
+    {
+      "start": "08:35",
+      "end": "08:36",
+      "speaker": "Advogada",
+      "text": "Já respondeu. Sem mais, obrigada."
+    },
+    {
+      "start": "08:37",
+      "end": "08:39",
+      "speaker": "Interrogador",
+      "text": "Mais alguma pergunta em relação aos demais temas?"
+    },
+    {
+      "start": "08:39",
+      "end": "08:44",
+      "speaker": "Advogada",
+      "text": "Então, nós não falamos da perícia, né? A gente não vai fazer. Perfeito, pode seguir. Obrigado."
+    },
+    {
+      "start": "08:45",
+      "end": "08:48",
+      "speaker": "Interrogador",
+      "text": "Senhor Wagner, obrigado pelo seu depoimento, pode guardar ao lado do seu advogado, tá bom?"
+    },
+    {
+      "start": "08:48",
+      "end": "08:49",
+      "speaker": "Depoente",
+      "text": "Eu agradeço."
+    }
+  ]
+}

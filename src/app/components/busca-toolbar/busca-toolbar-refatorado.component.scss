@@ -1,0 +1,199 @@
+// Toolbar refatorada com design moderno
+.busca-toolbar {
+  @apply flex items-center justify-between gap-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm;
+  
+  .busca-section {
+    @apply flex-1 max-w-lg;
+    
+    .busca-input-group {
+      @apply flex items-center gap-3;
+      
+      .input-wrapper {
+        @apply relative flex-1;
+        
+        .input-icon {
+          @apply absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm;
+        }
+        
+        .busca-input {
+          @apply w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-md;
+          @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+          @apply text-sm transition-all duration-200;
+          
+          &::placeholder {
+            @apply text-gray-400;
+          }
+          
+          &:focus {
+            @apply shadow-md;
+          }
+        }
+        
+        .btn-clear-search {
+          @apply absolute right-3 top-1/2 transform -translate-y-1/2;
+          @apply w-5 h-5 flex items-center justify-center;
+          @apply text-gray-400 hover:text-gray-600 cursor-pointer;
+          @apply opacity-0 transition-opacity duration-200;
+          background: none;
+          border: none;
+          
+          &.visible {
+            @apply opacity-100;
+          }
+          
+          i {
+            @apply text-xs;
+          }
+        }
+      }
+      
+      .busca-resultados {
+        @apply flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-md border border-blue-200;
+        
+        .resultados-badge {
+          @apply text-xs font-medium text-blue-700 bg-blue-100 px-2 py-0.5 rounded;
+        }
+        
+        .navegacao-buttons {
+          @apply flex gap-1;
+          
+          .btn-nav {
+            @apply w-6 h-6 flex items-center justify-center;
+            @apply bg-white border border-blue-300 rounded text-blue-600;
+            @apply hover:bg-blue-50 transition-colors duration-150;
+            @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white;
+            
+            &.prev:not(:disabled):hover {
+              @apply bg-blue-100;
+            }
+            
+            &.next:not(:disabled):hover {
+              @apply bg-blue-100;
+            }
+            
+            i {
+              @apply text-xs;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .view-controls {
+    @apply flex items-center gap-3;
+    
+    .view-info {
+      @apply flex items-center gap-2 text-sm text-gray-600;
+      
+      i {
+        @apply text-blue-500;
+      }
+      
+      .view-mode-label {
+        @apply font-medium text-gray-700;
+      }
+    }
+    
+    .btn-toggle-view {
+      @apply flex items-center gap-2 px-3 py-2 text-sm font-medium;
+      @apply bg-gray-100 text-gray-700 border border-gray-300 rounded-md;
+      @apply hover:bg-gray-200 hover:border-gray-400 transition-all duration-200;
+      @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
+      
+      i {
+        @apply text-sm text-blue-600;
+      }
+      
+      span {
+        @apply hidden sm:inline;
+      }
+      
+      &:active {
+        @apply bg-gray-300 scale-95;
+      }
+    }
+  }
+}
+
+// Responsivo
+@media (max-width: 768px) {
+  .busca-toolbar {
+    @apply flex-col gap-3 p-3;
+    
+    .busca-section {
+      @apply w-full max-w-none;
+      
+      .busca-input-group {
+        @apply flex-col gap-2;
+        
+        .input-wrapper {
+          @apply w-full;
+        }
+        
+        .busca-resultados {
+          @apply w-full justify-center;
+        }
+      }
+    }
+    
+    .view-controls {
+      @apply w-full justify-between;
+      
+      .view-info {
+        @apply flex-1;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .busca-toolbar {
+    .view-info {
+      .view-mode-label {
+        @apply hidden;
+      }
+    }
+    
+    .btn-toggle-view {
+      span {
+        @apply hidden;
+      }
+    }
+  }
+}
+
+// Estados de foco e hover melhorados
+.busca-toolbar {
+  .busca-input {
+    &:hover {
+      @apply border-gray-400;
+    }
+  }
+  
+  .btn-toggle-view:hover {
+    @apply shadow-sm;
+    transform: translateY(-1px);
+  }
+  
+  .navegacao-buttons .btn-nav:hover:not(:disabled) {
+    transform: translateY(-1px);
+    @apply shadow-sm;
+  }
+}
+
+// Animações suaves
+.busca-resultados {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

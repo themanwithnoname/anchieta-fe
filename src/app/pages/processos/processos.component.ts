@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModalTranscricaoComponent, DialogoTranscricao } from '../../components/modal-transcricao/modal-transcricao.component';
+import { Router } from '@angular/router';
+import { DialogoTranscricao } from '../../transcricao/models/transcricao.types';
 
 export interface ProcessoTrabalhista {
   id: string;
@@ -21,7 +22,7 @@ export interface ProcessoTrabalhista {
 @Component({
   selector: 'app-processos',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalTranscricaoComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './processos.component.html',
   styleUrls: ['./processos.component.scss']
 })
@@ -36,14 +37,13 @@ export class ProcessosComponent implements OnInit {
   
   // Paginação
   paginaAtual = 1;
-  itensPorPagina = 10;
+  itensPorPagina = 20;
   
   // Visualização
   visualizacao: 'cards' | 'lista' = 'lista';
 
-  // Modal
-  modalVisivel = false;
-  processoSelecionado: ProcessoTrabalhista | null = null;
+
+  private router = inject(Router);
 
   constructor() {}
 
@@ -59,28 +59,29 @@ export class ProcessosComponent implements OnInit {
       this.processos = [
         {
           id: '1',
-          numeroProcesso: '0000123-45.2024.5.02.0001',
-          assunto: 'Rescisão Indireta - Falta de Pagamento',
-          requerente: 'João Silva Santos',
-          requerido: 'Empresa ABC Ltda',
+          numeroProcesso: '1001234-56.2023.5.02.0001',
+          assunto: 'Cobrança de Verbas Rescisórias',
+          requerente: 'Dr. João Silva (Médico)',
+          requerido: 'Fundação ABC',
           dataAudiencia: new Date('2024-01-15T14:30:00'),
-          duracaoVideo: '01:45:32',
+          duracaoVideo: '13:19',
           statusTranscricao: 'concluido',
           percentualTranscricao: 100,
-          arquivoVideo: 'video_123.mp4',
-          arquivoTranscricao: 'transcricao_123.txt'
+          arquivoVideo: '01d83e38-77b9-4185-80e1-020c2e23b9c9.mp4',
+          arquivoTranscricao: '01d83e38-77b9-4185-80e1-020c2e23b9c9.txt'
         },
         {
           id: '2',
-          numeroProcesso: '0000456-78.2024.5.02.0001',
-          assunto: 'Horas Extras - Banco de Horas',
-          requerente: 'Maria Oliveira Costa',
-          requerido: 'Indústria XYZ S/A',
+          numeroProcesso: '1002345-67.2023.5.02.0002',
+          assunto: 'Função Acumulada - PCP/Manufatura',
+          requerente: 'Wagner Santos Silva',
+          requerido: 'GTEX Indústria S/A',
           dataAudiencia: new Date('2024-01-16T09:00:00'),
-          duracaoVideo: '02:15:45',
-          statusTranscricao: 'transcrevendo',
-          percentualTranscricao: 65,
-          arquivoVideo: 'video_456.mp4'
+          duracaoVideo: '08:49',
+          statusTranscricao: 'concluido',
+          percentualTranscricao: 100,
+          arquivoVideo: '0b451510-12da-4282-8a84-a900d5cc495d.mp4',
+          arquivoTranscricao: '0b451510-12da-4282-8a84-a900d5cc495d.txt'
         },
         {
           id: '3',
@@ -155,6 +156,218 @@ export class ProcessosComponent implements OnInit {
           statusTranscricao: 'pendente',
           percentualTranscricao: 0,
           arquivoVideo: 'video_678.mp4'
+        },
+        {
+          id: '9',
+          numeroProcesso: '0000901-23.2024.5.02.0001',
+          assunto: 'Adicional Noturno',
+          requerente: 'Marcos Paulo Ferreira',
+          requerido: 'Segurança 24h Ltda',
+          dataAudiencia: new Date('2024-01-24T08:30:00'),
+          duracaoVideo: '01:28:15',
+          statusTranscricao: 'concluido',
+          percentualTranscricao: 100,
+          arquivoVideo: 'video_901.mp4',
+          arquivoTranscricao: 'transcricao_901.txt'
+        },
+        {
+          id: '10',
+          numeroProcesso: '0000234-56.2024.5.02.0002',
+          assunto: 'Verbas Rescisórias - Aviso Prévio',
+          requerente: 'Gabriela Costa Lima',
+          requerido: 'Farmácia Vida S/A',
+          dataAudiencia: new Date('2024-01-25T14:15:00'),
+          duracaoVideo: '02:05:42',
+          statusTranscricao: 'transcrevendo',
+          percentualTranscricao: 45,
+          arquivoVideo: 'video_234.mp4'
+        },
+        {
+          id: '11',
+          numeroProcesso: '0000456-78.2024.5.02.0003',
+          assunto: 'Estabilidade Gestante',
+          requerente: 'Amanda Silva Rodrigues',
+          requerido: 'Textil Norte Ltda',
+          dataAudiencia: new Date('2024-01-26T10:00:00'),
+          duracaoVideo: '01:52:30',
+          statusTranscricao: 'pendente',
+          percentualTranscricao: 0,
+          arquivoVideo: 'video_456.mp4'
+        },
+        {
+          id: '12',
+          numeroProcesso: '0000567-89.2024.5.02.0004',
+          assunto: 'Adicional de Periculosidade',
+          requerente: 'Rafael Almeida Santos',
+          requerido: 'Petroquímica Sul S/A',
+          dataAudiencia: new Date('2024-01-29T15:45:00'),
+          duracaoVideo: '02:18:55',
+          statusTranscricao: 'erro',
+          percentualTranscricao: 15,
+          arquivoVideo: 'video_567.mp4',
+          observacoes: 'Interferência na gravação'
+        },
+        {
+          id: '13',
+          numeroProcesso: '0000789-12.2024.5.02.0005',
+          assunto: 'Licença Paternidade - Diferenças',
+          requerente: 'Thiago Oliveira Souza',
+          requerido: 'Construtora Alpha Ltda',
+          dataAudiencia: new Date('2024-01-30T09:15:00'),
+          duracaoVideo: '01:35:20',
+          statusTranscricao: 'concluido',
+          percentualTranscricao: 100,
+          arquivoVideo: 'video_789.mp4',
+          arquivoTranscricao: 'transcricao_789.txt'
+        },
+        {
+          id: '14',
+          numeroProcesso: '0000890-34.2024.5.02.0006',
+          assunto: 'PLR - Participação nos Lucros',
+          requerente: 'Carla Beatriz Machado',
+          requerido: 'Metalúrgica Beta S/A',
+          dataAudiencia: new Date('2024-02-01T13:30:00'),
+          duracaoVideo: '01:42:18',
+          statusTranscricao: 'transcrevendo',
+          percentualTranscricao: 72,
+          arquivoVideo: 'video_890.mp4'
+        },
+        {
+          id: '15',
+          numeroProcesso: '0000123-45.2024.5.02.0007',
+          assunto: 'Terceirização Ilícita',
+          requerente: 'Eduardo Pereira Castro',
+          requerido: 'Serviços Gamma Ltda',
+          dataAudiencia: new Date('2024-02-02T11:00:00'),
+          duracaoVideo: '03:15:45',
+          statusTranscricao: 'pendente',
+          percentualTranscricao: 0,
+          arquivoVideo: 'video_123.mp4'
+        },
+        {
+          id: '16',
+          numeroProcesso: '0000345-67.2024.5.02.0008',
+          assunto: 'Doença Ocupacional - Nexo Causal',
+          requerente: 'Patrícia Fernandes Lima',
+          requerido: 'Indústria Delta Ltda',
+          dataAudiencia: new Date('2024-02-05T14:45:00'),
+          duracaoVideo: '02:28:12',
+          statusTranscricao: 'concluido',
+          percentualTranscricao: 100,
+          arquivoVideo: 'video_345.mp4',
+          arquivoTranscricao: 'transcricao_345.txt'
+        },
+        {
+          id: '17',
+          numeroProcesso: '0000456-78.2024.5.02.0009',
+          assunto: 'Reintegração - Estabilidade Sindical',
+          requerente: 'José Carlos Barbosa',
+          requerido: 'Transportes Epsilon S/A',
+          dataAudiencia: new Date('2024-02-06T08:00:00'),
+          duracaoVideo: '01:58:35',
+          statusTranscricao: 'transcrevendo',
+          percentualTranscricao: 38,
+          arquivoVideo: 'video_456.mp4'
+        },
+        {
+          id: '18',
+          numeroProcesso: '0000678-90.2024.5.02.0010',
+          assunto: 'Banco de Horas - Compensação',
+          requerente: 'Renata Souza Oliveira',
+          requerido: 'Call Center Zeta Ltda',
+          dataAudiencia: new Date('2024-02-07T16:15:00'),
+          duracaoVideo: '01:25:48',
+          statusTranscricao: 'erro',
+          percentualTranscricao: 8,
+          arquivoVideo: 'video_678.mp4',
+          observacoes: 'Arquivo corrompido'
+        },
+        {
+          id: '19',
+          numeroProcesso: '0000789-01.2024.5.02.0011',
+          assunto: 'Diferenças Salariais - Desvio de Função',
+          requerente: 'Bruno Henrique Alves',
+          requerido: 'Hospital Eta S/A',
+          dataAudiencia: new Date('2024-02-08T10:30:00'),
+          duracaoVideo: '02:12:22',
+          statusTranscricao: 'pendente',
+          percentualTranscricao: 0,
+          arquivoVideo: 'video_789.mp4'
+        },
+        {
+          id: '20',
+          numeroProcesso: '0000890-12.2024.5.02.0012',
+          assunto: 'Adicional de Transferência',
+          requerente: 'Juliana Castro Santos',
+          requerido: 'Banco Theta S/A',
+          dataAudiencia: new Date('2024-02-09T15:00:00'),
+          duracaoVideo: '01:38:17',
+          statusTranscricao: 'concluido',
+          percentualTranscricao: 100,
+          arquivoVideo: 'video_890.mp4',
+          arquivoTranscricao: 'transcricao_890.txt'
+        },
+        {
+          id: '21',
+          numeroProcesso: '0000123-34.2024.5.02.0013',
+          assunto: 'Férias Proporcionais - Terço Constitucional',
+          requerente: 'Felipe Rodrigues Costa',
+          requerido: 'Educacional Iota Ltda',
+          dataAudiencia: new Date('2024-02-12T09:45:00'),
+          duracaoVideo: '01:45:55',
+          statusTranscricao: 'transcrevendo',
+          percentualTranscricao: 67,
+          arquivoVideo: 'video_123.mp4'
+        },
+        {
+          id: '22',
+          numeroProcesso: '0000345-56.2024.5.02.0014',
+          assunto: 'Danos Materiais - Acidente Trajeto',
+          requerente: 'Vanessa Lima Pereira',
+          requerido: 'Logística Kappa S/A',
+          dataAudiencia: new Date('2024-02-13T14:20:00'),
+          duracaoVideo: '02:35:41',
+          statusTranscricao: 'pendente',
+          percentualTranscricao: 0,
+          arquivoVideo: 'video_345.mp4'
+        },
+        {
+          id: '23',
+          numeroProcesso: '0000567-78.2024.5.02.0015',
+          assunto: 'Equipamentos de Proteção - Fornecimento',
+          requerente: 'Diego Santos Silva',
+          requerido: 'Mineração Lambda Ltda',
+          dataAudiencia: new Date('2024-02-14T11:15:00'),
+          duracaoVideo: '01:52:28',
+          statusTranscricao: 'concluido',
+          percentualTranscricao: 100,
+          arquivoVideo: 'video_567.mp4',
+          arquivoTranscricao: 'transcricao_567.txt'
+        },
+        {
+          id: '24',
+          numeroProcesso: '0000789-90.2024.5.02.0016',
+          assunto: 'Trabalho Intermitente - Diferenças',
+          requerente: 'Camila Oliveira Souza',
+          requerido: 'Eventos Mu Ltda',
+          dataAudiencia: new Date('2024-02-15T13:00:00'),
+          duracaoVideo: '01:28:35',
+          statusTranscricao: 'transcrevendo',
+          percentualTranscricao: 91,
+          arquivoVideo: 'video_789.mp4'
+        },
+        {
+          id: '25',
+          numeroProcesso: '0000890-01.2024.5.02.0017',
+          assunto: 'Auxílio Creche - Reembolso',
+          requerente: 'Anderson Ferreira Lima',
+          requerido: 'Tecnologia Nu S/A',
+          dataAudiencia: new Date('2024-02-16T16:45:00'),
+          duracaoVideo: '01:15:42',
+          statusTranscricao: 'erro',
+          percentualTranscricao: 22,
+          arquivoVideo: 'video_890.mp4',
+          observacoes: 'Problemas técnicos na gravação'
         }
       ];
       
@@ -245,39 +458,18 @@ export class ProcessosComponent implements OnInit {
     alert('Funcionalidade de importação do PJe será implementada.');
   }
 
-  visualizarProcesso(processo: ProcessoTrabalhista): void {
-    this.processoSelecionado = processo;
-    this.modalVisivel = true;
-  }
-
-  fecharModal(): void {
-    this.modalVisivel = false;
-    this.processoSelecionado = null;
-  }
-
-  salvarTranscricao(dialogos: DialogoTranscricao[]): void {
-    console.log('Salvando transcrição:', dialogos);
-    // Aqui você implementaria a lógica para salvar no backend
-    alert('Transcrição salva com sucesso!');
-  }
 
   gerenciarTranscricao(processo: ProcessoTrabalhista): void {
-    if (processo.statusTranscricao === 'concluido') {
-      // Download da transcrição
-      alert(`Download da transcrição do processo: ${processo.numeroProcesso}`);
-    } else if (processo.statusTranscricao === 'pendente') {
-      // Iniciar transcrição
-      processo.statusTranscricao = 'transcrevendo';
-      processo.percentualTranscricao = 0;
-      
-      // Simulação de progresso
-      this.simularProgresso(processo);
-    } else if (processo.statusTranscricao === 'erro') {
-      // Tentar novamente
-      processo.statusTranscricao = 'transcrevendo';
-      processo.percentualTranscricao = 0;
-      this.simularProgresso(processo);
-    }
+    this.router.navigate(['/detalhe-processo', processo.numeroProcesso]);
+  }
+
+  copiarNumeroProcesso(numeroProcesso: string): void {
+    navigator.clipboard.writeText(numeroProcesso).then(() => {
+      // Feedback visual opcional - pode ser um toast ou alert
+      console.log('Número do processo copiado:', numeroProcesso);
+    }).catch(err => {
+      console.error('Erro ao copiar número do processo:', err);
+    });
   }
 
   private simularProgresso(processo: ProcessoTrabalhista): void {

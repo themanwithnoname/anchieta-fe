@@ -1,9 +1,6 @@
-<aside class="sidebar" [class.collapsed]="isCollapsed">
+<aside class="sidebar">
   <div class="sidebar-header">
-    <h3 class="sidebar-title" *ngIf="!isCollapsed">Menu</h3>
-    <button class="collapse-btn" (click)="toggleCollapse()">
-      <i class="fas" [class.fa-chevron-left]="!isCollapsed" [class.fa-chevron-right]="isCollapsed"></i>
-    </button>
+    <h3 class="sidebar-title">Menu</h3>
   </div>
   
   <nav class="sidebar-nav">
@@ -11,42 +8,21 @@
       <li class="nav-item">
         <a routerLink="/home" routerLinkActive="active" class="nav-link">
           <i class="fas fa-home"></i>
-          <span class="nav-text" *ngIf="!isCollapsed">Início</span>
-        </a>
-      </li>
-      
-      <li class="nav-item">
-        <a routerLink="/about" routerLinkActive="active" class="nav-link">
-          <i class="fas fa-info-circle"></i>
-          <span class="nav-text" *ngIf="!isCollapsed">Sobre</span>
+          <span class="nav-text">Início</span>
         </a>
       </li>
       
       <li class="nav-item">
         <a routerLink="/processos" routerLinkActive="active" class="nav-link">
           <i class="fas fa-gavel"></i>
-          <span class="nav-text" *ngIf="!isCollapsed">Processos</span>
+          <span class="nav-text">Processos</span>
         </a>
       </li>
       
       <li class="nav-item">
         <a href="#" class="nav-link">
           <i class="fas fa-chart-bar"></i>
-          <span class="nav-text" *ngIf="!isCollapsed">Dashboard</span>
-        </a>
-      </li>
-      
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-          <i class="fas fa-users"></i>
-          <span class="nav-text" *ngIf="!isCollapsed">Usuários</span>
-        </a>
-      </li>
-      
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-          <i class="fas fa-cog"></i>
-          <span class="nav-text" *ngIf="!isCollapsed">Configurações</span>
+          <span class="nav-text">Dashboard</span>
         </a>
       </li>
     </ul>

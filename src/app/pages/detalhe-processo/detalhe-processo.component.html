@@ -1,0 +1,215 @@
+<div class="detalhe-processo">
+  <div class="page-header">
+    <h1 class="titulo">Detalhe do processo: {{ numeroProcesso() }}</h1>
+  </div>
+  
+  @if (carregando()) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Carregando transcrição...</p>
+    </div>
+  } @else {
+    <div class="transcricao-layout">
+      <!-- Painel Central - Transcrição -->
+    <div class="painel-transcricao">
+      <div class="transcricao-header">
+        <div class="controles-transcricao">
+          <button class="btn-controle" (click)="toggleReproducao()">
+            <i [class]="reproduzindo() ? 'fas fa-pause' : 'fas fa-play'"></i>
+          </button>
+          
+          <div class="barra-progresso" (click)="navegarParaTempo($event)">
+            <div class="progresso" [style.width]="progressoPercent() + '%'"></div>
+          </div>
+          
+          <span class="tempo-atual">{{ formatarTimestamp(timestampAtual()) }}</span>
+        </div>
+        
+        <div class="ferramentas-transcricao">
+          @if (participanteFiltrado()) {
+            <div class="filtro-ativo">
+              <span>Filtrado: {{ obterNomeParticipanteFiltrado() }}</span>
+              <button class="btn-limpar-filtro" (click)="limparFiltro()" title="Limpar filtro">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          }
+          <button class="btn-ferramenta" (click)="toggleBusca()">
+            <i class="fas fa-search"></i>
+          </button>
+          <button class="btn-ferramenta" (click)="toggleEdicao()">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn-ferramenta" (click)="salvarTranscricao()">
+            <i class="fas fa-save"></i>
+          </button>
+        </div>
+      </div>
+
+      @if (mostrarBusca()) {
+        <div class="busca-container">
+          <input type="text" 
+                 placeholder="Buscar na transcrição..." 
+                 [(ngModel)]="termoBusca"
+                 (input)="buscarNaTranscricao()"
+                 class="input-busca">
+          <div class="resultados-busca">
+            {{ resultadosBusca() }} resultados encontrados
+          </div>
+        </div>
+      }
+
+      <div class="dialogos-container" #dialogosContainer>
+        @for (dialogo of obterDialogosParaExibicao(); track dialogo.id) {
+          <div class="dialogo-item" 
+               [class.ativo]="dialogo.timestampInicio <= timestampAtual() && timestampAtual() < dialogo.timestampFim"
+               [class.editando]="dialogoEditando() === dialogo.id"
+               [class.reproduzindo-segmento]="reproduzindoSegmento()"
+               [class.contexto]="dialogo.isContexto"
+               [class.principal]="!dialogo.isContexto && participanteFiltrado()"
+               [style.border-left-color]="dialogo.participanteObj?.cor"
+               (click)="reproduzirDialogo(dialogo)"
+               title="Clique para reproduzir este diálogo">
+            
+            <div class="dialogo-header">
+              <div class="participante-info">
+                <select [(ngModel)]="dialogo.participanteId" 
+                        (change)="atualizarParticipante(dialogo)"
+                        [disabled]="!modoEdicao()"
+                        class="select-participante">
+                  @for (participante of participantes(); track participante.id) {
+                    <option [value]="participante.id">{{ participante.nome }}</option>
+                  }
+                </select>
+                <span class="papel">{{ dialogo.participanteObj?.papel }}</span>
+              </div>
+              
+              <div class="dialogo-meta">
+                <span class="timestamp" (click)="navegarPara(dialogo.timestampInicio)">
+                  {{ formatarTimestamp(dialogo.timestampInicio) }}
+                </span>
+                <span class="confianca" [class]="'confianca-' + dialogo.nivelConfianca">
+                  {{ dialogo.percentualConfianca }}%
+                </span>
+              </div>
+            </div>
+
+            <div class="dialogo-texto">
+              @if (dialogoEditando() === dialogo.id) {
+                <textarea [(ngModel)]="dialogo.texto"
+                          (blur)="salvarEdicaoDialogo(dialogo)"
+                          (keydown.enter)="salvarEdicaoDialogo(dialogo)"
+                          class="textarea-edicao"></textarea>
+              } @else {
+                <p (dblclick)="iniciarEdicao(dialogo)" 
+                   [innerHTML]="destacarBusca(dialogo.texto)"></p>
+              }
+            </div>
+
+            @if (dialogo.observacoes) {
+              <div class="observacoes">
+                <i class="fas fa-sticky-note"></i>
+                {{ dialogo.observacoes }}
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Painel Direito - Vídeo + Chat -->
+    <div class="painel-lateral">
+      <!-- Seção Vídeo -->
+      <div class="secao-video">
+        <div class="video-container">
+          <video #videoPlayer 
+                 [src]="urlVideo()" 
+                 (timeupdate)="atualizarTempo($event)"
+                 (loadedmetadata)="videoCarregado($event)"
+                 controls>
+            Seu navegador não suporta vídeo.
+          </video>
+        </div>
+      </div>
+
+      <!-- Seção Participantes -->
+      <div class="secao-participantes">
+        <h4>Participantes</h4>
+        <div class="lista-participantes">
+          @for (participante of participantes(); track participante.id) {
+            <div class="participante-item" 
+                 [class.ativo]="participanteFiltrado() === participante.id"
+                 [style.border-left-color]="participante.cor"
+                 (click)="filtrarPorParticipante(participante.id)"
+                 title="Clique para filtrar conversas deste participante">
+              <div class="participante-info">
+                @if (participanteEditando() === participante.id) {
+                  <div class="dados-participante">
+                    <input type="text" 
+                           [(ngModel)]="nomeEditando"
+                           (blur)="salvarEdicaoParticipante(participante)"
+                           (keydown.enter)="salvarEdicaoParticipante(participante)"
+                           class="input-nome-edicao"
+                           #inputNome>
+                    <input type="text" 
+                           [(ngModel)]="papelEditando"
+                           (blur)="salvarEdicaoParticipante(participante)"
+                           (keydown.enter)="salvarEdicaoParticipante(participante)"
+                           class="input-papel-edicao">
+                  </div>
+                } @else {
+                  <div class="dados-participante">
+                    <span class="nome">{{ participante.nome }}</span>
+                    <span class="papel">{{ participante.papel }}</span>
+                  </div>
+                }
+                <button class="btn-editar-participante" 
+                        (click)="iniciarEdicaoParticipante(participante)"
+                        title="Editar participante">
+                  <i class="fas fa-pen"></i>
+                </button>
+              </div>
+              <div class="estatisticas">
+                <span class="tempo-fala">{{ calcularTempoFala(participante.id) }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Seção Chat -->
+      <div class="secao-chat">
+        <div class="chat-header">
+          <h4>Chat de Dúvidas</h4>
+          <button class="btn-limpar-chat" (click)="limparChat()">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        
+        <div class="chat-mensagens" #chatContainer>
+          @for (mensagem of mensagensChat(); track mensagem.id) {
+            <div class="mensagem" [class.propria]="mensagem.proprio">
+              <div class="mensagem-header">
+                <span class="autor">{{ mensagem.autor }}</span>
+                <span class="horario">{{ formatarHora(mensagem.timestamp) }}</span>
+              </div>
+              <div class="mensagem-texto">{{ mensagem.texto }}</div>
+            </div>
+          }
+        </div>
+
+        <div class="chat-input">
+          <input type="text" 
+                 placeholder="Digite sua dúvida..."
+                 [(ngModel)]="novaMensagem"
+                 (keydown.enter)="enviarMensagem()"
+                 class="input-mensagem">
+          <button class="btn-enviar" (click)="enviarMensagem()">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>
+  }
+</div>

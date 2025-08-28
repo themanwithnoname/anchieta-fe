@@ -19,14 +19,6 @@
           (input)="aplicarFiltros()"
         >
       </div>
-      <button class="btn btn-primary" (click)="atualizarProcessos()">
-        <i class="fas fa-sync-alt"></i>
-        Atualizar
-      </button>
-      <button class="btn btn-success" (click)="importarProcessos()">
-        <i class="fas fa-download"></i>
-        Importar do PJe
-      </button>
     </div>
   </div>
 
@@ -75,36 +67,6 @@
 
   <!-- Lista de Processos -->
   <div class="processos-list">
-    <div class="list-header">
-      <h2>
-        <i class="fas fa-list"></i>
-        Lista de Processos
-      </h2>
-      <div class="list-controls">
-        <select [(ngModel)]="itensPorPagina" (change)="aplicarFiltros()" class="items-per-page">
-          <option value="10">10 por página</option>
-          <option value="25">25 por página</option>
-          <option value="50">50 por página</option>
-        </select>
-        
-        <div class="view-toggle">
-          <button 
-            class="view-btn" 
-            [class.active]="visualizacao === 'cards'"
-            (click)="alterarVisualizacao('cards')"
-          >
-            <i class="fas fa-th"></i>
-          </button>
-          <button 
-            class="view-btn" 
-            [class.active]="visualizacao === 'lista'"
-            (click)="alterarVisualizacao('lista')"
-          >
-            <i class="fas fa-list"></i>
-          </button>
-        </div>
-      </div>
-    </div>
 
     <!-- Loading -->
     <div *ngIf="carregando" class="loading">
@@ -165,10 +127,6 @@
         </div>
 
         <div class="card-actions">
-          <button class="btn btn-sm btn-outline" (click)="visualizarProcesso(processo)">
-            <i class="fas fa-eye"></i>
-            Visualizar
-          </button>
           <button 
             class="btn btn-sm btn-primary" 
             (click)="gerenciarTranscricao(processo)"
@@ -192,14 +150,29 @@
             <th>Data Audiência</th>
             <th>Status</th>
             <th>Progresso</th>
-            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let processo of processosFiltrados" [class]="'status-' + processo.statusTranscricao">
             <td class="processo-numero">
-              <i class="fas fa-file-alt"></i>
-              {{ processo.numeroProcesso }}
+              <button 
+                class="btn-transcricao" 
+                (click)="gerenciarTranscricao(processo)"
+                [disabled]="processo.statusTranscricao === 'transcrevendo'"
+                [title]="processo.statusTranscricao === 'concluido' ? 'Abrir transcrição' : 'Iniciar transcrição'"
+              >
+                <i class="fas fa-file-alt"></i>
+              </button>
+              <div class="numero-processo">
+                {{ processo.numeroProcesso }}
+                <button 
+                  class="btn-copiar-numero"
+                  (click)="copiarNumeroProcesso(processo.numeroProcesso)"
+                  title="Copiar número do processo"
+                >
+                  <i class="fas fa-copy"></i>
+                </button>
+              </div>
             </td>
             <td class="assunto">{{ processo.assunto }}</td>
             <td class="partes">
@@ -219,18 +192,6 @@
                 <span class="progress-text">{{ processo.percentualTranscricao }}%</span>
               </div>
               <span *ngIf="processo.statusTranscricao !== 'transcrevendo'">-</span>
-            </td>
-            <td class="acoes">
-              <button class="btn btn-sm btn-outline" (click)="visualizarProcesso(processo)">
-                <i class="fas fa-eye"></i>
-              </button>
-              <button 
-                class="btn btn-sm btn-primary" 
-                (click)="gerenciarTranscricao(processo)"
-                [disabled]="processo.statusTranscricao === 'transcrevendo'"
-              >
-                <i [class]="processo.statusTranscricao === 'concluido' ? 'fas fa-download' : 'fas fa-play'"></i>
-              </button>
             </td>
           </tr>
         </tbody>
@@ -271,10 +232,3 @@
   </div>
 </div>
 
-<!-- Modal de Transcrição -->
-<app-modal-transcricao 
-  [isVisible]="modalVisivel"
-  [processo]="processoSelecionado"
-  (fechar)="fecharModal()"
-  (salvar)="salvarTranscricao($event)"
-></app-modal-transcricao>

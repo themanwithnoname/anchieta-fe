@@ -1,0 +1,70 @@
+<!-- Diálogos em Modo Detalhado -->
+<div class="dialogos-detalhados" *ngIf="!modoVisualizacaoCompacto">
+  <div class="dialogo-item" 
+       *ngFor="let dialogo of dialogos; let i = index"
+       [class.dialogo-marcado]="dialogo.marcado"
+       [style.border-left-color]="getCorParticipante(dialogo.participante)">
+    
+    <div class="dialogo-header">
+      <div class="dialogo-identificacao">
+        <button class="btn-trocar-locutor" 
+                (click)="onIniciarTrocaLocutor(i)" 
+                [class.editavel]="!modoEdicaoLocutor">
+          <i class="fas fa-user-edit"></i>
+        </button>
+        <span class="dialogo-participante" 
+              [title]="'Clique para editar: ' + formatarIntervaloTempo(dialogo)"
+              (click)="onAbrirEdicaoLocutor(dialogo.participante)"
+              [class.editavel]="!modoEdicaoLocutor"
+              [style.color]="getCorParticipante(dialogo.participante)">{{ formatarNomeParticipante(dialogo.participante) }}:</span>
+      </div>
+      <div class="dialogo-acoes">
+        <span class="dialogo-tempo">{{ dialogo.timestamp }}</span>
+        <button class="btn-video-dialogo" 
+                (click)="onAbrirVideoEmJanela(dialogo)" 
+                title="Assistir vídeo desta fala">
+          <i class="fas fa-video"></i>
+        </button>
+        <button class="btn-editar" (click)="onEditarDialogo(i)" title="Editar participante"></button>
+        <span class="dialogo-id">#{{ i + 1 }}</span>
+      </div>
+    </div>
+    
+    <div class="dialogo-conteudo" [innerHTML]="destacarTermoBusca(dialogo.texto)">
+    </div>
+    
+    <div class="dialogo-footer" *ngIf="dialogo.alteracoes?.length">
+      <small class="texto-alteracoes">
+        Última alteração: {{ dialogo.alteracoes[dialogo.alteracoes.length - 1].data | date:'dd/MM/yyyy HH:mm' }}
+        por {{ dialogo.alteracoes[dialogo.alteracoes.length - 1].usuario }}
+      </small>
+    </div>
+  </div>
+</div>
+
+<!-- Diálogos em Modo Compacto -->
+<div class="dialogos-compactos" *ngIf="modoVisualizacaoCompacto">
+  <div class="dialogo-compacto" 
+       *ngFor="let dialogo of dialogos; let i = index"
+       [class.dialogo-marcado]="dialogo.marcado"
+       [style.border-left-color]="getCorParticipante(dialogo.participante)">
+    <div class="dialogo-linha">
+      <span class="locutor-compacto" 
+            [style.color]="getCorParticipante(dialogo.participante)">{{ formatarNomeParticipante(dialogo.participante) }}:</span>
+      <span class="texto-compacto" [innerHTML]="destacarTermoBusca(dialogo.texto)"></span>
+      <div class="acoes-compactas">
+        <span class="tempo-compacto">{{ dialogo.timestamp }}</span>
+        <button class="btn-video-compacto" 
+                (click)="onAbrirVideoEmJanela(dialogo)" 
+                title="Assistir vídeo desta fala">
+          <i class="fas fa-video"></i>
+        </button>
+        <button class="btn-editar-compacto" 
+                (click)="onEditarDialogo(i)" 
+                title="Editar participante">
+          <i class="fas fa-edit"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1138 @@
+{
+  "transcription": [
+    {
+      "start": "00:00:27",
+      "end": "00:03:13",
+      "speaker": "Juiz",
+      "text": "O depoimento do senhor está sendo gravado, tá bom?"
+    },
+    {
+      "start": "00:05:07",
+      "end": "00:05:747",
+      "speaker": "Juiz",
+      "text": "Pois não?"
+    },
+    {
+      "start": "00:08:794",
+      "end": "00:12:964",
+      "speaker": "Advogado da Reclamada",
+      "text": "Eh, como o reclamante era acionado para realizar os plantões para as empresas?"
+    },
+    {
+      "start": "00:13:304",
+      "end": "00:14:814",
+      "speaker": "Juiz",
+      "text": "Pode ir respondendo diretamente, tá bom?"
+    },
+    {
+      "start": "00:15:372",
+      "end": "00:27:852",
+      "speaker": "Reclamante",
+      "text": "Ali é assim, eu era funcionário da Fundação ABC. E eles, eles tinham um contato com a UPA lá, com a prefeitura, estado que não compete a mim. A Fundação ABC assinava minha carteira para pagar."
+    },
+    {
+      "start": "00:28:442",
+      "end": "00:41:22",
+      "speaker": "Reclamante",
+      "text": "Entendeu? Eu trabalhei, eu trabalhei lá, entrei na nesse, foi em junho de 2008. Fui mandar embora em 22 de junho de 2022."
+    },
+    {
+      "start": "00:41:404",
+      "end": "00:42:304",
+      "speaker": "Juiz",
+      "text": "Certo. A Fundação ABC?"
+    },
+    {
+      "start": "00:42:504",
+      "end": "00:43:84",
+      "speaker": "Reclamante",
+      "text": "Fundação ABC."
+    },
+    {
+      "start": "00:43:244",
+      "end": "00:43:524",
+      "speaker": "Juiz",
+      "text": "Certo."
+    },
+    {
+      "start": "00:43:724",
+      "end": "00:46:174",
+      "speaker": "Juiz",
+      "text": "O senhor foi contratado para fazer o quê?"
+    },
+    {
+      "start": "00:46:442",
+      "end": "00:47:822",
+      "speaker": "Reclamante",
+      "text": "Para fazer plantões na..."
+    },
+    {
+      "start": "00:48:424",
+      "end": "00:49:104",
+      "speaker": "Juiz",
+      "text": "Plantões?"
+    },
+    {
+      "start": "00:49:582",
+      "end": "00:50:882",
+      "speaker": "Reclamante",
+      "text": "Plantões."
+    },
+    {
+      "start": "00:51:174",
+      "end": "00:51:814",
+      "speaker": "Juiz",
+      "text": "Qual a especialidade?"
+    },
+    {
+      "start": "00:51:992",
+      "end": "00:56:882",
+      "speaker": "Reclamante",
+      "text": "Eu fazia pediatria, às vezes até me pedia para ajudar a fazer plantões em outras outras também."
+    },
+    {
+      "start": "00:57:384",
+      "end": "00:59:74",
+      "speaker": "Juiz",
+      "text": "Como é que o senhor era acionado para os plantões?"
+    },
+    {
+      "start": "00:59:452",
+      "end": "01:00:812",
+      "speaker": "Reclamante",
+      "text": "Ah, a coordenação da UPA."
+    },
+    {
+      "start": "01:01:214",
+      "end": "01:07:34",
+      "speaker": "Juiz",
+      "text": "Então, como que era? Eles, o senhor era chamado pelo WhatsApp, havia uma escala mensal, quinzenal?"
+    },
+    {
+      "start": "01:07:222",
+      "end": "01:09:862",
+      "speaker": "Reclamante",
+      "text": "Não, tinha escala, tinha contrato de, de, o plantões era meu, o plantão..."
+    },
+    {
+      "start": "01:10:294",
+      "end": "01:11:804",
+      "speaker": "Juiz",
+      "text": "Então, e o senhor fazia quantos plantões?"
+    },
+    {
+      "start": "01:12:122",
+      "end": "01:13:962",
+      "speaker": "Reclamante",
+      "text": "Eu fazia a média de seis plantões por semana."
+    },
+    {
+      "start": "01:14:654",
+      "end": "01:16:114",
+      "speaker": "Juiz",
+      "text": "Seis plantões por semana?"
+    },
+    {
+      "start": "01:16:472",
+      "end": "01:17:152",
+      "speaker": "Reclamante",
+      "text": "Semana, isso."
+    },
+    {
+      "start": "01:17:344",
+      "end": "01:19:144",
+      "speaker": "Juiz",
+      "text": "A semana tem sete dias, o senhor trabalhava em seis dias?"
+    },
+    {
+      "start": "01:19:282",
+      "end": "01:21:42",
+      "speaker": "Reclamante",
+      "text": "É, eu fazia domingo noite, segunda dia."
+    },
+    {
+      "start": "01:22:222",
+      "end": "01:27:512",
+      "speaker": "Reclamante",
+      "text": "Aí ia quarta à noite, quinta eu fazia de dia na UPA São João, à noite ia para Cumbica, sexta voltava para São João."
+    },
+    {
+      "start": "01:28:134",
+      "end": "01:30:144",
+      "speaker": "Juiz",
+      "text": "E esses plantões de quantas horas?"
+    },
+    {
+      "start": "01:30:372",
+      "end": "01:31:392",
+      "speaker": "Reclamante",
+      "text": "Eles eram? 12 horas."
+    },
+    {
+      "start": "01:31:694",
+      "end": "01:32:84",
+      "speaker": "Juiz",
+      "text": "12?"
+    },
+    {
+      "start": "01:32:162",
+      "end": "01:32:272",
+      "speaker": "Reclamante",
+      "text": "É."
+    },
+    {
+      "start": "01:32:784",
+      "end": "01:33:434",
+      "speaker": "Juiz",
+      "text": "Pois não?"
+    },
+    {
+      "start": "01:36:584",
+      "end": "01:39:464",
+      "speaker": "Advogado da Reclamada",
+      "text": "Quantos plantões o reclamante fazia pela Saltilis e pela São Francisco?"
+    },
+    {
+      "start": "01:39:774",
+      "end": "01:42:854",
+      "speaker": "Juiz",
+      "text": "O senhor consegue me relatar isso? Quantos plantões o senhor fazia por essas empresas?"
+    },
+    {
+      "start": "01:43:242",
+      "end": "01:47:832",
+      "speaker": "Reclamante",
+      "text": "Olha, eu não tenho contato nenhum com a Saltilis nem com a São Francisco. Eu via no extrato bancário que eu recebia por eles."
+    },
+    {
+      "start": "01:47:832",
+      "end": "01:49:784",
+      "speaker": "Juiz",
+      "text": "Então o senhor nem, não conhece..."
+    },
+    {
+      "start": "01:49:784",
+      "end": "01:51:574",
+      "speaker": "Reclamante",
+      "text": "Não sei, nem conheço, não sabe né? Não tem nem, bota na minha frente não sei quem é."
+    },
+    {
+      "start": "01:51:574",
+      "end": "01:54:194",
+      "speaker": "Juiz",
+      "text": "O contrato meu era com a Fundação ABC."
+    },
+    {
+      "start": "01:54:332",
+      "end": "02:05:42",
+      "speaker": "Reclamante",
+      "text": "Aí eles começaram a, a fundação, parece, que falou alguém, comenta, que a fundação pagava eles, e eles passavam uma parte do dinheiro que a fundação teria que repassar."
+    },
+    {
+      "start": "02:05:42",
+      "end": "02:06:542",
+      "speaker": "Juiz",
+      "text": "Entendi."
+    },
+    {
+      "start": "02:06:542",
+      "end": "02:09:472",
+      "speaker": "Reclamante",
+      "text": "É isso que que me passaram. Mas eu não conheço, nunca vi lá dentro."
+    },
+    {
+      "start": "02:09:472",
+      "end": "02:10:494",
+      "speaker": "Juiz",
+      "text": "Tá. Tá bom."
+    },
+    {
+      "start": "02:11:474",
+      "end": "02:11:934",
+      "speaker": "Juiz",
+      "text": "Pois não?"
+    },
+    {
+      "start": "02:14:484",
+      "end": "02:17:854",
+      "speaker": "Advogado da Reclamada",
+      "text": "É, o reclamante poderia recusar algum plantão? Tinha alguma penalidade caso isso acontecesse?"
+    },
+    {
+      "start": "02:18:244",
+      "end": "02:21:654",
+      "speaker": "Juiz",
+      "text": "O senhor recusava plantões? Chegou a recusar?"
+    },
+    {
+      "start": "02:22:242",
+      "end": "02:23:662",
+      "speaker": "Reclamante",
+      "text": "Eu não era de faltar plantão, não."
+    },
+    {
+      "start": "02:24:414",
+      "end": "02:26:124",
+      "speaker": "Juiz",
+      "text": "E quando recusava, acontecia alguma coisa?"
+    },
+    {
+      "start": "02:26:502",
+      "end": "02:28:132",
+      "speaker": "Reclamante",
+      "text": "Não, ninguém é obrigado a..."
+    },
+    {
+      "start": "02:29:132",
+      "end": "02:35:12",
+      "speaker": "Reclamante",
+      "text": "Eu fazia plantão, ele precisava, me chamava, se eu aceitasse, se eu tinha disponibilidade, eu fazia."
+    },
+    {
+      "start": "02:36:12",
+      "end": "03:14:262",
+      "speaker": "Reclamante",
+      "text": "Eu, e assim, eu fazia, passava visita, eu faço pediatria, eu não faço parte de dei plantão há muito tempo de CTI aqui em outros hospitais, não tem nada a ver com lá, então eu tinha um conhecia os pessoal que trabalhava em CTI em Guarulhos, em vários hospitais, tinha mania de conseguir vaga, tinha isso tudo lá, entendeu? Eu era um bom funcionário lá dentro. Entendeu? Eu tinha, fui, fui duas vezes do, eu respondia pelo, pelo CREMESP, através da UPA, fazia, eu era eh, como é que fala, nessa parte aí de, de, não é a UPA que entrava em contato com o CREMESP, eu era o intermediário com o CREMESP na UPA."
+    },
+    {
+      "start": "03:14:262",
+      "end": "03:26:62",
+      "speaker": "Reclamante",
+      "text": "Tem até uns papéis da, do CREMESP aí me agradecendo pela, entendeu? Fui, fui em votação na UPA, votaram, eu ganhei no negócio. Para fazer essa intermediação."
+    },
+    {
+      "start": "03:26:62",
+      "end": "03:26:894",
+      "speaker": "Juiz",
+      "text": "É, para fazer essa intermediação."
+    },
+    {
+      "start": "03:27:104",
+      "end": "03:27:544",
+      "speaker": "Reclamante",
+      "text": "Entendi."
+    },
+    {
+      "start": "03:27:614",
+      "end": "03:27:854",
+      "speaker": "Juiz",
+      "text": "Entendi."
+    },
+    {
+      "start": "03:28:172",
+      "end": "03:28:502",
+      "speaker": "Reclamante",
+      "text": "Tem em voto."
+    },
+    {
+      "start": "03:28:802",
+      "end": "03:30:382",
+      "speaker": "Reclamante",
+      "text": "Fui duas vezes, entendeu?"
+    },
+    {
+      "start": "03:30:722",
+      "end": "03:32:272",
+      "speaker": "Reclamante",
+      "text": "A minha reclamação aqui é que eu não recebi."
+    },
+    {
+      "start": "03:32:822",
+      "end": "03:35:102",
+      "speaker": "Reclamante",
+      "text": "Eu fui embora, entregou, tá aqui sua demissão e tchau."
+    },
+    {
+      "start": "03:35:934",
+      "end": "03:39:64",
+      "speaker": "Juiz",
+      "text": "Não recebi as verbas rescisórias, aí que eu procurei o advogado."
+    },
+    {
+      "start": "03:39:272",
+      "end": "03:39:622",
+      "speaker": "Reclamante",
+      "text": "Claro."
+    },
+    {
+      "start": "03:39:622",
+      "end": "03:43:172",
+      "speaker": "Reclamante",
+      "text": "A reclamação é só essa, não tem reclamação nenhuma. Só essa."
+    },
+    {
+      "start": "03:44:404",
+      "end": "03:46:834",
+      "speaker": "Juiz",
+      "text": "Houve algum motivo específico para ser dispensado?"
+    },
+    {
+      "start": "03:47:492",
+      "end": "03:48:122",
+      "speaker": "Reclamante",
+      "text": "Nenhum."
+    },
+    {
+      "start": "03:48:474",
+      "end": "03:49:574",
+      "speaker": "Juiz",
+      "text": "Nenhum? Tá bom."
+    },
+    {
+      "start": "03:50:114",
+      "end": "03:50:494",
+      "speaker": "Juiz",
+      "text": "Pois não?"
+    },
+    {
+      "start": "03:51:754",
+      "end": "04:00:204",
+      "speaker": "Advogado da Reclamada",
+      "text": "Excelência, o reclamante afirmou que não teve contato com a Saltilis e com a São Francisco. Eh, existem extratos bancários anexados ao processo que..."
+    },
+    {
+      "start": "04:00:204",
+      "end": "04:03:14",
+      "speaker": "Juiz",
+      "text": "Já falou, que ele só sabia pelos extratos, os nomes."
+    },
+    {
+      "start": "04:03:14",
+      "end": "04:03:774",
+      "speaker": "Reclamante",
+      "text": "Só pelos extratos."
+    },
+    {
+      "start": "04:04:14",
+      "end": "04:11:154",
+      "speaker": "Advogado da Reclamada",
+      "text": "É, o reclamante chegou a questionar a fundação quem, quem era, chegou a perguntar às empresas, entrar em contato pra saber o que se tratava aqueles valores?"
+    },
+    {
+      "start": "04:11:512",
+      "end": "04:15:32",
+      "speaker": "Reclamante",
+      "text": "Essas coisas minhas eu tenho que ter contato com a Fundação, com a prefeitura, meu, meu..."
+    },
+    {
+      "start": "04:15:32",
+      "end": "04:16:12",
+      "speaker": "Juiz",
+      "text": "Eu era plantonista."
+    },
+    {
+      "start": "04:19:644",
+      "end": "04:21:264",
+      "speaker": "Juiz",
+      "text": "Pode responder direto pra mim, não precisa ficar preocupado com ele."
+    },
+    {
+      "start": "04:21:402",
+      "end": "04:22:982",
+      "speaker": "Reclamante",
+      "text": "Eu não vi lá dentro essa pessoa..."
+    },
+    {
+      "start": "04:22:982",
+      "end": "04:23:432",
+      "speaker": "Juiz",
+      "text": "Tá bom."
+    },
+    {
+      "start": "04:24:594",
+      "end": "04:30:24",
+      "speaker": "Juiz",
+      "text": "Então o senhor não tem conhecimento nenhum dessas duas outras empresas, da Saltilis e da São Francisco?"
+    },
+    {
+      "start": "04:27:722",
+      "end": "04:35:172",
+      "speaker": "Reclamante",
+      "text": "Eu vi no extrato bancário que eu estava pagando, que eu estava pagando. Com vários extratos bancários que correspondem aos plantões que eu, te disse que eu a quantidade de plantão que eu fazia e o valor que eu recebia."
+    },
+    {
+      "start": "04:35:564",
+      "end": "05:10:824",
+      "speaker": "Juiz",
+      "text": "É que na verdade hoje, acho que esse é um procedimento meio comum na área da saúde, né? Eles arrumam umas empresas aí, que é uma, terceirização, não é? Organização social, que eles chamam, essas coisas? É, pois aí, tem lugar que a carteira assinada, muito lugar é... É, eu converso com muitos amigos aí que tem empresa, tem amigos aí que tem 500 funcionários. Ele fala, você quer ter um funcionário, você paga, assina a carteira dele. Você não quer, você não assina, que você vai arrumar um problema. É, desse jeito. Esse é o meu segredo de ter um monte de funcionário e ser um grande, um grande empresário. Então é isso, aqui é isso aí, entendeu? Infelizmente, é o que a gente tá vivendo aí."
+    },
+    {
+      "start": "05:11:464",
+      "end": "05:12:124",
+      "speaker": "Juiz",
+      "text": "É verdade."
+    },
+    {
+      "start": "05:12:564",
+      "end": "05:13:44",
+      "speaker": "Juiz",
+      "text": "Pois não?"
+    },
+    {
+      "start": "05:13:304",
+      "end": "05:15:14",
+      "speaker": "Advogado da Reclamada",
+      "text": "Se o reclamante atuou como sócio-cotista."
+    },
+    {
+      "start": "05:15:334",
+      "end": "05:17:154",
+      "speaker": "Juiz",
+      "text": "O senhor foi sócio de uma dessas empresas?"
+    },
+    {
+      "start": "05:20:102",
+      "end": "05:20:532",
+      "speaker": "Reclamante",
+      "text": "Olha..."
+    },
+    {
+      "start": "05:22:232",
+      "end": "05:24:502",
+      "speaker": "Reclamante",
+      "text": "Eles, pode ser que eles tenham assinado algum papel lá, viu?"
+    },
+    {
+      "start": "05:24:874",
+      "end": "05:26:954",
+      "speaker": "Juiz",
+      "text": "Não, quem assinou foi o senhor, se for o caso."
+    },
+    {
+      "start": "05:27:544",
+      "end": "05:29:434",
+      "speaker": "Juiz",
+      "text": "O senhor foi sócio de uma dessas empresas?"
+    },
+    {
+      "start": "05:34:252",
+      "end": "05:39:102",
+      "speaker": "Reclamante",
+      "text": "Olha, o que acontece? A gente tá em São Paulo, essas empresas estão em vários locais em São Paulo, entendeu?"
+    },
+    {
+      "start": "05:39:514",
+      "end": "05:41:884",
+      "speaker": "Juiz",
+      "text": "A pergunta foi simples. O senhor foi sócio de uma dessas empresas?"
+    },
+    {
+      "start": "05:42:312",
+      "end": "05:44:82",
+      "speaker": "Reclamante",
+      "text": "Eu acredito que pode ser que eu tenha sido sócio, sim."
+    },
+    {
+      "start": "05:44:394",
+      "end": "05:44:734",
+      "speaker": "Juiz",
+      "text": "De qual?"
+    },
+    {
+      "start": "05:45:262",
+      "end": "05:48:882",
+      "speaker": "Reclamante",
+      "text": "Pode ser que eu tenha sido de..."
+    },
+    {
+      "start": "05:49:434",
+      "end": "05:51:244",
+      "speaker": "Juiz",
+      "text": "Pô, é uma empresa que tá no nome do senhor e o senhor não sabe?"
+    },
+    {
+      "start": "05:54:192",
+      "end": "05:57:332",
+      "speaker": "Reclamante",
+      "text": "É porque é o seguinte, senhor, a gente dá plantões em um monte de lugar..."
+    },
+    {
+      "start": "05:57:332",
+      "end": "06:01:424",
+      "speaker": "Juiz",
+      "text": "Não, esse aí não me, não, não, não vai me sensibilizar."
+    },
+    {
+      "start": "06:01:424",
+      "end": "06:07:34",
+      "speaker": "Juiz",
+      "text": "Eu quero saber o seguinte, o senhor foi sócio de uma empresa, quero saber o nome da empresa."
+    },
+    {
+      "start": "06:08:972",
+      "end": "06:11:432",
+      "speaker": "Reclamante",
+      "text": "Eu sou sócio de várias empresas em São Paulo."
+    },
+    {
+      "start": "06:11:664",
+      "end": "06:14:834",
+      "speaker": "Reclamante",
+      "text": "Não sei quantas empresas em São Paulo, você dá um plantão, ele fala, ó, paga..."
+    },
+    {
+      "start": "06:14:834",
+      "end": "06:19:354",
+      "speaker": "Juiz",
+      "text": "Para uma dessas duas, o senhor foi sócio? Da Saltilis ou da São Francisco?"
+    },
+    {
+      "start": "06:21:402",
+      "end": "06:23:42",
+      "speaker": "Juiz",
+      "text": "O senhor foi cotista delas?"
+    },
+    {
+      "start": "06:23:712",
+      "end": "06:25:222",
+      "speaker": "Juiz",
+      "text": "O senhor falou que não conhece."
+    },
+    {
+      "start": "06:25:692",
+      "end": "06:27:262",
+      "speaker": "Reclamante",
+      "text": "Eu não conheço as pessoas lá dentro."
+    },
+    {
+      "start": "06:27:544",
+      "end": "06:30:174",
+      "speaker": "Juiz",
+      "text": "Tá, as empresas o senhor conhece então? Então tá mudando um pouco."
+    },
+    {
+      "start": "06:30:174",
+      "end": "06:31:144",
+      "speaker": "Juiz",
+      "text": "O senhor não conhece as pessoas."
+    },
+    {
+      "start": "06:31:144",
+      "end": "06:32:984",
+      "speaker": "Reclamante",
+      "text": "Não, não, não conheço. Não conheço as empresas."
+    },
+    {
+      "start": "06:33:382",
+      "end": "06:39:692",
+      "speaker": "Reclamante",
+      "text": "O que acontece? A pessoa vira e fala assim, ó, para você receber, você tem que, sei lá, assinar isso aqui..."
+    },
+    {
+      "start": "06:39:692",
+      "end": "06:46:872",
+      "speaker": "Juiz",
+      "text": "Ah, é, e o senhor assina? Se eu falar pro senhor que o senhor tem que receber alguma coisa, o senhor vai lá e assina? Sem ler, sem saber o que tá assinando?"
+    },
+    {
+      "start": "06:47:382",
+      "end": "06:51:272",
+      "speaker": "Reclamante",
+      "text": "É, o que acontece aí que é assim, a lei que que rege o país é a CLT, né?"
+    },
+    {
+      "start": "06:51:714",
+      "end": "06:54:14",
+      "speaker": "Juiz",
+      "text": "Não sei. O senhor que tá falando."
+    },
+    {
+      "start": "06:56:912",
+      "end": "07:11:12",
+      "speaker": "Reclamante",
+      "text": "Olha, é assim, eu não, eu não posso te responder porque, eu não, eu não vou te responder uma coisa aqui, que eu posso voltar atrás amanhã. Eu não sei, eu não posso te afirmar que eu era sócio nem que eu não era sócio."
+    },
+    {
+      "start": "07:11:424",
+      "end": "07:12:144",
+      "speaker": "Juiz",
+      "text": "Não pode, né?"
+    },
+    {
+      "start": "07:12:282",
+      "end": "07:23:472",
+      "speaker": "Reclamante",
+      "text": "Eu não posso. Eu tenho que falar para o senhor a realidade. Fui sócio de umas 20 empresas aí que me tiraram, me botaram, me botaram de novo, me tiraram, que já tem um esquema de botar e tirar, entendeu? Você quando assina, já assina até a saída. Tem muitas que são assim."
+    },
+    {
+      "start": "07:25:212",
+      "end": "07:27:822",
+      "speaker": "Juiz",
+      "text": "Então, assim, eu não tenho como te falar... O senhor assinava isso?"
+    },
+    {
+      "start": "07:28:42",
+      "end": "07:46:172",
+      "speaker": "Reclamante",
+      "text": "Assinei, foi, foi um motivo que eu procurei carteira assinada, procurei outros empregos, porque assim, você não tem, você não ganha, você não ganha noturno, você não ganha adicional, você é... Bom, além de não ganhar, o senhor pode perder. Você pode perder. Tem isso. O cara, exatamente. É isso aí, a minha preocupação maior, você entra numa empresa dessa, ela arruma uma dívida, e a dívida ser sua."
+    },
+    {
+      "start": "07:51:304",
+      "end": "07:53:144",
+      "speaker": "Juiz",
+      "text": "Então. É estranho."
+    },
+    {
+      "start": "07:53:724",
+      "end": "08:03:224",
+      "speaker": "Juiz",
+      "text": "O senhor é um sujeito esclarecido, é médico. Se o senhor fosse um peão de obra, eu ficava até assustado, mas um médico me falando isso, eu fico chocado."
+    },
+    {
+      "start": "08:03:702",
+      "end": "08:19:422",
+      "speaker": "Reclamante",
+      "text": "O senhor, eu tenho amigos, com bom respeito, juiz, desembargador, filhos, que assinam também. Filhos de juiz lá que são médicos, né? E eles assinam para uma empresa, para ser sócio? Assina, se não não recebe, senhor."
+    },
+    {
+      "start": "08:19:934",
+      "end": "08:23:664",
+      "speaker": "Juiz",
+      "text": "E a falta de emprego tá grande. Ah, infelizmente, senhor."
+    },
+    {
+      "start": "08:24:14",
+      "end": "08:30:804",
+      "speaker": "Juiz",
+      "text": "Infelizmente com os senhores médicos, eu acho difícil, tá? Mas tudo bem, não vamos, não vamos entrar nessa discussão. Pois não?"
+    },
+    {
+      "start": "08:31:494",
+      "end": "08:32:174",
+      "speaker": "Advogado da Reclamada",
+      "text": "Obrigado, Excelência."
+    },
+    {
+      "start": "08:32:174",
+      "end": "08:32:414",
+      "speaker": "Reclamante",
+      "text": "Obrigado."
+    },
+    {
+      "start": "08:32:894",
+      "end": "08:41:634",
+      "speaker": "Advogada da Reclamada",
+      "text": "Excelência, eh, ele, ele foi, eh, ele, ele prestou serviços pela Saltilis?"
+    },
+    {
+      "start": "08:41:894",
+      "end": "08:43:244",
+      "speaker": "Juiz",
+      "text": "Ele nem sabe, ele não conhece."
+    },
+    {
+      "start": "08:43:554",
+      "end": "08:44:314",
+      "speaker": "Advogada da Reclamada",
+      "text": "Sem mais, então."
+    },
+    {
+      "start": "08:44:604",
+      "end": "08:46:584",
+      "speaker": "Juiz",
+      "text": "A outra, é, São Francisco?"
+    },
+    {
+      "start": "08:47:194",
+      "end": "08:53:144",
+      "speaker": "Advogado da Reclamada",
+      "text": "Excelência, gostaria de saber se ele se recorda o período dos plantões realizados pela São Francisco."
+    },
+    {
+      "start": "08:53:644",
+      "end": "08:56:794",
+      "speaker": "Juiz",
+      "text": "O senhor sabe isso? Nem o senhor não sabe nem quem que é essa empresa."
+    },
+    {
+      "start": "08:58:342",
+      "end": "09:10:492",
+      "speaker": "Reclamante",
+      "text": "Senhor, deixa eu... se o senhor vai me entender. Eu dava plantão ali, o que acontece? A responsabilidade ali, eu tenho carteira assinada, é da, é da Fundação ABC, contratava a prefeitura, isso aí tá no jornal, tá em tudo quanto é lugar. O que acontece? Eles botaram..."
+    },
+    {
+      "start": "09:11:322",
+      "end": "09:23:42",
+      "speaker": "Reclamante",
+      "text": "a, a, a Fundação, eles iam pagando. A partir de um determinado tempo, eles enfiaram as empresas ali. Teve empresa até que enfiaram um mês, teve empresa que enfiaram, ficou... essas aí ficaram, essa São Francisco parece que ficou um ano ali dentro, um ano e meio."
+    },
+    {
+      "start": "09:23:364",
+      "end": "09:24:24",
+      "speaker": "Juiz",
+      "text": "Espera um pouquinho."
+    },
+    {
+      "start": "09:24:24",
+      "end": "09:26:444",
+      "speaker": "Juiz",
+      "text": "Não precisa contar a história inteira, eu só quero saber da São Francisco. E aí?"
+    },
+    {
+      "start": "09:27:144",
+      "end": "09:31:374",
+      "speaker": "Juiz",
+      "text": "Quanto tempo trabalhou por intermédio dessa empresa São Francisco? O senhor sabe me afirmar isso?"
+    },
+    {
+      "start": "09:33:142",
+      "end": "09:34:642",
+      "speaker": "Reclamante",
+      "text": "Ah, acho que foi no mínimo um ano."
+    },
+    {
+      "start": "09:34:874",
+      "end": "09:35:164",
+      "speaker": "Juiz",
+      "text": "Um ano?"
+    },
+    {
+      "start": "09:35:542",
+      "end": "09:36:2",
+      "speaker": "Reclamante",
+      "text": "No mínimo."
+    },
+    {
+      "start": "09:36:2",
+      "end": "09:36:784",
+      "speaker": "Juiz",
+      "text": "Sabe quando?"
+    },
+    {
+      "start": "09:38:622",
+      "end": "09:40:12",
+      "speaker": "Reclamante",
+      "text": "Eu tenho que consultar o processo..."
+    },
+    {
+      "start": "09:40:12",
+      "end": "09:43:974",
+      "speaker": "Juiz",
+      "text": "Não, eu quero saber se o senhor sabe, sem ter juntado no processo. O senhor sabe de cabeça?"
+    },
+    {
+      "start": "09:46:894",
+      "end": "09:48:984",
+      "speaker": "Juiz",
+      "text": "Se não souber, não sabe, e pronto. É..."
+    },
+    {
+      "start": "09:49:182",
+      "end": "09:55:922",
+      "speaker": "Reclamante",
+      "text": "É, eu tenho juntado no processo. Isso, é que eu não quero responder uma coisa pro senhor, e amanhã o senhor vira e fala: senhor respondeu... por isso que o senhor tem que chegar e falar pra mim 'eu não sei'."
+    },
+    {
+      "start": "09:56:4",
+      "end": "09:56:794",
+      "speaker": "Juiz",
+      "text": "É. Simples assim."
+    },
+    {
+      "start": "09:57:132",
+      "end": "10:00:12",
+      "speaker": "Reclamante",
+      "text": "Mas eu, mas eu botei tudo, entreguei na mão do advogado..."
+    },
+    {
+      "start": "09:59:754",
+      "end": "10:00:234",
+      "speaker": "Juiz",
+      "text": "Tudo bem, tá bom."
+    },
+    {
+      "start": "10:00:724",
+      "end": "10:11:534",
+      "speaker": "Advogado da Reclamada",
+      "text": "Excelência, considerando que ele informou esse próximo, esse período de um ano, gostaria de saber se ele sabe informar como eram ofertados esses plantões, como que era o processo de oferta dos plantões pela São Francisco?"
+    },
+    {
+      "start": "10:12:354",
+      "end": "10:14:264",
+      "speaker": "Juiz",
+      "text": "Vamos lá, nós já passamos por esse tema."
+    },
+    {
+      "start": "10:16:114",
+      "end": "10:22:154",
+      "speaker": "Juiz",
+      "text": "Como que eram os plantões? Era o mesmo sistema nesse um ano, esses seis plantões por semana?"
+    },
+    {
+      "start": "10:23:442",
+      "end": "10:32:822",
+      "speaker": "Reclamante",
+      "text": "Olha, é assim, três plantões eu recebi, a metade do plantão eu recebi pela, pela Fundação ABC. A outra metade a Fundação ABC pagava o serviço terceirizado, eles me repassavam o dinheiro."
+    },
+    {
+      "start": "10:33:144",
+      "end": "10:35:544",
+      "speaker": "Juiz",
+      "text": "Tá, eu quero saber, eram seis plantões na semana?"
+    },
+    {
+      "start": "10:35:862",
+      "end": "10:36:202",
+      "speaker": "Reclamante",
+      "text": "Isso."
+    },
+    {
+      "start": "10:36:514",
+      "end": "10:37:924",
+      "speaker": "Juiz",
+      "text": "Também nesse período pela São Francisco?"
+    },
+    {
+      "start": "10:38:632",
+      "end": "10:41:352",
+      "speaker": "Reclamante",
+      "text": "Não, pela São Francisco devia ser três, né? Que eu recebi a metade..."
+    },
+    {
+      "start": "10:41:694",
+      "end": "10:51:744",
+      "speaker": "Juiz",
+      "text": "Então, então, trabalhava três plantões na semana para São Francisco e três plantões pela Fundação ABC? Que no caso era a Fundação ABC que era a coordenadora. Certo. Quem coordenava tudo era..."
+    },
+    {
+      "start": "10:51:744",
+      "end": "10:55:994",
+      "speaker": "Juiz",
+      "text": "E da Saltilis também era a mesma coisa? Três para um, três para outro? Não..."
+    },
+    {
+      "start": "10:56:562",
+      "end": "10:58:322",
+      "speaker": "Reclamante",
+      "text": "Acho que ficou mais tempo ali, viu?"
+    },
+    {
+      "start": "10:58:564",
+      "end": "10:58:804",
+      "speaker": "Juiz",
+      "text": "É?"
+    },
+    {
+      "start": "10:59:222",
+      "end": "11:01:832",
+      "speaker": "Reclamante",
+      "text": "Eu acho que mas eu não lembro exatamente, mas ficou mais tempo ali."
+    },
+    {
+      "start": "11:02:404",
+      "end": "11:05:434",
+      "speaker": "Juiz",
+      "text": "O meu problema é bem maior do que esse, não é isso, não."
+    },
+    {
+      "start": "11:06:584",
+      "end": "11:11:424",
+      "speaker": "Advogado da Reclamada",
+      "text": "Pois não. Na, na realidade, Excelência, seria como eram ofertados. Se tinha algum funcionário da São Francisco que ofertava..."
+    },
+    {
+      "start": "11:11:794",
+      "end": "11:12:614",
+      "speaker": "Juiz",
+      "text": "Era uma escala? Quem que..."
+    },
+    {
+      "start": "11:13:624",
+      "end": "11:16:504",
+      "speaker": "Juiz",
+      "text": "Quem que ofertava para o senhor o plantão pela Saltilis? A coordenação na UPA."
+    },
+    {
+      "start": "11:17:154",
+      "end": "11:18:714",
+      "speaker": "Juiz",
+      "text": "Isso é a coordenação..."
+    },
+    {
+      "start": "11:18:714",
+      "end": "11:25:724",
+      "speaker": "Reclamante",
+      "text": "Que para você dar plantão, você tem que passar, toda coordenação tem que autorizar, tem que te... A coordenação da UPA que fornecia... faz isso."
+    },
+    {
+      "start": "11:25:724",
+      "end": "11:26:264",
+      "speaker": "Juiz",
+      "text": "Tá bom."
+    },
+    {
+      "start": "11:26:774",
+      "end": "11:27:124",
+      "speaker": "Juiz",
+      "text": "Pois não?"
+    },
+    {
+      "start": "11:27:434",
+      "end": "11:30:804",
+      "speaker": "Advogado da Reclamada",
+      "text": "Tinha algum funcionário da São Francisco que aplicava as sanções e as advertências?"
+    },
+    {
+      "start": "11:30:804",
+      "end": "11:32:384",
+      "speaker": "Juiz",
+      "text": "O senhor sabe se tinha algum funcionário?"
+    },
+    {
+      "start": "11:32:932",
+      "end": "11:34:252",
+      "speaker": "Reclamante",
+      "text": "Não. Ele não sabe bancar..."
+    },
+    {
+      "start": "11:34:612",
+      "end": "11:38:702",
+      "speaker": "Reclamante",
+      "text": "A coordenação, não entra ninguém na UPA sem, para dar plantão lá sem que a coordenação aceite. Claro."
+    },
+    {
+      "start": "11:38:702",
+      "end": "11:39:354",
+      "speaker": "Juiz",
+      "text": "Senão também pode entrar qualquer um."
+    },
+    {
+      "start": "11:39:842",
+      "end": "11:41:192",
+      "speaker": "Reclamante",
+      "text": "Equipe..."
+    },
+    {
+      "start": "11:42:192",
+      "end": "11:49:152",
+      "speaker": "Reclamante",
+      "text": "Entendeu? Ali tem que esse, vai entrar fulano, dá um plantão para a coordenação, não, ali e o coordenação existe um grupo ali. Entendi."
+    },
+    {
+      "start": "11:49:384",
+      "end": "11:51:244",
+      "speaker": "Juiz",
+      "text": "Você tá entendendo? Agora, isso aí tem que..."
+    },
+    {
+      "start": "11:51:524",
+      "end": "11:52:924",
+      "speaker": "Juiz",
+      "text": "Eu entendi. Você não..."
+    },
+    {
+      "start": "11:53:112",
+      "end": "12:02:692",
+      "speaker": "Reclamante",
+      "text": "É peixe pequeno ali dentro. Não, compete também, compete a todo mundo, mas é lógico que o senhor é um sujeito pequeno lá dentro. Sim, o senhor e todos os outros que estão lá, então. Todo mundo é pequeno. Pois não?"
+    },
+    {
+      "start": "12:03:514",
+      "end": "12:08:704",
+      "speaker": "Advogado da Reclamada",
+      "text": "Excelência, se ele tinha a liberdade de escolher os dias e horários dos plantões que ele, que ele exercia pela São Francisco."
+    },
+    {
+      "start": "12:08:954",
+      "end": "12:09:634",
+      "speaker": "Juiz",
+      "text": "O senhor escolhia?"
+    },
+    {
+      "start": "12:10:42",
+      "end": "12:10:392",
+      "speaker": "Reclamante",
+      "text": "Não."
+    },
+    {
+      "start": "12:10:654",
+      "end": "12:18:494",
+      "speaker": "Juiz",
+      "text": "Não? Mas o senhor podia recusar, como o senhor já me falou, que podia recusar, trocar, de repente ia fazer plantão em outro lugar, ou não?"
+    },
+    {
+      "start": "12:19:422",
+      "end": "12:23:802",
+      "speaker": "Reclamante",
+      "text": "Não. Os plantões meus eram fixos e eu fazia, eu cumpri com o meu horário."
+    },
+    {
+      "start": "12:24:224",
+      "end": "12:27:814",
+      "speaker": "Juiz",
+      "text": "Então, eles eram fixos da São Francisco e da Fundação ABC?"
+    },
+    {
+      "start": "12:28:132",
+      "end": "12:30:192",
+      "speaker": "Reclamante",
+      "text": "Agora, se eu ficasse doente..."
+    },
+    {
+      "start": "12:30:192",
+      "end": "12:32:34",
+      "speaker": "Juiz",
+      "text": "Você vai ter que... É, eu fiquei doente..."
+    },
+    {
+      "start": "12:32:34",
+      "end": "12:36:914",
+      "speaker": "Reclamante",
+      "text": "Eu fiquei doente, tá aqui, no caso, eu acho que se eu dei um atestado, eu nem lembro de ter dado, nem sei se foi um em sei lá quantos anos."
+    },
+    {
+      "start": "12:37:632",
+      "end": "12:44:172",
+      "speaker": "Reclamante",
+      "text": "Mas eu ia nos plantões e cumpria com o meu horário, com o meu serviço. O meu serviço eu cumpria o meu serviço."
+    },
+    {
+      "start": "12:45:514",
+      "end": "12:50:574",
+      "speaker": "Advogado da Reclamada",
+      "text": "Se ele recebia o informe de rendimentos para efeitos de declaração de imposto de renda, aquele da Receita Federal."
+    },
+    {
+      "start": "12:50:574",
+      "end": "12:52:864",
+      "speaker": "Juiz",
+      "text": "Tinha que declarar, né, no imposto de renda, não declarava?"
+    },
+    {
+      "start": "12:55:534",
+      "end": "13:01:934",
+      "speaker": "Juiz",
+      "text": "Quando o senhor recebia pela Saltilis, já que caía lá naquela conta do senhor, que o senhor falou no extrato, depois tinha um informe de rendimentos, né?"
+    },
+    {
+      "start": "13:02:402",
+      "end": "13:13:902",
+      "speaker": "Reclamante",
+      "text": "O contador meu tirava pelo certificado digital. Ah, tá, então. Porque eu não confio nesses negócios. Eu já tive quase tive problema várias vezes de entregar o papel e chegar lá ser outro e eu preferia pagar o que eu não sabia do que tomar uma cacetada lá na frente."
+    },
+    {
+      "start": "13:14:264",
+      "end": "13:15:234",
+      "speaker": "Juiz",
+      "text": "Entendi."
+    },
+    {
+      "start": "13:15:394",
+      "end": "13:15:744",
+      "speaker": "Juiz",
+      "text": "Tá bom."
+    },
+    {
+      "start": "13:16:114",
+      "end": "13:16:984",
+      "speaker": "Advogado da Reclamada",
+      "text": "Sem mais, Excelência, obrigado."
+    },
+    {
+      "start": "13:17:344",
+      "end": "13:19:144",
+      "speaker": "Juiz",
+      "text": "Obrigado, viu, pelo seu depoimento. Pode voltar ali para o lugar."
+    }
+  ]
+}
