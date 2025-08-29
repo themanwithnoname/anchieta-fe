@@ -4,6 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DialogoTranscricao } from '../../transcricao/models/transcricao.types';
 
+export interface ArquivoProcesso {
+  id: string;
+  nome: string;
+  tipo: 'video' | 'transcricao' | 'resumo' | 'documento';
+  tamanho: string;
+  dataModificacao: Date;
+  url?: string;
+}
+
 export interface ProcessoTrabalhista {
   id: string;
   numeroProcesso: string;
@@ -17,6 +26,7 @@ export interface ProcessoTrabalhista {
   arquivoVideo?: string;
   arquivoTranscricao?: string;
   observacoes?: string;
+  arquivos?: ArquivoProcesso[];
 }
 
 @Component({
@@ -41,7 +51,9 @@ export class ProcessosComponent implements OnInit {
   
   // Visualização
   visualizacao: 'cards' | 'lista' = 'lista';
-
+  
+  // Controle de expansão das linhas
+  processosExpandidos = new Set<string>();
 
   private router = inject(Router);
 
@@ -522,6 +534,88 @@ export class ProcessosComponent implements OnInit {
       'erro': 'Erro'
     };
     return labels[status as keyof typeof labels] || 'Desconhecido';
+  }
+
+  // Métodos para controle de expansão
+  toggleProcessoExpansao(processoId: string, event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    
+    if (this.processosExpandidos.has(processoId)) {
+      this.processosExpandidos.delete(processoId);
+    } else {
+      this.processosExpandidos.add(processoId);
+    }
+  }
+
+  isProcessoExpandido(processoId: string): boolean {
+    return this.processosExpandidos.has(processoId);
+  }
+
+  getArquivosProcesso(processo: ProcessoTrabalhista): ArquivoProcesso[] {
+    // Mock de arquivos para demonstração
+    return [
+      {
+        id: '1',
+        nome: `${processo.arquivoVideo || 'video_' + processo.id}.mp4`,
+        tipo: 'video',
+        tamanho: '156 MB',
+        dataModificacao: processo.dataAudiencia,
+        url: `assets/videos/${processo.arquivoVideo || 'video_' + processo.id}.mp4`
+      },
+      {
+        id: '2',
+        nome: `${processo.id}_transcricao.txt`,
+        tipo: 'transcricao',
+        tamanho: '24 KB',
+        dataModificacao: new Date(processo.dataAudiencia.getTime() + 86400000), // +1 dia
+        url: `assets/transcricoes/${processo.id}_transcricao.txt`
+      },
+      {
+        id: '3',
+        nome: `${processo.id}_resumo.txt`,
+        tipo: 'resumo',
+        tamanho: '8 KB',
+        dataModificacao: new Date(processo.dataAudiencia.getTime() + 86400000),
+        url: `assets/videos/${processo.id}_resumo.txt`
+      },
+      {
+        id: '4',
+        nome: `${processo.id}_ata.pdf`,
+        tipo: 'documento',
+        tamanho: '234 KB',
+        dataModificacao: new Date(processo.dataAudiencia.getTime() + 172800000), // +2 dias
+        url: `assets/documentos/${processo.id}_ata.pdf`
+      }
+    ];
+  }
+
+  getIconeArquivo(tipo: string): string {
+    const icones = {
+      'video': 'fas fa-video',
+      'transcricao': 'fas fa-file-alt',
+      'resumo': 'fas fa-file-contract',
+      'documento': 'fas fa-file-pdf'
+    };
+    return icones[tipo as keyof typeof icones] || 'fas fa-file';
+  }
+
+  downloadArquivo(arquivo: ArquivoProcesso, event: Event): void {
+    event.stopPropagation();
+    
+    if (arquivo.url) {
+      // Em produção, isso seria um endpoint real
+      console.log(`Downloading: ${arquivo.nome} from ${arquivo.url}`);
+      
+      // Simula download
+      const link = document.createElement('a');
+      link.href = arquivo.url;
+      link.download = arquivo.nome;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 
   private simularProgresso(processo: ProcessoTrabalhista): void {
