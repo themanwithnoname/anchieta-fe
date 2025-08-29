@@ -139,7 +139,7 @@
 
     <!-- Visualização em Lista -->
     <div *ngIf="!carregando && visualizacao === 'lista'" class="table-container">
-      <table class="processos-table">
+      <table class="processos-table" [class.has-expanded-row]="processosExpandidos.size > 0">
         <thead>
           <tr>
             <th>Processo</th>

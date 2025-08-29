@@ -185,18 +185,34 @@
                  title="Clique para filtrar conversas deste participante">
               <div class="participante-info">
                 @if (participanteEditando() === participante.id) {
-                  <div class="dados-participante">
-                    <input type="text" 
-                           [(ngModel)]="nomeEditando"
-                           (blur)="salvarEdicaoParticipante(participante)"
-                           (keydown.enter)="salvarEdicaoParticipante(participante)"
-                           class="input-nome-edicao"
-                           #inputNome>
-                    <input type="text" 
-                           [(ngModel)]="papelEditando"
-                           (blur)="salvarEdicaoParticipante(participante)"
-                           (keydown.enter)="salvarEdicaoParticipante(participante)"
-                           class="input-papel-edicao">
+                  <div class="dados-participante-edicao">
+                    <div class="campos-edicao">
+                      <input type="text" 
+                             [(ngModel)]="nomeEditando"
+                             (keydown.enter)="salvarEdicaoParticipante(participante)"
+                             (keydown.escape)="cancelarEdicaoParticipante()"
+                             class="input-nome-edicao"
+                             placeholder="Nome do participante"
+                             #inputNome>
+                      <input type="text" 
+                             [(ngModel)]="papelEditando"
+                             (keydown.enter)="salvarEdicaoParticipante(participante)"
+                             (keydown.escape)="cancelarEdicaoParticipante()"
+                             placeholder="Papel (ex: Juiz, Advogado)"
+                             class="input-papel-edicao">
+                    </div>
+                    <div class="botoes-edicao">
+                      <button class="btn-confirmar" 
+                              (click)="salvarEdicaoParticipante(participante)"
+                              title="Salvar alterações (Enter)">
+                        <i class="fas fa-check"></i>
+                      </button>
+                      <button class="btn-cancelar" 
+                              (click)="cancelarEdicaoParticipante()"
+                              title="Cancelar edição (Esc)">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
                   </div>
                 } @else {
                   <div class="dados-participante">

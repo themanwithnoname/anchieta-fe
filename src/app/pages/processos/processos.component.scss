@@ -563,6 +563,51 @@
       &.expandido {
         background: rgba(52, 152, 219, 0.08) !important;
         border-bottom: 2px solid #3498db;
+        z-index: 10;
+        position: relative;
+      }
+    }
+    
+    // Estado de desfoque quando há linha expandida
+    &.has-expanded-row {
+      .processo-row:not(.expandido) {
+        opacity: 0.4;
+        filter: grayscale(30%);
+        background: rgba(108, 117, 125, 0.03) !important;
+        color: #6c757d;
+        transition: all 0.4s ease;
+        position: relative;
+        
+        &:hover {
+          opacity: 0.7;
+          filter: grayscale(10%);
+          background: rgba(52, 152, 219, 0.03) !important;
+          cursor: pointer;
+          box-shadow: inset 3px 0 0 rgba(52, 152, 219, 0.4);
+        }
+        
+        // Desfoque os textos das células
+        td {
+          color: #9ca3af;
+          transition: color 0.3s ease;
+          
+          .status-audiencia-badge,
+          .status-text,
+          .minuta-badge {
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+          }
+        }
+        
+        &:hover td {
+          color: #6c757d;
+          
+          .status-audiencia-badge,
+          .status-text,
+          .minuta-badge {
+            opacity: 0.8;
+          }
+        }
       }
     }
 
@@ -831,6 +876,9 @@
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
   border-left: 4px solid #3498db;
   animation: slideDown 0.3s ease-out;
+  box-shadow: 0 4px 20px rgba(52, 152, 219, 0.1);
+  position: relative;
+  z-index: 15;
   
   .arquivos-container {
     padding: 0 !important;

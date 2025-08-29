@@ -478,6 +478,14 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
       console.log('Participante atualizado:', participante);
     }
     
+    this.finalizarEdicaoParticipanteCompleta();
+  }
+
+  cancelarEdicaoParticipante(): void {
+    this.finalizarEdicaoParticipanteCompleta();
+  }
+
+  private finalizarEdicaoParticipanteCompleta(): void {
     this.participanteEditando.set(null);
     this.nomeEditando.set('');
     this.papelEditando.set('');
