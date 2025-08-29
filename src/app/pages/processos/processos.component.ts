@@ -472,6 +472,48 @@ export class ProcessosComponent implements OnInit {
     });
   }
 
+  getStatusAudiencia(processo: ProcessoTrabalhista): string {
+    const agora = new Date();
+    const dataAudiencia = new Date(processo.dataAudiencia);
+    
+    // Se a audiência já passou
+    if (dataAudiencia < agora) {
+      return 'Audiência Realizada';
+    }
+    
+    // Se a audiência é hoje
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    const amanha = new Date(hoje);
+    amanha.setDate(hoje.getDate() + 1);
+    
+    if (dataAudiencia >= hoje && dataAudiencia < amanha) {
+      return 'Aguardando Audiência';
+    }
+    
+    // Se a audiência é futura
+    const diasRestantes = Math.ceil((dataAudiencia.getTime() - agora.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (diasRestantes === 1) {
+      return 'Realizada Amanhã';
+    } else if (diasRestantes <= 7) {
+      return `Realizada em ${diasRestantes} dias`;
+    } else {
+      return 'Realizada em breve';
+    }
+  }
+
+  getMinutaPjeStatus(processo: ProcessoTrabalhista): string {
+    // Alterna entre os valores baseado no ID do processo
+    const id = parseInt(processo.id);
+    return id % 2 === 0 ? 'Enviado' : 'Aguardando envio';
+  }
+
+  getMinutaPjeClass(processo: ProcessoTrabalhista): string {
+    const status = this.getMinutaPjeStatus(processo);
+    return status === 'Enviado' ? 'minuta-enviado' : 'minuta-aguardando';
+  }
+
   private simularProgresso(processo: ProcessoTrabalhista): void {
     const interval = setInterval(() => {
       processo.percentualTranscricao += Math.random() * 10;

@@ -4,9 +4,8 @@
     <div class="header-content">
       <h1>
         <i class="fas fa-gavel"></i>
-        Processos Trabalhistas
+        10ª VT de São Paulo
       </h1>
-      <p class="subtitle">Gerenciamento de transcrições de audiências</p>
     </div>
     
     <div class="header-actions">
@@ -93,7 +92,6 @@
         </div>
 
         <div class="card-content">
-          <h3 class="processo-titulo">{{ processo.assunto }}</h3>
           
           <div class="partes-info">
             <div class="parte">
@@ -145,11 +143,11 @@
         <thead>
           <tr>
             <th>Processo</th>
-            <th>Assunto</th>
             <th>Partes</th>
+            <th>Status Audiência</th>
             <th>Data Audiência</th>
-            <th>Status</th>
-            <th>Progresso</th>
+            <th>Status Transcrição</th>
+            <th>Minuta PJe</th>
           </tr>
         </thead>
         <tbody>
@@ -174,10 +172,17 @@
                 </button>
               </div>
             </td>
-            <td class="assunto">{{ processo.assunto }}</td>
             <td class="partes">
-              <div><strong>Req:</strong> {{ processo.requerente }}</div>
-              <div><strong>Reu:</strong> {{ processo.requerido }}</div>
+              <div class="partes-vs">
+                <span class="parte-requerente">{{ processo.requerente }}</span>
+                <span class="vs">vs</span>
+                <span class="parte-requerido">{{ processo.requerido }}</span>
+              </div>
+            </td>
+            <td class="status-audiencia">
+              <span class="status-audiencia-badge">
+                {{ getStatusAudiencia(processo) }}
+              </span>
             </td>
             <td class="data">{{ processo.dataAudiencia | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td class="status">
@@ -186,12 +191,10 @@
                 {{ getStatusLabel(processo.statusTranscricao) }}
               </span>
             </td>
-            <td class="progresso">
-              <div *ngIf="processo.statusTranscricao === 'transcrevendo'" class="progress-bar">
-                <div class="progress-fill" [style.width.%]="processo.percentualTranscricao"></div>
-                <span class="progress-text">{{ processo.percentualTranscricao }}%</span>
-              </div>
-              <span *ngIf="processo.statusTranscricao !== 'transcrevendo'">-</span>
+            <td class="minuta-pje">
+              <span class="minuta-badge" [class]="getMinutaPjeClass(processo)">
+                {{ getMinutaPjeStatus(processo) }}
+              </span>
             </td>
           </tr>
         </tbody>
