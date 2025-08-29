@@ -434,7 +434,7 @@
     }
 
     th {
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      background: transparent !important;
       font-weight: 600;
       color: #2c3e50;
       font-size: 0.875rem;
@@ -446,6 +446,10 @@
     }
 
     thead tr {
+      background: transparent !important;
+    }
+
+    thead th {
       background: transparent !important;
     }
 
