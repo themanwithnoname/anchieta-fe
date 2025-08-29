@@ -108,6 +108,60 @@ export class ParticipanteColorService {
   }
 
   /**
+   * Carrega participantes automaticamente a partir dos dados da transcrição
+   */
+  carregarParticipantesDeTranscricao(participantesTranscricao: Array<{nome: string, tipo: string, totalFalas: number}>): Participante[] {
+    const participantesCarregados: Participante[] = [];
+
+    participantesTranscricao.forEach(participanteData => {
+      // Verificar se já existe (pré-definido ou já adicionado)
+      const jaExiste = this.obterTodosParticipantes()
+        .some(p => p.nome.toLowerCase() === participanteData.nome.toLowerCase());
+      
+      if (!jaExiste) {
+        // Adicionar novo participante
+        const novoParticipante: Participante = {
+          nome: participanteData.nome.trim(),
+          tipo: participanteData.tipo.trim(),
+          cor: this.obterProximaCorDisponivel(),
+          avatar: this.gerarAvatar(participanteData.nome),
+          totalDialogos: participanteData.totalFalas,
+          falas: participanteData.totalFalas
+        };
+
+        this.participantesAdicionados.push(novoParticipante);
+        participantesCarregados.push(novoParticipante);
+      } else {
+        // Atualizar estatísticas do participante existente
+        const participanteExistente = this.obterTodosParticipantes()
+          .find(p => p.nome.toLowerCase() === participanteData.nome.toLowerCase());
+        
+        if (participanteExistente) {
+          participanteExistente.totalDialogos = participanteData.totalFalas;
+          participanteExistente.falas = participanteData.totalFalas;
+          participantesCarregados.push(participanteExistente);
+        }
+      }
+    });
+
+    console.log(`Carregados ${participantesCarregados.length} participantes da transcrição:`, 
+                participantesCarregados.map(p => `${p.nome} (${p.tipo}) - ${p.totalDialogos} falas`));
+
+    return participantesCarregados;
+  }
+
+  /**
+   * Limpa participantes adicionados e recarrega a partir da transcrição
+   */
+  recarregarParticipantesDeTranscricao(participantesTranscricao: Array<{nome: string, tipo: string, totalFalas: number}>): Participante[] {
+    // Limpar participantes que não são pré-definidos
+    this.participantesAdicionados = [];
+    
+    // Recarregar a partir da transcrição
+    return this.carregarParticipantesDeTranscricao(participantesTranscricao);
+  }
+
+  /**
    * Atualiza dados de um participante existente
    */
   atualizarParticipante(nomeAntigo: string, novoNome: string, novoTipo: string): void {

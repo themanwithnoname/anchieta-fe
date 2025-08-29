@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DialogoTranscricao, NivelConfianca } from '../../transcricao/models/transcricao.types';
 import { TranscricaoService, DialogoProcessado } from '../../services/transcricao.service';
+import { ParticipanteColorService } from '../../services/participante-color.service';
 
 interface ParticipanteDetalhes {
   id: string;
@@ -32,6 +33,7 @@ interface DialogoDetalhe {
   nivelConfianca: NivelConfianca;
   percentualConfianca: number;
   isContexto?: boolean; // Para marcar diálogos de contexto no filtro
+  isNovoGrupo?: boolean; // Para marcar início de um novo grupo de 5 diálogos
 }
 
 @Component({
@@ -44,6 +46,7 @@ interface DialogoDetalhe {
 export class DetalheProcessoComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private transcricaoService = inject(TranscricaoService);
+  private participanteColorService = inject(ParticipanteColorService);
   
   @ViewChild('videoPlayer') videoPlayer!: ElementRef<HTMLVideoElement>;
   @ViewChild('dialogosContainer') dialogosContainer!: ElementRef<HTMLDivElement>;
@@ -74,6 +77,7 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
   participanteEditando = signal<string | null>(null);
   nomeEditando = signal<string>('');
   papelEditando = signal<string>('');
+  dialogoParticipanteEditando = signal<string | null>(null);
   
   // Participantes e diálogos (carregados dinamicamente)
   participantes = signal<ParticipanteDetalhes[]>([]);
@@ -82,6 +86,9 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
   // Filtro por participante
   participanteFiltrado = signal<string | null>(null);
   dialogosFiltrados = signal<DialogoDetalhe[]>([]);
+  
+  // Segmentos coloridos para barra de progresso
+  segmentosProgresso = signal<Array<{inicio: number, fim: number, cor: string, participante: string}>>([]);
   
   // Chat
   mensagensChat = signal<MensagemChat[]>([
@@ -94,6 +101,7 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
     }
   ]);
   novaMensagem = signal<string>('');
+  chatDestacado = signal<boolean>(false);
   
   // Controle de reprodução de segmento
   private timeoutSegmento: any;
@@ -107,14 +115,7 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
       this.carregarDadosProcesso(numero);
     }
     
-    // Simular progresso de reprodução
-    setInterval(() => {
-      if (this.reproduzindo()) {
-        const novoTempo = this.timestampAtual() + 1;
-        this.timestampAtual.set(novoTempo);
-        this.progressoPercent.set((novoTempo / 5025) * 100); // 5025 = duração total em segundos
-      }
-    }, 1000);
+    // O progresso agora é controlado pelo evento 'timeupdate' do vídeo real
   }
 
   private carregarDadosProcesso(numeroProcesso: string): void {
@@ -161,15 +162,16 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
   }
 
   private processarDialogos(dialogosProcessados: DialogoProcessado[]): void {
-    // Gerar participantes únicos com cores
-    const participantesUnicos = this.transcricaoService.obterParticipantesUnicos(dialogosProcessados);
-    const coresParticipantes = ['#8B4513', '#FF6B35', '#4ECDC4', '#45B7D1', '#96CEB4', '#E74C3C'];
+    // Carregar participantes automaticamente usando o novo sistema
+    const participantesTranscricao = this.transcricaoService.processarParticipantesParaIntegracao(dialogosProcessados);
+    const participantesCarregados = this.participanteColorService.carregarParticipantesDeTranscricao(participantesTranscricao);
     
-    const participantesComCores = participantesUnicos.map((nome, index) => ({
+    // Converter para formato local (ParticipanteDetalhes)
+    const participantesComCores = participantesCarregados.map((participante, index) => ({
       id: (index + 1).toString(),
-      nome: nome,
-      papel: this.determinarPapel(nome),
-      cor: coresParticipantes[index % coresParticipantes.length]
+      nome: participante.nome,
+      papel: participante.tipo,
+      cor: participante.cor
     }));
     
     this.participantes.set(participantesComCores);
@@ -199,6 +201,9 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
       const duracaoSegundos = ultimoDialogo.timestampFim;
       this.duracaoTotal.set(this.formatarTimestamp(duracaoSegundos));
     }
+    
+    // Gerar segmentos coloridos para barra de progresso
+    this.gerarSegmentosProgresso(dialogosConvertidos, participantesComCores);
   }
 
   private determinarPapel(nomeParticipante: string): string {
@@ -216,6 +221,27 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
     
     return 'Participante';
   }
+
+  private gerarSegmentosProgresso(dialogos: DialogoDetalhe[], participantes: ParticipanteDetalhes[]): void {
+    const segmentos: Array<{inicio: number, fim: number, cor: string, participante: string}> = [];
+    
+    dialogos.forEach(dialogo => {
+      const participante = participantes.find(p => p.id === dialogo.participanteId);
+      if (participante) {
+        segmentos.push({
+          inicio: dialogo.timestampInicio,
+          fim: dialogo.timestampFim,
+          cor: participante.cor,
+          participante: participante.nome
+        });
+      }
+    });
+    
+    // Ordenar por tempo de início
+    segmentos.sort((a, b) => a.inicio - b.inicio);
+    
+    this.segmentosProgresso.set(segmentos);
+  }
   
   // ==================== CONTROLES DE REPRODUÇÃO ====================
   toggleReproducao(): void {
@@ -229,12 +255,14 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
     }
   }
   
-  navegarPara(timestamp: number): void {
+  navegarPara(timestamp: number, fazerScroll: boolean = true): void {
     this.timestampAtual.set(timestamp);
     if (this.videoPlayer) {
       this.videoPlayer.nativeElement.currentTime = timestamp;
     }
-    this.scrollParaDialogo(timestamp);
+    if (fazerScroll) {
+      this.scrollParaDialogo(timestamp);
+    }
   }
 
   reproduzirDialogo(dialogo: DialogoDetalhe): void {
@@ -285,14 +313,25 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
     const barra = event.currentTarget as HTMLElement;
     const rect = barra.getBoundingClientRect();
     const clickX = event.clientX - rect.left;
-    const novoTempo = (clickX / rect.width) * 5025;
-    this.navegarPara(novoTempo);
+    
+    // Usar duração real do vídeo para navegação
+    if (this.videoPlayer && this.videoPlayer.nativeElement.duration) {
+      const duracaoVideo = this.videoPlayer.nativeElement.duration;
+      const novoTempo = (clickX / rect.width) * duracaoVideo;
+      // Não fazer scroll quando navegar pela barra de progresso
+      this.navegarPara(novoTempo, false);
+    }
   }
   
   atualizarTempo(event: Event): void {
     const video = event.target as HTMLVideoElement;
     this.timestampAtual.set(video.currentTime);
-    this.progressoPercent.set((video.currentTime / video.duration) * 100);
+    
+    // Usar duração real do vídeo para calcular progresso - garantir que não exceda 100%
+    if (video.duration && video.duration > 0 && isFinite(video.currentTime) && isFinite(video.duration)) {
+      const progresso = Math.min(100, Math.max(0, (video.currentTime / video.duration) * 100));
+      this.progressoPercent.set(progresso);
+    }
     
     // Scroll automático para manter o diálogo ativo no centro
     this.scrollParaDialogoAtivo();
@@ -302,6 +341,31 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
     const video = event.target as HTMLVideoElement;
     const duracaoFormatada = this.formatarTimestamp(video.duration);
     this.duracaoTotal.set(duracaoFormatada);
+    
+    // Inicializar progresso como 0% quando o vídeo carrega
+    this.progressoPercent.set(0);
+  }
+
+  obterDuracaoTotalSegundos(): number {
+    const dialogos = this.dialogos();
+    if (dialogos.length === 0) return 5025; // Fallback padrão
+    
+    const ultimoDialogo = dialogos[dialogos.length - 1];
+    return ultimoDialogo.timestampFim || 5025;
+  }
+
+  obterPosicaoSegmento(inicio: number): number {
+    if (this.videoPlayer && this.videoPlayer.nativeElement.duration) {
+      return (inicio / this.videoPlayer.nativeElement.duration) * 100;
+    }
+    return (inicio / this.obterDuracaoTotalSegundos()) * 100;
+  }
+
+  obterLarguraSegmento(inicio: number, fim: number): number {
+    if (this.videoPlayer && this.videoPlayer.nativeElement.duration) {
+      return ((fim - inicio) / this.videoPlayer.nativeElement.duration) * 100;
+    }
+    return ((fim - inicio) / this.obterDuracaoTotalSegundos()) * 100;
   }
   
   // ==================== BUSCA ====================
@@ -415,6 +479,15 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
     this.nomeEditando.set('');
     this.papelEditando.set('');
   }
+
+  // Novos métodos para edição de participante nos diálogos
+  iniciarEdicaoParticipanteDialogo(dialogoId: string): void {
+    this.dialogoParticipanteEditando.set(dialogoId);
+  }
+  
+  finalizarEdicaoParticipante(): void {
+    this.dialogoParticipanteEditando.set(null);
+  }
   
   // ==================== CHAT ====================
   enviarMensagem(): void {
@@ -438,6 +511,10 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
   
   limparChat(): void {
     this.mensagensChat.set([]);
+  }
+  
+  toggleChatDestacado(): void {
+    this.chatDestacado.update(estado => !estado);
   }
   
   // ==================== UTILITÁRIOS ====================
@@ -482,44 +559,55 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
   
   private aplicarFiltroComContexto(participanteId: string): void {
     const todosDialogos = this.dialogos();
-    const dialogosComContexto: DialogoDetalhe[] = [];
     
-    todosDialogos.forEach((dialogo, index) => {
-      if (dialogo.participanteId === participanteId) {
-        // Adiciona 2 diálogos anteriores
-        for (let i = Math.max(0, index - 2); i < index; i++) {
-          if (!dialogosComContexto.includes(todosDialogos[i])) {
-            dialogosComContexto.push({
-              ...todosDialogos[i],
-              isContexto: true
-            });
-          }
+    // Encontrar todos os diálogos do participante filtrado
+    const dialogosDoParticipante = todosDialogos.filter(d => d.participanteId === participanteId);
+    
+    // Se não há diálogos do participante, retorna vazio
+    if (dialogosDoParticipante.length === 0) {
+      this.dialogosFiltrados.set([]);
+      return;
+    }
+    
+    const resultado: DialogoDetalhe[] = [];
+    let ultimoIndiceProcessado = -10; // Garantir que não há sobreposição
+    
+    dialogosDoParticipante.forEach((dialogoPrincipal, grupoIndex) => {
+      const indicePrincipal = todosDialogos.findIndex(d => d.id === dialogoPrincipal.id);
+      
+      // Só processar se não há sobreposição com grupo anterior
+      if (indicePrincipal > ultimoIndiceProcessado + 2) {
+      
+        let inicioGrupo = Math.max(0, indicePrincipal - 2);
+        let fimGrupo = Math.min(todosDialogos.length - 1, indicePrincipal + 2);
+        
+        // Verificar se algum dos diálogos de contexto posterior também pertence ao participante
+        const dialogosContextoPosterior = [indicePrincipal + 1, indicePrincipal + 2];
+        const temDialogoComplementar = dialogosContextoPosterior.some(indice => 
+          indice < todosDialogos.length && 
+          todosDialogos[indice].participanteId === participanteId
+        );
+        
+        // Se há diálogo complementar, adicionar mais 2 diálogos de contexto posterior
+        if (temDialogoComplementar) {
+          fimGrupo = Math.min(todosDialogos.length - 1, fimGrupo + 2);
         }
         
-        // Adiciona o diálogo principal
-        dialogosComContexto.push({
-          ...dialogo,
-          isContexto: false
-        });
-        
-        // Adiciona 2 diálogos posteriores
-        for (let i = index + 1; i <= Math.min(todosDialogos.length - 1, index + 2); i++) {
-          if (!dialogosComContexto.includes(todosDialogos[i])) {
-            dialogosComContexto.push({
-              ...todosDialogos[i],
-              isContexto: true
-            });
-          }
+        // Adicionar diálogos do grupo
+        for (let i = inicioGrupo; i <= fimGrupo; i++) {
+          const dialogo = todosDialogos[i];
+          resultado.push({
+            ...dialogo,
+            isContexto: dialogo.participanteId !== participanteId,
+            isNovoGrupo: i === inicioGrupo && grupoIndex > 0
+          });
         }
+        
+        ultimoIndiceProcessado = fimGrupo;
       }
     });
     
-    // Remove duplicatas e ordena por timestamp
-    const dialogosUnicos = dialogosComContexto
-      .filter((dialogo, index, arr) => arr.findIndex(d => d.id === dialogo.id) === index)
-      .sort((a, b) => a.timestampInicio - b.timestampInicio);
-    
-    this.dialogosFiltrados.set(dialogosUnicos);
+    this.dialogosFiltrados.set(resultado);
   }
   
   obterDialogosParaExibicao(): DialogoDetalhe[] {
@@ -597,5 +685,256 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
     if (this.scrollThrottle) {
       clearTimeout(this.scrollThrottle);
     }
+  }
+
+  // ==================== AÇÕES DO HEADER ====================
+  copiarNumeroProcesso(): void {
+    const numero = this.numeroProcesso();
+    navigator.clipboard.writeText(numero).then(() => {
+      // Feedback visual - pode ser substituído por toast notification
+      console.log('Número do processo copiado:', numero);
+      
+      // Opcional: mostrar feedback visual temporário
+      const btnCopiar = document.querySelector('.btn-copiar i') as HTMLElement;
+      if (btnCopiar) {
+        const iconOriginal = btnCopiar.className;
+        btnCopiar.className = 'fas fa-check';
+        btnCopiar.style.color = '#27ae60';
+        
+        setTimeout(() => {
+          btnCopiar.className = iconOriginal;
+          btnCopiar.style.color = '';
+        }, 1500);
+      }
+    }).catch(err => {
+      console.error('Erro ao copiar número do processo:', err);
+      // Fallback para navegadores mais antigos
+      const textArea = document.createElement('textarea');
+      textArea.value = numero;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+    });
+  }
+  verResumo(): void {
+    // Gerar resumo da audiência baseado na transcrição
+    const dialogos = this.dialogos();
+    const participantes = this.participantes();
+    
+    if (dialogos.length === 0) {
+      alert('Não há transcrição disponível para gerar o resumo.');
+      return;
+    }
+    
+    const resumo = this.gerarResumoAudiencia(dialogos, participantes);
+    
+    // Abrir modal ou nova janela com o resumo
+    this.exibirModalResumo(resumo);
+  }
+
+  gerarMinutaPje(): void {
+    // Gerar minuta para upload no PJe
+    const dialogos = this.dialogos();
+    const participantes = this.participantes();
+    
+    if (dialogos.length === 0) {
+      alert('Não há transcrição disponível para gerar a minuta.');
+      return;
+    }
+    
+    const minuta = this.gerarMinutaFormatada(dialogos, participantes);
+    const transcricaoCompleta = this.gerarTranscricaoCompleta(dialogos, participantes);
+    
+    // Download dos dois arquivos
+    this.downloadMinutaPje(minuta);
+    
+    // Pequeno delay para não conflitar os downloads
+    setTimeout(() => {
+      this.downloadTranscricaoCompleta(transcricaoCompleta);
+    }, 500);
+  }
+
+  private gerarResumoAudiencia(dialogos: DialogoDetalhe[], participantes: ParticipanteDetalhes[]): string {
+    const processo = this.numeroProcesso();
+    const duracao = this.duracaoTotal();
+    
+    // Estatísticas dos participantes
+    const estatisticas = participantes.map(p => {
+      const falasParticipante = dialogos.filter(d => d.participanteId === p.id);
+      return {
+        nome: p.nome,
+        papel: p.papel,
+        totalFalas: falasParticipante.length,
+        tempoTotal: this.calcularTempoFala(p.id)
+      };
+    });
+    
+    let resumo = `RESUMO DA AUDIÊNCIA\n\n`;
+    resumo += `Processo: ${processo}\n`;
+    resumo += `Duração total: ${duracao}\n`;
+    resumo += `Data/Hora: ${new Date().toLocaleString('pt-BR')}\n\n`;
+    
+    resumo += `PARTICIPANTES:\n`;
+    estatisticas.forEach(stat => {
+      resumo += `• ${stat.nome} (${stat.papel}) - ${stat.totalFalas} falas - ${stat.tempoTotal}\n`;
+    });
+    
+    resumo += `\nPONTOS PRINCIPAIS:\n`;
+    resumo += `• Total de ${dialogos.length} interações registradas\n`;
+    resumo += `• Transcrição completa disponível no sistema\n`;
+    resumo += `• Audiência realizada e transcrita automaticamente\n\n`;
+    
+    resumo += `OBSERVAÇÕES:\n`;
+    resumo += `• Transcrição gerada automaticamente pelo Sistema Anchieta\n`;
+    resumo += `• Recomenda-se revisão manual para conferência\n`;
+    
+    return resumo;
+  }
+
+  private gerarMinutaFormatada(dialogos: DialogoDetalhe[], participantes: ParticipanteDetalhes[]): string {
+    const processo = this.numeroProcesso();
+    const juiz = participantes.find(p => p.papel.toLowerCase().includes('juiz'))?.nome || 'MM. Juiz(a)';
+    const data = new Date();
+    
+    let minuta = `MINUTA DE ATA DE AUDIÊNCIA\n\n`;
+    minuta += `PROCESSO Nº: ${processo}\n`;
+    minuta += `DATA: ${data.toLocaleDateString('pt-BR')}\n`;
+    minuta += `HORÁRIO: ${data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}\n\n`;
+    
+    minuta += `PRESENTES:\n`;
+    participantes.forEach(p => {
+      minuta += `${p.papel.toUpperCase()}: ${p.nome}\n`;
+    });
+    
+    minuta += `\n`;
+    minuta += `Aos ${data.getDate()} dias do mês de ${data.toLocaleDateString('pt-BR', { month: 'long' })} de ${data.getFullYear()}, `;
+    minuta += `nesta cidade e Comarca, na sala de audiências da Vara do Trabalho, `;
+    minuta += `sob a presidência do(a) ${juiz}, foi realizada audiência de instrução e julgamento.\n\n`;
+    
+    minuta += `OCORRÊNCIAS:\n`;
+    minuta += `• A audiência foi gravada e transcrita automaticamente pelo Sistema Anchieta;\n`;
+    minuta += `• Foram registradas ${dialogos.length} interações durante a sessão;\n`;
+    minuta += `• A transcrição integral encontra-se disponível nos autos eletrônicos;\n`;
+    minuta += `• Todos os participantes estiveram presentes e manifestaram-se adequadamente;\n\n`;
+    
+    minuta += `DECISÕES/DELIBERAÇÕES:\n`;
+    minuta += `• [A ser preenchido pelo magistrado conforme desenvolvimento da audiência]\n`;
+    minuta += `• [Inserir aqui as principais decisões tomadas]\n`;
+    minuta += `• [Incluir eventuais acordos ou determinações]\n\n`;
+    
+    minuta += `ENCERRAMENTO:\n`;
+    minuta += `Nada mais havendo, foi encerrada a audiência, lavrando-se a presente ata que, `;
+    minuta += `lida e achada conforme, vai assinada por todos os presentes.\n\n`;
+    
+    minuta += `_________________________________\n`;
+    minuta += `${juiz}\n`;
+    minuta += `Juiz(a) do Trabalho\n\n`;
+    
+    participantes.forEach(p => {
+      if (!p.papel.toLowerCase().includes('juiz')) {
+        minuta += `_________________________________\n`;
+        minuta += `${p.nome}\n`;
+        minuta += `${p.papel}\n\n`;
+      }
+    });
+    
+    minuta += `\nOBSERVAÇÃO: Ata gerada automaticamente pelo Sistema Anchieta em ${data.toLocaleString('pt-BR')}.\n`;
+    minuta += `A transcrição completa da audiência encontra-se anexa aos autos eletrônicos.\n`;
+    
+    return minuta;
+  }
+
+  private gerarTranscricaoCompleta(dialogos: DialogoDetalhe[], participantes: ParticipanteDetalhes[]): string {
+    const processo = this.numeroProcesso();
+    const data = new Date();
+    
+    let transcricao = `TRANSCRIÇÃO COMPLETA DA AUDIÊNCIA\n\n`;
+    transcricao += `PROCESSO Nº: ${processo}\n`;
+    transcricao += `DATA: ${data.toLocaleDateString('pt-BR')}\n`;
+    transcricao += `HORÁRIO: ${data.toLocaleTimeString('pt-BR')}\n`;
+    transcricao += `DURAÇÃO TOTAL: ${this.duracaoTotal()}\n\n`;
+    
+    transcricao += `PARTICIPANTES:\n`;
+    participantes.forEach(p => {
+      transcricao += `• ${p.nome} - ${p.papel}\n`;
+    });
+    
+    transcricao += `\n${'='.repeat(80)}\n`;
+    transcricao += `TRANSCRIÇÃO INTEGRAL\n`;
+    transcricao += `${'='.repeat(80)}\n\n`;
+    
+    dialogos.forEach((dialogo, index) => {
+      const participante = participantes.find(p => p.id === dialogo.participanteId);
+      const timestamp = this.formatarTimestamp(dialogo.timestampInicio);
+      
+      if (participante) {
+        transcricao += `[${timestamp}] ${participante.nome} (${participante.papel}):\n`;
+        transcricao += `${dialogo.texto}\n\n`;
+        
+        // Adicionar separador a cada 10 diálogos para facilitar leitura
+        if ((index + 1) % 10 === 0 && index < dialogos.length - 1) {
+          transcricao += `${'-'.repeat(50)}\n\n`;
+        }
+      }
+    });
+    
+    transcricao += `\n${'='.repeat(80)}\n`;
+    transcricao += `FIM DA TRANSCRIÇÃO\n\n`;
+    transcricao += `Total de interações: ${dialogos.length}\n`;
+    transcricao += `Gerado automaticamente pelo Sistema Anchieta em ${data.toLocaleString('pt-BR')}\n`;
+    transcricao += `Confiabilidade: Transcrição automática - recomenda-se conferência manual\n`;
+    
+    return transcricao;
+  }
+
+  private exibirModalResumo(resumo: string): void {
+    // Por enquanto usar alert, mas pode ser substituído por um modal personalizado
+    const modal = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    if (modal) {
+      modal.document.write(`
+        <html>
+          <head>
+            <title>Resumo da Audiência - ${this.numeroProcesso()}</title>
+            <style>
+              body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+              pre { white-space: pre-wrap; background: #f5f5f5; padding: 15px; border-radius: 5px; }
+            </style>
+          </head>
+          <body>
+            <h1>Resumo da Audiência</h1>
+            <pre>${resumo}</pre>
+            <button onclick="window.print()" style="margin: 10px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Imprimir</button>
+            <button onclick="window.close()" style="margin: 10px; padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Fechar</button>
+          </body>
+        </html>
+      `);
+    }
+  }
+
+  private downloadMinutaPje(minuta: string): void {
+    const blob = new Blob([minuta], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    link.href = url;
+    link.download = `ata-audiencia-${this.numeroProcesso()}-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  private downloadTranscricaoCompleta(transcricao: string): void {
+    const blob = new Blob([transcricao], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    link.href = url;
+    link.download = `transcricao-completa-${this.numeroProcesso()}-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 }

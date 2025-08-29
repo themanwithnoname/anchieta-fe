@@ -1,6 +1,24 @@
 <div class="detalhe-processo">
   <div class="page-header">
-    <h1 class="titulo">Detalhe do processo: {{ numeroProcesso() }}</h1>
+    <div class="titulo-container">
+      <h1 class="titulo">Detalhe da degravação</h1>
+      <div class="numero-processo-container">
+        <span class="numero-processo">{{ numeroProcesso() }}</span>
+        <button class="btn-copiar" (click)="copiarNumeroProcesso()" title="Copiar número do processo">
+          <i class="fas fa-copy"></i>
+        </button>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-action btn-resumo" (click)="verResumo()" title="Visualizar resumo da audiência">
+        <i class="fas fa-file-alt"></i>
+        Ver Resumo
+      </button>
+      <button class="btn-action btn-minuta" (click)="gerarMinutaPje()" title="Gerar minuta para PJe">
+        <i class="fas fa-file-export"></i>
+        Gerar minuta PJe
+      </button>
+    </div>
   </div>
   
   @if (carregando()) {
@@ -18,8 +36,20 @@
             <i [class]="reproduzindo() ? 'fas fa-pause' : 'fas fa-play'"></i>
           </button>
           
-          <div class="barra-progresso" (click)="navegarParaTempo($event)">
-            <div class="progresso" [style.width]="progressoPercent() + '%'"></div>
+          <div class="barra-progresso-nova" (click)="navegarParaTempo($event)">
+            <!-- Segmentos coloridos por participante -->
+            @for (segmento of segmentosProgresso(); track segmento.inicio) {
+              <div class="segmento-participante"
+                   [style.left.%]="obterPosicaoSegmento(segmento.inicio)"
+                   [style.width.%]="obterLarguraSegmento(segmento.inicio, segmento.fim)"
+                   [style.background-color]="segmento.cor"
+                   [title]="segmento.participante + ': ' + formatarTimestamp(segmento.inicio) + ' - ' + formatarTimestamp(segmento.fim)">
+              </div>
+            }
+            <!-- Linha de progresso vertical -->
+            <div class="linha-progresso-vertical" 
+                 [style.left.%]="progressoPercent()">
+            </div>
           </div>
           
           <span class="tempo-atual">{{ formatarTimestamp(timestampAtual()) }}</span>
@@ -36,9 +66,6 @@
           }
           <button class="btn-ferramenta" (click)="toggleBusca()">
             <i class="fas fa-search"></i>
-          </button>
-          <button class="btn-ferramenta" (click)="toggleEdicao()">
-            <i class="fas fa-edit"></i>
           </button>
           <button class="btn-ferramenta" (click)="salvarTranscricao()">
             <i class="fas fa-save"></i>
@@ -61,35 +88,46 @@
 
       <div class="dialogos-container" #dialogosContainer>
         @for (dialogo of obterDialogosParaExibicao(); track dialogo.id) {
+          @if (dialogo.isNovoGrupo) {
+            <div class="separador-grupo">
+              <div class="linha"></div>
+              <span class="texto">• • •</span>
+              <div class="linha"></div>
+            </div>
+          }
           <div class="dialogo-item" 
                [class.ativo]="dialogo.timestampInicio <= timestampAtual() && timestampAtual() < dialogo.timestampFim"
                [class.editando]="dialogoEditando() === dialogo.id"
                [class.reproduzindo-segmento]="reproduzindoSegmento()"
                [class.contexto]="dialogo.isContexto"
                [class.principal]="!dialogo.isContexto && participanteFiltrado()"
-               [style.border-left-color]="dialogo.participanteObj?.cor"
-               (click)="reproduzirDialogo(dialogo)"
-               title="Clique para reproduzir este diálogo">
+               [style.border-left-color]="dialogo.participanteObj?.cor">
             
             <div class="dialogo-header">
               <div class="participante-info">
-                <select [(ngModel)]="dialogo.participanteId" 
-                        (change)="atualizarParticipante(dialogo)"
-                        [disabled]="!modoEdicao()"
-                        class="select-participante">
-                  @for (participante of participantes(); track participante.id) {
-                    <option [value]="participante.id">{{ participante.nome }}</option>
-                  }
-                </select>
+                @if (dialogoParticipanteEditando() === dialogo.id) {
+                  <select [(ngModel)]="dialogo.participanteId" 
+                          (change)="atualizarParticipante(dialogo); finalizarEdicaoParticipante()"
+                          (blur)="finalizarEdicaoParticipante()"
+                          class="select-participante ativo"
+                          #selectParticipante>
+                    @for (participante of participantes(); track participante.id) {
+                      <option [value]="participante.id">{{ participante.nome }}</option>
+                    }
+                  </select>
+                } @else {
+                  <span class="nome-participante editavel"
+                        (click)="iniciarEdicaoParticipanteDialogo(dialogo.id)"
+                        title="Clique para alterar participante">
+                    {{ dialogo.participanteObj?.nome }}
+                  </span>
+                }
                 <span class="papel">{{ dialogo.participanteObj?.papel }}</span>
               </div>
               
               <div class="dialogo-meta">
-                <span class="timestamp" (click)="navegarPara(dialogo.timestampInicio)">
+                <span class="timestamp" (click)="reproduzirDialogo(dialogo)" title="Clique para reproduzir este diálogo">
                   {{ formatarTimestamp(dialogo.timestampInicio) }}
-                </span>
-                <span class="confianca" [class]="'confianca-' + dialogo.nivelConfianca">
-                  {{ dialogo.percentualConfianca }}%
                 </span>
               </div>
             </div>
@@ -178,12 +216,17 @@
       </div>
 
       <!-- Seção Chat -->
-      <div class="secao-chat">
+      <div class="secao-chat" [class.minimizado]="chatDestacado()">
         <div class="chat-header">
           <h4>Chat de Dúvidas</h4>
-          <button class="btn-limpar-chat" (click)="limparChat()">
-            <i class="fas fa-trash"></i>
-          </button>
+          <div class="chat-controles">
+            <button class="btn-destacar-chat" (click)="toggleChatDestacado()" [title]="chatDestacado() ? 'Reintegrar chat' : 'Destacar chat'">
+              <i class="fas" [class.fa-external-link-alt]="!chatDestacado()" [class.fa-compress-alt]="chatDestacado()"></i>
+            </button>
+            <button class="btn-limpar-chat" (click)="limparChat()">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
         </div>
         
         <div class="chat-mensagens" #chatContainer>
@@ -213,3 +256,45 @@
     </div>
   }
 </div>
+
+<!-- Modal Chat Destacado -->
+@if (chatDestacado()) {
+  <div class="chat-modal-overlay">
+    <div class="chat-modal">
+      <div class="chat-modal-header">
+        <h4>Chat de Dúvidas</h4>
+        <div class="chat-controles">
+          <button class="btn-destacar-chat" (click)="toggleChatDestacado()" title="Reintegrar chat">
+            <i class="fas fa-compress-alt"></i>
+          </button>
+          <button class="btn-limpar-chat" (click)="limparChat()">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="chat-mensagens" #chatContainerModal>
+        @for (mensagem of mensagensChat(); track mensagem.id) {
+          <div class="mensagem" [class.propria]="mensagem.proprio">
+            <div class="mensagem-header">
+              <span class="autor">{{ mensagem.autor }}</span>
+              <span class="horario">{{ formatarHora(mensagem.timestamp) }}</span>
+            </div>
+            <div class="mensagem-texto">{{ mensagem.texto }}</div>
+          </div>
+        }
+      </div>
+
+      <div class="chat-input">
+        <input type="text" 
+               placeholder="Digite sua dúvida..."
+               [(ngModel)]="novaMensagem"
+               (keydown.enter)="enviarMensagem()"
+               class="input-mensagem">
+        <button class="btn-enviar" (click)="enviarMensagem()">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+}

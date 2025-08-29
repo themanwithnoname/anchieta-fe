@@ -126,4 +126,73 @@ export class TranscricaoService {
     const participantes = new Set(dialogos.map(d => d.participanteNome));
     return Array.from(participantes);
   }
+
+  /**
+   * Agrupa participantes únicos da transcrição com contagem de falas
+   */
+  agruparParticipantes(dialogos: DialogoProcessado[]): Array<{nome: string, totalFalas: number, primeiraFala: string}> {
+    const agrupamento = new Map<string, {totalFalas: number, primeiraFala: string}>();
+    
+    dialogos.forEach(dialogo => {
+      const nome = dialogo.participanteNome.trim();
+      
+      if (agrupamento.has(nome)) {
+        agrupamento.get(nome)!.totalFalas++;
+      } else {
+        agrupamento.set(nome, {
+          totalFalas: 1,
+          primeiraFala: dialogo.texto.substring(0, 50) + '...'
+        });
+      }
+    });
+
+    return Array.from(agrupamento.entries())
+      .map(([nome, dados]) => ({
+        nome,
+        totalFalas: dados.totalFalas,
+        primeiraFala: dados.primeiraFala
+      }))
+      .sort((a, b) => b.totalFalas - a.totalFalas); // Ordenar por número de falas (desc)
+  }
+
+  /**
+   * Identifica tipo de participante baseado no nome
+   */
+  private identificarTipoParticipante(nome: string): string {
+    const nomeMinusculo = nome.toLowerCase();
+    
+    // Padrões para identificação de tipos
+    if (nomeMinusculo.includes('juiz') || nomeMinusculo.includes('magistrado')) {
+      return 'Juiz';
+    }
+    if (nomeMinusculo.includes('dr.') || nomeMinusculo.includes('dra.') || 
+        nomeMinusculo.includes('advogad')) {
+      return 'Advogado';
+    }
+    if (nomeMinusculo.includes('perit') || nomeMinusculo.includes('expert')) {
+      return 'Perito';
+    }
+    if (nomeMinusculo.includes('testemunha') || nomeMinusculo.includes('depoente')) {
+      return 'Testemunha';
+    }
+    if (nomeMinusculo.includes('requerente') || nomeMinusculo.includes('autor')) {
+      return 'Requerente';
+    }
+    if (nomeMinusculo.includes('requerido') || nomeMinusculo.includes('réu')) {
+      return 'Requerido';
+    }
+    
+    return 'Participante'; // Tipo genérico
+  }
+
+  /**
+   * Processa participantes da transcrição para integração com ParticipanteColorService
+   */
+  processarParticipantesParaIntegracao(dialogos: DialogoProcessado[]): Array<{nome: string, tipo: string, totalFalas: number}> {
+    return this.agruparParticipantes(dialogos).map(participante => ({
+      nome: participante.nome,
+      tipo: this.identificarTipoParticipante(participante.nome),
+      totalFalas: participante.totalFalas
+    }));
+  }
 }
