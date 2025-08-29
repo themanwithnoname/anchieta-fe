@@ -1,30 +1,78 @@
 <aside class="sidebar">
-  <div class="sidebar-header">
-    <h3 class="sidebar-title">Menu</h3>
-  </div>
-  
-  <nav class="sidebar-nav">
-    <ul class="nav-list">
-      <li class="nav-item">
-        <a routerLink="/home" routerLinkActive="active" class="nav-link">
-          <i class="fas fa-home"></i>
-          <span class="nav-text">Início</span>
-        </a>
-      </li>
+  <!-- Conteúdo padrão da sidebar -->
+  @if (!isDetalheProcesso()) {
+    <div class="sidebar-header">
+      <h3 class="sidebar-title">Menu</h3>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a routerLink="/home" routerLinkActive="active" class="nav-link">
+            <i class="fas fa-home"></i>
+            <span class="nav-text">Início</span>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a routerLink="/processos" routerLinkActive="active" class="nav-link">
+            <i class="fas fa-gavel"></i>
+            <span class="nav-text">Processos</span>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fas fa-chart-bar"></i>
+            <span class="nav-text">Dashboard</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  }
+
+  <!-- Conteúdo para tela de detalhe do processo -->
+  @if (isDetalheProcesso()) {
+    <!-- DEBUG: Mostra que está no modo detalhe -->
+    <div class="debug-info" style="background: red; color: white; padding: 5px; font-size: 10px; text-align: center;">
+      MODO DETALHE ATIVO - Processo: {{ numeroProcesso() }}
+    </div>
+    
+    <!-- Botão de retorno -->
+    <div class="sidebar-header">
+      <button class="btn-voltar" (click)="voltarParaProcessos()" title="Voltar para lista de processos">
+        <i class="fas fa-arrow-left"></i>
+        <span class="voltar-text">Voltar para Processos</span>
+      </button>
+    </div>
+
+    <!-- Informações do processo -->
+    <div class="processo-info">
+      <h4 class="processo-title">Processo</h4>
+      <p class="processo-numero">{{ numeroProcesso() }}</p>
+    </div>
+
+    <!-- Timeline do processo -->
+    <div class="timeline-section">
+      <h4 class="timeline-title">
+        <i class="fas fa-history"></i>
+        Histórico
+      </h4>
       
-      <li class="nav-item">
-        <a routerLink="/processos" routerLinkActive="active" class="nav-link">
-          <i class="fas fa-gavel"></i>
-          <span class="nav-text">Processos</span>
-        </a>
-      </li>
-      
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-          <i class="fas fa-chart-bar"></i>
-          <span class="nav-text">Dashboard</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+      <div class="timeline">
+        @for (item of timelineItems; track item.id) {
+          <div class="timeline-item" [attr.data-status]="item.status">
+            <div class="timeline-marker" [style.background-color]="getTimelineColor(item.status)">
+              <i [class]="getTimelineIcon(item.tipo)"></i>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-date">{{ item.data }}</div>
+              <div class="timeline-title-item">{{ item.titulo }}</div>
+              <div class="timeline-description">{{ item.descricao }}</div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
 </aside>

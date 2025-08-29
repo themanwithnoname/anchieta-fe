@@ -514,6 +514,16 @@ export class ProcessosComponent implements OnInit {
     return status === 'Enviado' ? 'minuta-enviado' : 'minuta-aguardando';
   }
 
+  getStatusLabelSimples(status: string): string {
+    const labels = {
+      'pendente': 'A Processar',
+      'transcrevendo': 'Degravando...',
+      'concluido': 'Concluído',
+      'erro': 'Erro'
+    };
+    return labels[status as keyof typeof labels] || 'Desconhecido';
+  }
+
   private simularProgresso(processo: ProcessoTrabalhista): void {
     const interval = setInterval(() => {
       processo.percentualTranscricao += Math.random() * 10;

@@ -610,6 +610,12 @@
 
     .status {
       text-align: center;
+      
+      .status-text {
+        font-size: 0.75rem;
+        color: #6c757d;
+        font-weight: 500;
+      }
     }
 
     .progresso {

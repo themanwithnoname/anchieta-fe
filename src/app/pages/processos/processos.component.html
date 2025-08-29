@@ -186,9 +186,8 @@
             </td>
             <td class="data">{{ processo.dataAudiencia | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td class="status">
-              <span class="status-badge" [class]="'status-' + processo.statusTranscricao">
-                <i [class]="getStatusIcon(processo.statusTranscricao)"></i>
-                {{ getStatusLabel(processo.statusTranscricao) }}
+              <span class="status-text">
+                {{ getStatusLabelSimples(processo.statusTranscricao) }}
               </span>
             </td>
             <td class="minuta-pje">
