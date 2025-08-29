@@ -103,6 +103,9 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
   novaMensagem = signal<string>('');
   chatDestacado = signal<boolean>(false);
   
+  // Controle da minuta PJe
+  minutaEnviada = signal<boolean>(false);
+  
   // Controle de reprodução de segmento
   private timeoutSegmento: any;
   private scrollThrottle: any;
@@ -718,22 +721,46 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
     });
   }
   verResumo(): void {
-    // Gerar resumo da audiência baseado na transcrição
-    const dialogos = this.dialogos();
-    const participantes = this.participantes();
+    const numeroProcesso = this.numeroProcesso();
+    const mapeamentoArquivos = this.obterArquivosProcesso(numeroProcesso);
     
-    if (dialogos.length === 0) {
-      alert('Não há transcrição disponível para gerar o resumo.');
+    if (!mapeamentoArquivos) {
+      alert('Processo não encontrado.');
       return;
     }
     
-    const resumo = this.gerarResumoAudiencia(dialogos, participantes);
+    // Construir caminho do arquivo de resumo baseado no arquivo de vídeo
+    const nomeArquivo = mapeamentoArquivos.video.split('/').pop()?.replace('.mp4', '');
+    const caminhoResumo = `assets/videos/${nomeArquivo}_resumo.txt`;
     
-    // Abrir modal ou nova janela com o resumo
-    this.exibirModalResumo(resumo);
+    // Carregar conteúdo do arquivo de resumo
+    fetch(caminhoResumo)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Arquivo de resumo não encontrado');
+        }
+        return response.text();
+      })
+      .then(conteudoResumo => {
+        // Gerar cabeçalho do resumo
+        const cabecalho = this.gerarCabecalhoResumo(numeroProcesso);
+        const resumoCompleto = cabecalho + '\n\n' + conteudoResumo;
+        
+        // Exibir modal com o resumo
+        this.exibirModalResumo(resumoCompleto);
+      })
+      .catch(error => {
+        console.error('Erro ao carregar resumo:', error);
+        alert('Não foi possível carregar o resumo da audiência.');
+      });
   }
 
   gerarMinutaPje(): void {
+    // Verificar se a minuta já foi enviada
+    if (this.minutaEnviada()) {
+      return;
+    }
+
     // Gerar minuta para upload no PJe
     const dialogos = this.dialogos();
     const participantes = this.participantes();
@@ -752,7 +779,25 @@ export class DetalheProcessoComponent implements OnInit, OnDestroy {
     // Pequeno delay para não conflitar os downloads
     setTimeout(() => {
       this.downloadTranscricaoCompleta(transcricaoCompleta);
+      
+      // Exibir popup de sucesso e marcar como enviada após downloads
+      setTimeout(() => {
+        alert('Minuta da degravação enviada para o PJe com sucesso!');
+        this.minutaEnviada.set(true);
+      }, 200);
     }, 500);
+  }
+
+  private gerarCabecalhoResumo(numeroProcesso: string): string {
+    const duracao = this.duracaoTotal();
+    const data = new Date();
+    
+    let cabecalho = `RESUMO DA AUDIÊNCIA\n\n`;
+    cabecalho += `Processo: ${numeroProcesso}\n`;
+    cabecalho += `Duração total: ${duracao}\n`;
+    cabecalho += `Data/Hora: ${data.toLocaleDateString('pt-BR')}, ${data.toLocaleTimeString('pt-BR')}`;
+    
+    return cabecalho;
   }
 
   private gerarResumoAudiencia(dialogos: DialogoDetalhe[], participantes: ParticipanteDetalhes[]): string {

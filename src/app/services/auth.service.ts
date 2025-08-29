@@ -27,7 +27,7 @@ export class AuthService {
     if (email && password) {
       const user: User = {
         id: 1,
-        name: 'Usuário Exemplo',
+        name: 'Dr. Joao',
         email: email
       };
       

@@ -1,19 +1,40 @@
 <header class="header">
   <div class="header-container">
     <div class="logo-section">
+      <img src="assets/anchieta_logo.png" alt="Logo Anchieta" class="logo-image">
       <h1 class="logo">Anchieta</h1>
     </div>
     
     <nav class="nav-menu">
-      <ul class="nav-links">
-        <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-        <li><a routerLink="/about" routerLinkActive="active">Sobre</a></li>
-      </ul>
+      <h2 class="nav-subtitle">Degravador de Vídeos de Audiência</h2>
     </nav>
     
     <div class="user-menu">
       <div class="user-info" *ngIf="authService.isLoggedIn(); else loginButton">
-        <span class="username">{{ authService.getCurrentUser()?.name }}</span>
+        <div class="user-details">
+          <div class="user-dropdown" (click)="toggleDropdown()">
+            <div class="user-main-info">
+              <span class="username">{{ authService.getCurrentUser()?.name }}</span>
+              <span class="vt-atual">{{ vtAtual() }}</span>
+              <span class="cargo">Magistrado</span>
+            </div>
+            <i class="fas fa-chevron-down dropdown-arrow" [class.rotated]="dropdownAberto()"></i>
+          </div>
+          
+          @if (dropdownAberto()) {
+            <div class="dropdown-menu">
+              <div class="dropdown-item" (click)="selecionarVT('10ª VT de São Paulo')" [class.active]="vtAtual() === '10ª VT de São Paulo'">
+                <i class="fas fa-building"></i>
+                10ª VT de São Paulo
+              </div>
+              <div class="dropdown-item" (click)="selecionarVT('1º VT de Osasco')" [class.active]="vtAtual() === '1º VT de Osasco'">
+                <i class="fas fa-building"></i>
+                1º VT de Osasco
+              </div>
+            </div>
+          }
+        </div>
+        
         <button class="logout-btn" (click)="logout()">
           <i class="fas fa-sign-out-alt"></i>
         </button>
